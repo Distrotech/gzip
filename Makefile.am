@@ -1,0 +1,81 @@
+# Make gzip (GNU zip).
+
+# Copyright 1999 Free Software Foundation
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+# 02111-1307, USA.
+
+AUTOMAKE_OPTIONS = gnits dist-shar
+
+man_MANS = gunzip.1 gzexe.1 gzip.1 \
+  zcat.1 zcmp.1 zdiff.1 zforce.1 zgrep.1 zless.1 zmore.1 znew.1
+
+# The following hack works around a bug in automake 1.4.
+M4DIR = $(srcdir)/m4
+ACINCLUDE_INPUTS = \
+  $(M4DIR)/ccstdc.m4 $(M4DIR)/isc-posix.m4 $(M4DIR)/largefile.m4
+$(srcdir)/acinclude.m4 : $(ACINCLUDE_INPUTS)
+	cat $(ACINCLUDE_INPUTS) >$(srcdir)/acinclude.m4
+
+EXTRA_DIST = $(ACINCLUDE_INPUTS) $(man_MANS) \
+  algorithm.doc amiga/match.a amiga/Makefile.gcc amiga/Makefile.sasc \
+  amiga/tailor.c amiga/utime.h atari/Makefile.st crypt.h getopt.h \
+  gzexe.in gzip.doc gzip.h lzw.h msdos/match.asm msdos/tailor.c \
+  msdos/gzip.prj msdos/doturboc.bat msdos/Makefile.msc msdos/Makefile.bor \
+  msdos/Makefile.djg nt/Makefile.nt os2/gzip.def os2/Makefile.os2 \
+  os2/gzip16.def primos/include/errno.h primos/include/fcntl.h \
+  primos/include/stdlib.h primos/include/sysStat.h \
+  primos/include/sysTypes.h primos/build.cpl primos/readme \
+  primos/primos.c primos/ci.opts revision.h sample/makecrc.c \
+  sample/ztouch sample/add.c sample/sub.c sample/zread.c sample/zfile \
+  tailor.h vms/Makefile.mms vms/gzip.hlp vms/vms.c vms/Readme.vms \
+  vms/Makefile.vms vms/Makefile.gcc vms/makegzip.com zdiff.in \
+  zforce.in zgrep.in zless.in zmore.in znew.in
+
+bin_PROGRAMS = gzip
+bin_SCRIPTS = gzexe zdiff zgrep zforce zless zmore znew
+gzip_SOURCES = \
+  bits.c crypt.c deflate.c getopt.c getopt1.c gzip.c inflate.c lzw.c \
+  trees.c unlzh.c unlzw.c unpack.c unzip.c util.c zip.c
+gzip_LDADD = @LIBOBJS@
+
+info_TEXINFOS = gzip.texi
+
+ASCPP = @ASCPP@
+
+match.$(OBJEXT): match.c
+	$(ASCPP) $(srcdir)/match.c >_match.s
+	$(CC) -c $(CFLAGS) _match.s
+	mv _match.$(OBJEXT) match.$(OBJEXT)
+	rm -f _match.s
+
+gzip.doc: gzip.1
+	groff -man -Tascii $(srcdir)/gzip.1 | col -b | uniq >$@
+
+SUFFIXES = .in
+.in:
+	sed -e '$(SEDCMD)' -e 's|BINDIR|$(bindir)|' $(srcdir)/$@.in >$@
+	chmod a+x $@
+
+install-exec-hook:
+	ln $(bindir)/gzip $(bindir)/gunzip
+	ln $(bindir)/gzip $(bindir)/zcat
+	ln $(bindir)/zdiff $(bindir)/zcmp
+	ln $(bindir)/zgrep $(bindir)/zegrep
+	ln $(bindir)/zgrep $(bindir)/zfgrep
+
+MAINTAINERCLEANFILES = gzip.doc
+
+MOSTLYCLEANFILES = _match.s gzexe zdiff zforce zgrep zless zmore znew
