@@ -70,6 +70,7 @@ SUFFIXES = .in
 	chmod a+x $@
 
 install-exec-hook:
+	cd $(bindir) && rm -f gunzip zcat zcmp zegrep zfgrep
 	ln $(bindir)/gzip $(bindir)/gunzip
 	ln $(bindir)/gzip $(bindir)/zcat
 	ln $(bindir)/zdiff $(bindir)/zcmp
