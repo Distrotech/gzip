@@ -1,13 +1,5 @@
 :
 #!/bin/sh
-
-: ${PAGER=less}
-export PAGER
-
-PATH="BINDIR:$PATH"
-export PATH
-
-ZMORE_PROGRAM_NAME=$0
-export ZMORE_PROGRAM_NAME
-
-exec zmore ${1+"$@"}
+PATH="BINDIR:$PATH"; export PATH
+LESSOPEN="|gzip -cdfq %s"; export LESSOPEN
+exec less "$@"
