@@ -1,0 +1,10 @@
+:
+#!/bin/sh
+
+: ${PAGER=less}
+export PAGER
+
+PATH="BINDIR:$PATH"
+export PATH
+
+exec zmore ${1+"$@"}
