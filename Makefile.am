@@ -57,10 +57,11 @@ ASCPP = @ASCPP@
 LN_S = @LN_S@
 
 match.$(OBJEXT): match.c
-	$(ASCPP) $(srcdir)/match.c >_match.s
+	cp $(srcdir)/match.c _match.S
+	$(ASCPP) _match.S >_match.s
 	$(CC) -c $(CFLAGS) _match.s
 	mv _match.$(OBJEXT) match.$(OBJEXT)
-	rm -f _match.s
+	rm -f _match.S _match.s
 
 gzip.doc: gzip.1
 	groff -man -Tascii $(srcdir)/gzip.1 | col -b | uniq >$@
