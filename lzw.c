@@ -6,6 +6,7 @@
 static char rcsid[] = "$Id$";
 #endif
 
+#include <config.h>
 #include "tailor.h"
 #include "gzip.h"
 #include "lzw.h"

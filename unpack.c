@@ -8,6 +8,7 @@
 static char rcsid[] = "$Id$";
 #endif
 
+#include <config.h>
 #include "tailor.h"
 #include "gzip.h"
 #include "crypt.h"
@@ -115,7 +116,7 @@ local void read_tree()
     if (n > LITERALS) {
 	error("too many leaves in Huffman tree");
     }
-    Trace((stderr, "orig_len %ld, max_len %d, leaves %d\n",
+    Trace((stderr, "orig_len %lu, max_len %d, leaves %d\n",
 	   orig_len, max_len, n));
     /* There are at least 2 and at most 256 leaves of length max_len.
      * (Pack arbitrarily rejects empty files and files consisting of
@@ -231,8 +232,7 @@ int unpack(in, out)
     } /* for (;;) */
 
     flush_window();
-    Trace((stderr, "bytes_out %ld\n", bytes_out));
-    if (orig_len != (ulg)bytes_out) {
+    if (orig_len != (ulg)(bytes_out & 0xffffffff)) {
 	error("invalid compressed data--length error");
     }
     return OK;
