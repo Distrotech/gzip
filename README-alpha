@@ -2,7 +2,7 @@ This is a test release of gzip.
 
 Please send comments and problem reports to <bug-gzip@gnu.org>.
 
-	Copyright 2001 Free Software Foundation, Inc.
+	Copyright (C) 2001 Free Software Foundation, Inc.
 
 	This file is part of GNU zip (gzip).
 
@@ -20,6 +20,9 @@ Please send comments and problem reports to <bug-gzip@gnu.org>.
 	along with gzip; see the file COPYING.  If not, write to
 	the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 	Boston, MA 02111-1307, USA.
+
+This release was built with GNU autoconf 2.52f, which you can get from:
+ftp://alpha.gnu.org/gnu/autoconf/autoconf-2.52f.tar.gz
 
 This release was built with GNU automake 1.5 patched as follows:
 
@@ -163,80 +166,3 @@ diff -pu -r1.5 -r1.5.0.1
  ][$2]m4_ifval([$3], [, [$3]]))dnl AC_CONFIG_HEADERS
  		    m4_popdef([_AM_Dest])])],dnl
  [AC_CONFIG_HEADER([$1])
-
-
-
-and with GNU autoconf 2.52 patched as follows:
-
-2001-09-15  Paul Eggert  <eggert@twinsun.com>
-
-	Fix bug reported by Paul Townsend on AIX 4.3.3.0 with
-	CFLAGS=-O4 or CFLAGS=-O5.  In that case, the linker has a
-	relaxed view of fatal errors, and AC_CHECK_LIB causes it to
-	include libraries even when they don't exist.
-
-	* acheaders.m4 (AC_HEADER_DIRENT): Use AC_SEARCH_LIBS, not
-	AC_CHECK_LIB, so that we don't use -ldir or -lx if we don't
-	need it.
-
-	* acspecific.m4 (AC_ISC_POSIX): Replace the old, crufty
-	version with the version used by fileutils 4.1, except use
-	AC_SEARCH_LIBS, not AC_CHECK_LIB, so that we don't use
-	-lcposix if we don't need it.
-
-===================================================================
-RCS file: acheaders.m4,v
-retrieving revision 2.52
-retrieving revision 2.52.0.1
-diff -pu -r2.52 -r2.52.0.1
---- acheaders.m4	2001/07/03 14:19:09	2.52
-+++ acheaders.m4	2001/09/16 02:53:51	2.52.0.1
-@@ -158,9 +158,9 @@ ac_header_dirent=$ac_hdr; break])
- done
- # Two versions of opendir et al. are in -ldir and -lx on SCO Xenix.
- if test $ac_header_dirent = dirent.h; then
--  AC_CHECK_LIB(dir, opendir, LIBS="$LIBS -ldir")
-+  AC_SEARCH_LIBS(opendir, dir)
- else
--  AC_CHECK_LIB(x, opendir, LIBS="$LIBS -lx")
-+  AC_SEARCH_LIBS(opendir, x)
- fi
- ])# AC_HEADER_DIRENT
- 
-===================================================================
-RCS file: acspecific.m4,v
-retrieving revision 2.52
-retrieving revision 2.52.0.1
-diff -pu -r2.52 -r2.52.0.1
---- acspecific.m4	2001/06/15 17:46:01	2.52
-+++ acspecific.m4	2001/09/16 02:53:51	2.52.0.1
-@@ -993,28 +993,7 @@ fi
- # AC_ISC_POSIX
- # ------------
- AC_DEFUN([AC_ISC_POSIX],
--[AC_REQUIRE([AC_PROG_CC])dnl
--AC_BEFORE([$0], [AC_COMPILE_IFELSE])dnl
--AC_BEFORE([$0], [AC_RUN_IFELSE])dnl
--AC_MSG_CHECKING([for POSIXized ISC])
--if test -d /etc/conf/kconfig.d &&
--   grep _POSIX_VERSION [/usr/include/sys/unistd.h] >/dev/null 2>&1
--then
--  AC_MSG_RESULT([yes])
--  ISC=yes # If later tests want to check for ISC.
--  AC_DEFINE(_POSIX_SOURCE, 1,
--            [Define if you need to in order for stat and other things to
--             work.])
--  if test "$GCC" = yes; then
--    CC="$CC -posix"
--  else
--    CC="$CC -Xp"
--  fi
--else
--  AC_MSG_RESULT([no])
--  ISC=
--fi
--])# AC_ISC_POSIX
-+[AC_SEARCH_LIBS(strerror, cposix)])
- 
- 
- # AC_XENIX_DIR
