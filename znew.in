@@ -1,6 +1,24 @@
 :
 #!/bin/sh
 
+# Copyright (C) 1998, 2002, 2004 Free Software Foundation
+# Copyright (C) 1993 Jean-loup Gailly
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+# 02111-1307, USA.
+
 PATH="BINDIR:$PATH"; export PATH
 check=0
 pipe=0
@@ -16,23 +34,22 @@ block=1024
 warn="(does not preserve modes and timestamp)"
 tmp=/tmp/zfoo.$$
 set -C
-echo hi > $tmp.1
-echo hi > $tmp.2
-if test -z "`(${CPMOD-cpmod} $tmp.1 $tmp.2) 2>&1`"; then
+echo hi > $tmp || exit
+if test -z "`(${CPMOD-cpmod} $tmp $tmp) 2>&1`"; then
   cpmod=${CPMOD-cpmod}
   warn=""
 fi
 
-if test -z "$cpmod" && ${TOUCH-touch} -r $tmp.1 $tmp.2 2>/dev/null; then
+if test -z "$cpmod" && ${TOUCH-touch} -r $tmp $tmp 2>/dev/null; then
   cpmod="${TOUCH-touch}"
   cpmodarg="-r"
   warn="(does not preserve file modes)"
 fi
 
 # check if GZIP env. variable uses -S or --suffix
-gzip -q $tmp.1
-ext=`echo $tmp.1* | sed "s|$tmp.1||"`
-rm -f $tmp.[12]*
+gzip -q $tmp
+ext=`echo $tmp* | sed "s|$tmp||"`
+rm -f $tmp*
 if test -z "$ext"; then
   echo znew: error determining gzip extension
   exit 1
