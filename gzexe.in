@@ -14,7 +14,7 @@
 # On Ultrix, /bin/sh is too buggy, change the first line to: #!/bin/sh5
 
 
-# Copyright (C) 1998, 2002 Free Software Foundation
+# Copyright (C) 1998, 2002, 2004 Free Software Foundation
 # Copyright (C) 1993 Jean-loup Gailly
 
 # This program is free software; you can redistribute it and/or modify
@@ -53,12 +53,11 @@ if test "x$1" = "x-d"; then
   shift
 fi
 
-echo hi > zfoo1$$
-echo hi > zfoo2$$
-if test -z "`(${CPMOD-cpmod} zfoo1$$ zfoo2$$) 2>&1`"; then
+set -C
+echo hi > $tmp || exit
+if test -z "`(${CPMOD-cpmod} $tmp $tmp) 2>&1`"; then
   cpmod=${CPMOD-cpmod}
 fi
-rm -f zfoo[12]$$
 
 tail=""
 IFS="${IFS= 	}"; saveifs="$IFS"; IFS="${IFS}:"
@@ -110,32 +109,37 @@ for i do
       writable=0
       chmod u+w $tmp 2>/dev/null
     fi
+    : >| $tmp
   fi
   if test $decomp -eq 0; then
-    sed 1q $0 > $tmp
-    sed "s|^if tail|if $tail|" >> $tmp <<'EOF'
-skip=22
+    (sed 1q $0 &&
+     sed "s|^if tail|if $tail|" <<'EOF' &&
+skip=26
 set -C
 umask=`umask`
 umask 77
-if tail +$skip "$0" | "BINDIR"/gzip -cd > /tmp/gztmp$$; then
+if (tempfile --version) >/dev/null 2>&1
+then gztmp=`tempfile -p gztmp` || exit
+else gztmp=/tmp/gztmp$$
+fi
+if tail +$skip "$0" | "BINDIR"/gzip -cd > "$gztmp"; then
   umask $umask
-  /bin/chmod 700 /tmp/gztmp$$
-  prog="`echo $0 | /bin/sed 's|^.*/||'`"
-  if /bin/ln /tmp/gztmp$$ "/tmp/$prog" 2>/dev/null; then
-    trap '/bin/rm -f /tmp/gztmp$$ "/tmp/$prog"; exit $res' 0
-    (/bin/sleep 5; /bin/rm -f /tmp/gztmp$$ "/tmp/$prog") 2>/dev/null &
-    /tmp/"$prog" ${1+"$@"}; res=$?
+  /bin/chmod 700 "$gztmp"
+  prog=`echo "$gztmp" | /bin/sed 's|[^/]*$||'; echo $0 | /bin/sed 's|.*/||'`
+  if /bin/ln "$gztmp" "$prog" 2>/dev/null; then
+    trap '/bin/rm -f "$gztmp" "$prog"; exit $res' 0
+    (/bin/sleep 5; /bin/rm -f "$gztmp" "$prog") 2>/dev/null &
+    "$prog" ${1+"$@"}; res=$?
   else
-    trap '/bin/rm -f /tmp/gztmp$$; exit $res' 0
-    (/bin/sleep 5; /bin/rm -f /tmp/gztmp$$) 2>/dev/null &
-    /tmp/gztmp$$ ${1+"$@"}; res=$?
+    trap '/bin/rm -f "$gztmp"; exit $res' 0
+    (/bin/sleep 5; /bin/rm -f "$gztmp") 2>/dev/null &
+    "$gztmp" ${1+"$@"}; res=$?
   fi
 else
   echo Cannot decompress $0; exit 1
 fi; exit $res
 EOF
-    gzip -cv9 "$i" >> $tmp || {
+     gzip -cv9 "$i") > $tmp || {
       /bin/rm -f $tmp
       echo ${x}: compression not possible for $i, file unchanged.
       res=1
@@ -144,11 +148,11 @@ EOF
 
   else
     # decompression
-    skip=22
+    skip=26
     if sed -e 1d -e 2q "$i" | grep "^skip=[0-9][0-9]*$" >/dev/null; then
       eval `sed -e 1d -e 2q "$i"`
     fi
-    if tail +$skip "$i" | gzip -cd > $tmp; then
+    if $tail +$skip "$i" | gzip -cd > $tmp; then
       :
     else
       echo ${x}: $i probably not in gzexe format, file unchanged.
