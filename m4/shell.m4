@@ -1,4 +1,4 @@
-#serial 3
+#serial 4
 
 # AC_PROG_SHELL
 # -------------
@@ -34,21 +34,24 @@ AC_DEFUN([AC_PROG_SHELL],
 	# PATH.  Also, loop through PATH first and then through
 	# shells, since less-"nice" shells in /bin and /usr/bin are
 	# more likely to be installed than "nicer" shells elsewhere.
-        _AS_PATH_WALK([/bin:/usr/bin:$PATH],
-	  [for ac_base in sh bash ksh sh5; do
-	     case $as_dir in
-	     /*)
-	       rm -f conftest.c
-	       if ("$as_dir/$ac_base" -c "$ac_command") 2>/dev/null; then
-		 ac_cv_path_shell="$as_dir/$ac_base"
-		 break
-	       fi;;
-	     esac
-	   done
-	   case $ac_cv_path_shell in
-	   no) ;;
-	   *) break;;
-	   esac])
+	as_save_IFS=$IFS; IFS=:
+	for as_dir in /bin /usr/bin $PATH
+	do
+	  IFS=$as_save_IFS
+	  case $as_dir in
+	  /*)
+	    for ac_base in sh bash ksh sh5; do
+	      rm -f conftest.c
+	      if ("$as_dir/$ac_base" -c "$ac_command") 2>/dev/null; then
+		ac_cv_path_shell=$as_dir/$ac_base
+		break
+	      fi
+	    done
+	    case $ac_cv_path_shell in
+	    /*) break;;
+	    esac;;
+	  esac
+	done
 	rm -f conftest.c;;
       esac])
    AC_MSG_RESULT($ac_cv_path_shell)
