@@ -48,7 +48,10 @@ gzip_SOURCES = \
   trees.c unlzh.c unlzw.c unpack.c unzip.c util.c yesno.c zip.c
 gzip_LDADD = @LIBOBJS@
 
+AM_MAKEINFOFLAGS = --no-split
+
 info_TEXINFOS = gzip.texi
+gzip_TEXINFOS = fdl.texi
 
 ASCPP = @ASCPP@
 LN_S = @LN_S@
