@@ -22,11 +22,11 @@ Please send comments and problem reports to <bug-gzip@gnu.org>.
 	Boston, MA 02111-1307, USA.
 
 
-If you make changes to the source code, you may need recent test
+If you make changes to the source code, you may need recent
 versions of GNU build tools to regenerate the intermediate files.  The
 following versions were used to generate the intermediate files in
 this distribution:
 
-* GNU Autoconf 2.53 <ftp://ftp.gnu.org/gnu/autoconf/autoconf-2.53.tar.gz>
+* GNU Autoconf 2.54 <ftp://ftp.gnu.org/gnu/autoconf/autoconf-2.54.tar.gz>
 
-* GNU Automake 1.6 <ftp://ftp.gnu.org/gnu/automake/automake-1.6.tar.gz>
+* GNU Automake 1.7 <ftp://ftp.gnu.org/gnu/automake/automake-1.7.tar.gz>
