@@ -1,6 +1,6 @@
 # Make gzip (GNU zip).
 
-## Copyright (C) 1999, 2001 Free Software Foundation
+## Copyright (C) 1999, 2001, 2002 Free Software Foundation
 
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -72,17 +72,34 @@ SUFFIXES = .in
 	chmod a+x $@
 
 install-exec-hook: remove-installed-links
-	cd $(DESTDIR)$(bindir) && { ln gzip  gunzip || $(LN_S) gzip  gunzip; }
-	cd $(DESTDIR)$(bindir) && { ln gzip  zcat   || $(LN_S) gzip  zcat  ; }
-	cd $(DESTDIR)$(bindir) && { ln zdiff zcmp   || $(LN_S) zdiff zcmp  ; }
-	cd $(DESTDIR)$(bindir) && { ln zgrep zegrep || $(LN_S) zgrep zegrep; }
-	cd $(DESTDIR)$(bindir) && { ln zgrep zfgrep || $(LN_S) zgrep zfgrep; }
+install-exec-hook remove-installed-links:
+	@for prog_ext in $(bin_PROGRAMS) $(bin_SCRIPTS); do \
+	  prog=`echo "$$prog_ext"|sed 's/$(EXEEXT)$$//'`; \
+	  case $$prog in \
+	  gzip) aliases='gunzip zcat';; \
+	  zdiff) aliases='zcmp';; \
+	  zgrep) aliases='zegrep zfgrep';; \
+	  *) continue;; \
+	  esac; \
+	  transform='$(transform)'; \
+	  test "X$$prog" = "X$$prog_ext" || \
+	    transform="$$transform"';s/$$/$(EXEEXT)/'; \
+	  source=$(DESTDIR)$(bindir)/`echo "$$prog"|sed "$$transform"`; \
+	  for alias in $$aliases; do \
+	    dest=$(DESTDIR)$(bindir)/`echo "$$alias"|sed "$$transform"`; \
+	    (set -x; \
+	     rm -f "$$dest" && \
+	     case $@ in \
+	     install-exec-hook) \
+	       for ln in ln "$(LN_S)"; do \
+		 $$ln "$$source" "$$dest" && break; \
+	       done;; \
+	     esac \
+	    ) || exit; \
+	  done; \
+	done
 
 uninstall-local: remove-installed-links
-
-remove-installed-links:
-	cd $(DESTDIR)$(bindir) && rm -f gunzip zcat zcmp zegrep zfgrep
-
 
 MAINTAINERCLEANFILES = gzip.doc
 
