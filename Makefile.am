@@ -1,6 +1,6 @@
 # Make gzip (GNU zip).
 
-## Copyright 1999 Free Software Foundation
+## Copyright (C) 1999, 2001 Free Software Foundation
 
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -18,17 +18,13 @@
 ## 02111-1307, USA.
 
 AUTOMAKE_OPTIONS = gnits dist-shar
+ACLOCAL_AMFLAGS = -I m4
 
 man_MANS = gunzip.1 gzexe.1 gzip.1 \
   zcat.1 zcmp.1 zdiff.1 zforce.1 zgrep.1 zless.1 zmore.1 znew.1
 
-# The following hack works around a bug in automake 1.4.
 M4DIR = $(srcdir)/m4
-ACINCLUDE_INPUTS = \
-  $(M4DIR)/ccstdc.m4 $(M4DIR)/isc-posix.m4 \
-  $(M4DIR)/largefile.m4 $(M4DIR)/shell.m4
-$(srcdir)/acinclude.m4 : $(ACINCLUDE_INPUTS)
-	cat $(ACINCLUDE_INPUTS) >$(srcdir)/acinclude.m4
+ACINCLUDE_INPUTS = $(M4DIR)/shell.m4
 
 EXTRA_DIST = $(ACINCLUDE_INPUTS) $(man_MANS) \
   algorithm.doc amiga/match.a amiga/Makefile.gcc amiga/Makefile.sasc \
@@ -49,7 +45,7 @@ bin_PROGRAMS = gzip
 bin_SCRIPTS = gzexe zdiff zgrep zforce zless zmore znew
 gzip_SOURCES = \
   bits.c crypt.c deflate.c getopt.c getopt1.c gzip.c inflate.c lzw.c \
-  trees.c unlzh.c unlzw.c unpack.c unzip.c util.c zip.c
+  trees.c unlzh.c unlzw.c unpack.c unzip.c util.c yesno.c zip.c
 gzip_LDADD = @LIBOBJS@
 
 info_TEXINFOS = gzip.texi
