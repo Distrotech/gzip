@@ -25,7 +25,8 @@ man_MANS = gunzip.1 gzexe.1 gzip.1 \
 # The following hack works around a bug in automake 1.4.
 M4DIR = $(srcdir)/m4
 ACINCLUDE_INPUTS = \
-  $(M4DIR)/ccstdc.m4 $(M4DIR)/isc-posix.m4 $(M4DIR)/largefile.m4
+  $(M4DIR)/ccstdc.m4 $(M4DIR)/isc-posix.m4 \
+  $(M4DIR)/largefile.m4 $(M4DIR)/shell.m4
 $(srcdir)/acinclude.m4 : $(ACINCLUDE_INPUTS)
 	cat $(ACINCLUDE_INPUTS) >$(srcdir)/acinclude.m4
 
@@ -66,7 +67,11 @@ gzip.doc: gzip.1
 
 SUFFIXES = .in
 .in:
-	sed -e '$(SEDCMD)' -e 's|BINDIR|$(bindir)|' $(srcdir)/$@.in >$@
+	sed \
+		-e '$(SEDCMD)' \
+		-e 's|/bin/sh|$(SHELL)|g' \
+		-e 's|BINDIR|$(bindir)|g' \
+		$(srcdir)/$@.in >$@
 	chmod a+x $@
 
 install-exec-hook:
