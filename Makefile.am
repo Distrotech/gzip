@@ -71,11 +71,11 @@ SUFFIXES = .in
 
 install-exec-hook:
 	cd $(bindir) && rm -f gunzip zcat zcmp zegrep zfgrep
-	ln $(bindir)/gzip $(bindir)/gunzip
-	ln $(bindir)/gzip $(bindir)/zcat
-	ln $(bindir)/zdiff $(bindir)/zcmp
-	ln $(bindir)/zgrep $(bindir)/zegrep
-	ln $(bindir)/zgrep $(bindir)/zfgrep
+	ln $(bindir)/gzip $(bindir)/gunzip || ln -s gzip $(bindir)/gunzip
+	ln $(bindir)/gzip $(bindir)/zcat || ln -s gzip $(bindir)/zcat
+	ln $(bindir)/zdiff $(bindir)/zcmp || ln -s zdiff $(bindir)/zcmp
+	ln $(bindir)/zgrep $(bindir)/zegrep || ln -s zgrep $(bindir)/zegrep
+	ln $(bindir)/zgrep $(bindir)/zfgrep || ln -s zgrep $(bindir)/zfgrep
 
 MAINTAINERCLEANFILES = gzip.doc
 
