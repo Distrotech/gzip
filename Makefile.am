@@ -51,6 +51,7 @@ gzip_LDADD = @LIBOBJS@
 info_TEXINFOS = gzip.texi
 
 ASCPP = @ASCPP@
+LN_S = @LN_S@
 
 match.$(OBJEXT): match.c
 	$(ASCPP) $(srcdir)/match.c >_match.s
@@ -70,13 +71,18 @@ SUFFIXES = .in
 		$(srcdir)/$@.in >$@
 	chmod a+x $@
 
-install-exec-hook:
-	cd $(bindir) && rm -f gunzip zcat zcmp zegrep zfgrep
-	ln $(bindir)/gzip $(bindir)/gunzip || ln -s gzip $(bindir)/gunzip
-	ln $(bindir)/gzip $(bindir)/zcat || ln -s gzip $(bindir)/zcat
-	ln $(bindir)/zdiff $(bindir)/zcmp || ln -s zdiff $(bindir)/zcmp
-	ln $(bindir)/zgrep $(bindir)/zegrep || ln -s zgrep $(bindir)/zegrep
-	ln $(bindir)/zgrep $(bindir)/zfgrep || ln -s zgrep $(bindir)/zfgrep
+install-exec-hook: remove-installed-links
+	cd $(DESTDIR)$(bindir) && { ln gzip  gunzip || $(LN_S) gzip  gunzip; }
+	cd $(DESTDIR)$(bindir) && { ln gzip  zcat   || $(LN_S) gzip  zcat  ; }
+	cd $(DESTDIR)$(bindir) && { ln zdiff zcmp   || $(LN_S) zdiff zcmp  ; }
+	cd $(DESTDIR)$(bindir) && { ln zgrep zegrep || $(LN_S) zgrep zegrep; }
+	cd $(DESTDIR)$(bindir) && { ln zgrep zfgrep || $(LN_S) zgrep zfgrep; }
+
+uninstall-local: remove-installed-links
+
+remove-installed-links:
+	cd $(DESTDIR)$(bindir) && rm -f gunzip zcat zcmp zegrep zfgrep
+
 
 MAINTAINERCLEANFILES = gzip.doc
 
