@@ -1,4 +1,4 @@
-#serial 2
+#serial 3
 
 # AC_PROG_SHELL
 # -------------
@@ -28,26 +28,28 @@ AC_DEFUN([AC_PROG_SHELL],
 
       case $ac_cv_path_shell in
       no)
-	ac_dummy=/bin:/usr/bin:/usr/bin/posix:/usr/xpg4/bin:$PATH
-	ac_save_IFS=$IFS; IFS=:
-	for ac_dir in $ac_dummy; do
-	  for ac_base in sh bash ksh sh5; do
-	    case $ac_dir in
-	    /*)
-	      rm -f conftest.c
-	      if ("$ac_dir/$ac_base" -c "$ac_command") 2>/dev/null; then
-		ac_cv_path_shell="$ac_dir/$ac_base"
-		break
-	      fi;;
-	    esac
-	  done
-	  case $ac_cv_path_shell in
-	  no) ;;
-	  *) break;;
-	  esac
-	done
-	rm -f conftest.c
-	IFS=$ac_save_IFS;;
+	# Prefer shells that are more likely to be installed in the
+	# same place on all hosts of this platform.  Therefore, prefer
+	# shells in /bin and /usr/bin to shells in the installer's
+	# PATH.  Also, loop through PATH first and then through
+	# shells, since less-"nice" shells in /bin and /usr/bin are
+	# more likely to be installed than "nicer" shells elsewhere.
+        _AS_PATH_WALK([/bin:/usr/bin:$PATH],
+	  [for ac_base in sh bash ksh sh5; do
+	     case $as_dir in
+	     /*)
+	       rm -f conftest.c
+	       if ("$as_dir/$ac_base" -c "$ac_command") 2>/dev/null; then
+		 ac_cv_path_shell="$as_dir/$ac_base"
+		 break
+	       fi;;
+	     esac
+	   done
+	   case $ac_cv_path_shell in
+	   no) ;;
+	   *) break;;
+	   esac])
+	rm -f conftest.c;;
       esac])
    AC_MSG_RESULT($ac_cv_path_shell)
    SHELL=$ac_cv_path_shell
