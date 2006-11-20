@@ -1,8 +1,21 @@
 /* zip.c -- compress files to the gzip or pkzip format
- * Copyright (C) 1992-1993 Jean-loup Gailly
- * This is free software; you can redistribute it and/or modify it under the
- * terms of the GNU General Public License, see the file COPYING.
- */
+
+   Copyright (C) 1997, 1998, 1999, 2006 Free Software Foundation, Inc.
+   Copyright (C) 1992-1993 Jean-loup Gailly
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #ifdef RCSID
 static char rcsid[] = "$Id$";
@@ -36,6 +49,7 @@ int zip(in, out)
     uch  flags = 0;         /* general purpose bit flags */
     ush  attr = 0;          /* ascii/binary flag */
     ush  deflate_flags = 0; /* pkzip -es, -en or -ex equivalent */
+    ulg  stamp;
 
     ifd = in;
     ofd = out;
@@ -52,8 +66,10 @@ int zip(in, out)
 	flags |= ORIG_NAME;
     }
     put_byte(flags);         /* general flags */
-    put_long(time_stamp == (time_stamp & 0xffffffff)
-	     ? (ulg)time_stamp : (ulg)0);
+    stamp = (0 <= time_stamp.tv_sec && time_stamp.tv_sec <= 0xffffffff
+	     ? (ulg) time_stamp.tv_sec
+	     : (ulg) 0);
+    put_long (stamp);
 
     /* Write deflated file to zip file */
     crc = updcrc(0, 0);
@@ -66,7 +82,7 @@ int zip(in, out)
     put_byte(OS_CODE);            /* OS identifier */
 
     if (save_orig_name) {
-	char *p = base_name(ifname); /* Don't save the directory part. */
+	char *p = gzip_base_name (ifname); /* Don't save the directory part. */
 	do {
 	    put_char(*p);
 	} while (*p++);
@@ -81,7 +97,7 @@ int zip(in, out)
    */
     if (ifile_size != -1L && bytes_in != ifile_size) {
 	fprintf(stderr, "%s: %s: file size changed while zipping\n",
-		progname, ifname);
+		program_name, ifname);
     }
 #endif
 

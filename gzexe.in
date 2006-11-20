@@ -19,39 +19,56 @@
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2, or (at your option)
-# any later version.
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-# 02111-1307, USA.
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+version='gzexe (gzip) @VERSION@
+Copyright (C) 2006 Free Software Foundation, Inc.
+This is free software.  You may redistribute copies of it under the terms of
+the GNU General Public License <http://www.gnu.org/licenses/gpl.html>.
+There is NO WARRANTY, to the extent permitted by law.
+
+Written by Jean-loup Gailly.'
+
+usage='Usage: gzexe [OPTION] FILE...
+Rename each FILE with a compressed version of itself, renaming FILE to FILE~.
+
+  -d             Decompress each FILE instead of compressing it.
+      --help     display this help and exit
+      --version  output version information and exit
+
+Report bugs to <bug-gzip@gnu.org>.'
 
 
 PATH="BINDIR:$PATH"
-x=`basename $0`
 if test $# = 0; then
-  echo compress executables. original file foo is renamed to foo~
-  echo usage: ${x} [-d] files...
-  echo   "   -d  decompress the executables"
+  echo "$usage"
   exit 1
 fi
 
-tmp=gz$$
-trap "rm -f $tmp; exit 1" 1 2 3 5 10 13 15
-
 decomp=0
 res=0
-test "$x" = "ungzexe" && decomp=1
-if test "x$1" = "x-d"; then
-  decomp=1
-  shift
-fi
+while :; do
+  case $1 in
+  -d) decomp=1; shift;;
+  --h*) exec echo "$usage";;
+  --v*) exec echo "$version";;
+  --) shift; break;;
+  *) break;;
+  esac
+done
+
+tmp=gz$$
+trap "rm -f $tmp; exit 1" 1 2 3 5 10 13 15
 
 set -C
 echo hi > $tmp || exit
@@ -97,8 +114,8 @@ for i do
     echo "${x}: $i has setgid permission, unchanged"
     continue
   fi
-  case "`basename $i`" in
-  gzip | tail | sed | chmod | ln | sleep | rm)
+  case "$i" in
+  */gzip | */tail | */sed | */chmod | */ln | */sleep | */rm)
 	echo "${x}: $i would depend on itself"; continue ;;
   esac
   if test -z "$cpmod"; then

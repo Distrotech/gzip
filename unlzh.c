@@ -69,11 +69,7 @@ local void make_table OF((int nchar, uch bitlen[],
 #define NT (CODE_BIT + 3)
 #define PBIT 4  /* smallest integer such that (1U << PBIT) > NP */
 #define TBIT 5  /* smallest integer such that (1U << TBIT) > NT */
-#if NT > NP
-# define NPT NT
-#else
-# define NPT NP
-#endif
+#define NPT (1 << TBIT)
 
 /* local ush left[2 * NC - 1]; */
 /* local ush right[2 * NC - 1]; */
@@ -155,7 +151,7 @@ local void make_table(nchar, bitlen, tablebits, table)
     for (i = 1; i <= 16; i++)
 	start[i + 1] = start[i] + (count[i] << (16 - i));
     if ((start[17] & 0xffff) != 0)
-	error("Bad table\n");
+      gzip_error ("Bad table\n");
 
     jutbits = 16 - tablebits;
     for (i = 1; i <= (unsigned)tablebits; i++) {
@@ -179,6 +175,8 @@ local void make_table(nchar, bitlen, tablebits, table)
 	if ((len = bitlen[ch]) == 0) continue;
 	nextcode = start[len] + weight[len];
 	if (len <= (unsigned)tablebits) {
+	    if ((unsigned) 1 << tablebits < nextcode)
+	      gzip_error ("Bad table\n");
 	    for (i = start[len]; i < nextcode; i++) table[i] = ch;
 	} else {
 	    k = start[len];
@@ -223,6 +221,8 @@ local void read_pt_len(nn, nbit, i_special)
 	    if (c == 7) {
 		mask = (unsigned) 1 << (BITBUFSIZ - 1 - 3);
 		while (mask & bitbuf) {  mask >>= 1;  c++;  }
+		if (16 < c)
+		  gzip_error ("Bad table\n");
 	    }
 	    fillbuf((c < 7) ? 3 : c - 3);
 	    pt_len[i++] = c;

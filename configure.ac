@@ -1,6 +1,6 @@
 # Configure template for gzip.
 
-# Copyright (C) 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
+# Copyright (C) 1999, 2000, 2001, 2002, 2006 Free Software Foundation, Inc.
 # Copyright (C) 1992-1993 Jean-loup Gailly
 
 # This program is free software; you can redistribute it and/or modify
@@ -18,20 +18,24 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 # 02111-1307, USA.
 
-AC_PREREQ(2.54)
-AC_INIT(gzip, 1.3.5, bug-gzip@gnu.org)
+AC_PREREQ([2.60])
+AC_INIT([gzip], [1.3.6], [bug-gzip@gnu.org])
 AC_CONFIG_SRCDIR(gzip.c)
-AM_INIT_AUTOMAKE
+AC_CONFIG_AUX_DIR(build-aux)
+AC_CONFIG_HEADERS([lib/config.h:lib/config.hin])
+AM_INIT_AUTOMAKE([gnits])
 
-AM_CONFIG_HEADER(config.h)
-AC_PROG_CC
+AC_PROG_CC_STDC
+AM_PROG_CC_C_O
 AC_PROG_CPP
 AC_PROG_LN_S
+AC_PROG_RANLIB
 AC_PROG_SHELL
-AC_AIX
-AC_GNU_SOURCE
-AC_MINIX
+
+gl_EARLY
 AC_SYS_LARGEFILE
+
+gl_INIT
 
 # cc -E produces incorrect asm files on SVR4, we must use /lib/cpp.
 test -z "$ASCPP" && test -f /lib/cpp && ASCPP=/lib/cpp
@@ -54,7 +58,7 @@ AC_CACHE_CHECK([for assembler], [gzip_cv_assembler],
    case " $DEFS " in
    *' NO_ASM '*) ;;
    *)
-     if cp $srcdir/match.c _match.S &&
+     if cp $srcdir/lib/match.c _match.S &&
         eval "$ASCPP _match.S > _match.s 2>/dev/null"; then
        if test ! -s _match.s || grep error < _match.s > /dev/null; then
 	 :
@@ -74,10 +78,8 @@ fi
 AC_ISC_POSIX
 AC_C_CONST
 AC_HEADER_STDC
-AC_CHECK_HEADERS(fcntl.h limits.h memory.h \
-  sys/utime.h time.h utime.h)
-AC_CHECK_FUNCS(lstat utime)
-AC_REPLACE_FUNCS(rpmatch)
+AC_CHECK_HEADERS_ONCE(fcntl.h limits.h memory.h time.h)
+AC_CHECK_FUNCS_ONCE([fchmod fchown lstat])
 AC_HEADER_DIRENT
 AC_TYPE_SIGNAL
 AC_TYPE_SIZE_T
@@ -91,5 +93,6 @@ esac
 AC_PREFIX_PROGRAM(gzip)
 AC_SUBST(ASCPP)dnl
 AC_SUBST(SEDCMD)dnl
-AC_CONFIG_FILES([Makefile])
+
+AC_CONFIG_FILES([Makefile doc/Makefile lib/Makefile])
 AC_OUTPUT

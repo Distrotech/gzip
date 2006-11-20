@@ -1,8 +1,21 @@
 /* deflate.c -- compress data using the deflation algorithm
- * Copyright (C) 1992-1993 Jean-loup Gailly
- * This is free software; you can redistribute it and/or modify it under the
- * terms of the GNU General Public License, see the file COPYING.
- */
+
+   Copyright (C) 1999, 2006 Free Software Foundation, Inc.
+   Copyright (C) 1992-1993 Jean-loup Gailly
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 /*
  *  PURPOSE
@@ -290,7 +303,7 @@ void lm_init (pack_level, flags)
 {
     register unsigned j;
 
-    if (pack_level < 1 || pack_level > 9) error("bad pack level");
+    if (pack_level < 1 || pack_level > 9) gzip_error ("bad pack level");
     compr_level = pack_level;
 
     /* Initialize the hash table. */
@@ -495,7 +508,7 @@ local void check_match(start, match, length)
         fprintf(stderr,
             " start %d, match %d, length %d\n",
             start, match, length);
-        error("invalid match");
+        gzip_error ("invalid match");
     }
     if (verbose > 1) {
         fprintf(stderr,"\\[%d,%d]", start-match, length);
@@ -624,7 +637,7 @@ local off_t deflate_fast()
                      * the next lookahead bytes will be emitted as literals.
                      */
                 } while (--match_length != 0);
-	        strstart++; 
+	        strstart++;
             } else {
 	        strstart += match_length;
 	        match_length = 0;
@@ -639,7 +652,7 @@ local off_t deflate_fast()
             Tracevv((stderr,"%c",window[strstart]));
             flush = ct_tally (0, window[strstart]);
             lookahead--;
-	    strstart++; 
+	    strstart++;
         }
         if (flush) FLUSH_BLOCK(0), block_start = strstart;
 

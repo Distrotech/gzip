@@ -1,8 +1,21 @@
 /* unpack.c -- decompress files in pack format.
- * Copyright (C) 1992-1993 Jean-loup Gailly
- * This is free software; you can redistribute it and/or modify it under the
- * terms of the GNU General Public License, see the file COPYING.
- */
+
+   Copyright (C) 1997, 1999, 2006 Free Software Foundation, Inc.
+   Copyright (C) 1992-1993 Jean-loup Gailly
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #ifdef RCSID
 static char rcsid[] = "$Id$";
@@ -97,6 +110,7 @@ local void read_tree()
     int len;  /* bit length */
     int base; /* base offset for a sequence of leaves */
     int n;
+    int max_leaves = 1;
 
     /* Read the original input size, MSB first */
     orig_len = 0;
@@ -104,17 +118,20 @@ local void read_tree()
 
     max_len = (int)get_byte(); /* maximum bit length of Huffman codes */
     if (max_len > MAX_BITLEN) {
-	error("invalid compressed data -- Huffman code > 32 bits");
+	gzip_error ("invalid compressed data -- Huffman code > 32 bits");
     }
 
     /* Get the number of leaves at each bit length */
     n = 0;
     for (len = 1; len <= max_len; len++) {
 	leaves[len] = (int)get_byte();
+	if (max_leaves - (len == max_len) < leaves[len])
+	  gzip_error ("too many leaves in Huffman tree");
+	max_leaves = (max_leaves - leaves[len] + 1) * 2 - 1;
 	n += leaves[len];
     }
-    if (n > LITERALS) {
-	error("too many leaves in Huffman tree");
+    if (LITERALS <= n) {
+	gzip_error ("too many leaves in Huffman tree");
     }
     Trace((stderr, "orig_len %lu, max_len %d, leaves %d\n",
 	   orig_len, max_len, n));
@@ -233,7 +250,7 @@ int unpack(in, out)
 
     flush_window();
     if (orig_len != (ulg)(bytes_out & 0xffffffff)) {
-	error("invalid compressed data--length error");
+	gzip_error ("invalid compressed data--length error");
     }
     return OK;
 }

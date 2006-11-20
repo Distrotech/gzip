@@ -1,0 +1,10 @@
+*.cache
+*.lineno
+*.log
+INSTALL
+Makefile
+Makefile.in
+aclocal.m4
+config.status
+configure
+gzip-*

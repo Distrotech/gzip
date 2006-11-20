@@ -1,8 +1,21 @@
 /* tailor.h -- target dependent definitions
- * Copyright (C) 1992-1993 Jean-loup Gailly.
- * This is free software; you can redistribute it and/or modify it under the
- * terms of the GNU General Public License, see the file COPYING.
- */
+
+   Copyright (C) 1997, 1998, 1999, 2002 Free Software Foundation, Inc.
+   Copyright (C) 1992-1993 Jean-loup Gailly
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 /* The target dependent definitions should be defined here only.
  * The target dependent functions should be defined in tailor.c.
@@ -37,7 +50,6 @@
 #      define off_t long
 #      ifdef __BORLANDC__
 #        define HAVE_DIRENT_H
-#        define HAVE_UTIME
 #      endif
 #      define HAVE_UTIME_H
 #    else /* MSC */
@@ -224,8 +236,8 @@
 #ifdef __50SERIES /* Prime/PRIMOS */
 #  define PATH_SEP '>'
 #  define STDC_HEADERS
-#  define NO_STDIN_FSTAT 
-#  define NO_SIZE_CHECK 
+#  define NO_STDIN_FSTAT
+#  define NO_SIZE_CHECK
 #  define RECORD_IO  1
 #  define casemap(c)  tolow(c) /* Force file names to lower case */
 #  define put_char(c) put_byte((c) & 0x7F)
@@ -303,7 +315,7 @@
 #endif
 
 #ifndef OPEN
-#  define OPEN(name, flags, mode) open(name, flags, mode)
+#  define OPEN(name, flags, mode) open_safer (name, flags, mode)
 #endif
 
 #ifndef get_char

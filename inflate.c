@@ -1,6 +1,7 @@
 /* Inflate deflated data
 
-   Copyright (C) 1997, 1998, 1999, 2002 Free Software Foundation, Inc.
+   Copyright (C) 1997, 1998, 1999, 2002, 2006 Free Software
+   Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -9,13 +10,12 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-   See the GNU General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; see the file COPYING.
-   If not, write to the Free Software Foundation,
-   59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 /* Not copyrighted 1992 by Mark Adler
    version c10p1, 10 January 1993 */
@@ -62,8 +62,8 @@
    chunks), otherwise the dynamic method is used.  In the latter case, the
    codes are customized to the probabilities in the current block, and so
    can code it much better than the pre-determined fixed codes.
- 
-   The Huffman codes themselves are decoded using a mutli-level table
+
+   The Huffman codes themselves are decoded using a multi-level table
    lookup, in order to maximize the speed of decoding plus the speed of
    building the decoding tables.  See the comments below that precede the
    lbits and dbits tuning parameters.
@@ -193,7 +193,7 @@ static ush cpdext[] = {         /* Extra bits for distance codes */
 
 /* Macros for inflate() bit peeking and grabbing.
    The usage is:
-   
+
         NEEDBITS(j)
         x = b & mask_bits[j];
         DUMPBITS(j)
@@ -328,7 +328,7 @@ int *m;                 /* maximum lookup bits, returns actual */
   memzero(c, sizeof(c));
   p = b;  i = n;
   do {
-    Tracecv(*p, (stderr, (n-i >= ' ' && n-i <= '~' ? "%c %d\n" : "0x%x %d\n"), 
+    Tracecv(*p, (stderr, (n-i >= ' ' && n-i <= '~' ? "%c %d\n" : "0x%x %d\n"),
 	    n-i, *p));
     c[*p]++;                    /* assume all entries <= BMAX */
     p++;                      /* Can't combine with above line (Solaris bug) */
@@ -337,7 +337,7 @@ int *m;                 /* maximum lookup bits, returns actual */
   {
     *t = (struct huft *)NULL;
     *m = 0;
-    return 0;
+    return 2;
   }
 
 
@@ -505,7 +505,7 @@ struct huft *t;         /* table to free */
     q = (--p)->v.t;
     free((char*)p);
     p = q;
-  } 
+  }
   return 0;
 }
 

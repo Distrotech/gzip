@@ -4,3 +4,4 @@
 #ifdef RCSID
 static char rcsid[] = "$Id$";
 #endif
+typedef int dummy;
