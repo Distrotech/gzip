@@ -1,3 +1,11 @@
+2006-11-25  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* Makefile.am (FILES_TO_CHECK): New macro.
+	(check-local): Check only the files in FILES_TO_CHECK, since some
+	files under the working directory might be mutating as the test is
+	run, e.g., with "make check >log".  Problem reported by Jim
+	Meyering.
+
 2006-11-20  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* NEWS, configure.ac (AC_INIT):

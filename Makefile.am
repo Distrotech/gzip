@@ -59,9 +59,10 @@ SUFFIXES = .in
 	chmod a+x $@
 
 # A simple test, just of gzip -- more of a sanity check than anything else.
-check-local:
-	for file in `find * -type f -print | sort`; do \
-	  test -r "$$file" || continue; \
+FILES_TO_CHECK = $(bin_SCRIPTS) $(gzip_LDADD) \
+  $(top_srcdir)/ChangeLog $(top_srcdir)/configure $(top_srcdir)/gzip.c
+check-local: $(FILES_TO_CHECK)
+	for file in $(FILES_TO_CHECK); do \
 	  ./gzip -cv $$file | ./gzip -d | cmp - "$$file" || exit; \
 	done
 	@echo 'Test succeeded.'
