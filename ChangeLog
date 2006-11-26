@@ -1,3 +1,9 @@
+2006-11-26  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* zgrep.in: If the file name contains newline, &, \, or |, escape
+	the character so that 'sed' doesn't mishandle it as a replacement.
+	Problem reported by Bdale Garbee.
+
 2006-11-25  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* gzip.1 (OPTIONS): ouput -> output.  Problem reported by Matt
