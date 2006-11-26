@@ -1,5 +1,9 @@
 2006-11-25  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* gzip.1 (OPTIONS): ouput -> output.  Problem reported by Matt
+	Taggart.
+	* vms/gzip.hlp: Likewise.
+
 	* Makefile.am (FILES_TO_CHECK): New macro.
 	(check-local): Check only the files in FILES_TO_CHECK, since some
 	files under the working directory might be mutating as the test is
