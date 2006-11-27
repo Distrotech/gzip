@@ -856,7 +856,7 @@ int inflate_dynamic()
   if ((i = huft_build(ll, nl, 257, cplens, cplext, &tl, &bl)) != 0)
   {
     if (i == 1) {
-      fprintf(stderr, " incomplete literal tree\n");
+      Trace ((stderr, " incomplete literal tree\n"));
       huft_free(tl);
     }
     return i;                   /* incomplete code set */
@@ -865,7 +865,7 @@ int inflate_dynamic()
   if ((i = huft_build(ll + nl, nd, 0, cpdist, cpdext, &td, &bd)) != 0)
   {
     if (i == 1) {
-      fprintf(stderr, " incomplete distance tree\n");
+      Trace ((stderr, " incomplete distance tree\n"));
 #ifdef PKZIP_BUG_WORKAROUND
       i = 0;
     }
@@ -976,8 +976,6 @@ int inflate()
 
 
   /* return success */
-#ifdef DEBUG
-  fprintf(stderr, "<%u> ", h);
-#endif /* DEBUG */
+  Trace ((stderr, "<%u> ", h));
   return 0;
 }

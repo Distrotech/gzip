@@ -1,5 +1,9 @@
 2006-11-26  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* inflate.c (inflate_dynamic, inflate): Don't send output to
+	stderr unless DEBUG is defined and 'verbose'.  Problem reported by
+	Santiago Vila.
+
 	* zgrep.in: If the file name contains newline, &, \, or |, escape
 	the character so that 'sed' doesn't mishandle it as a replacement.
 	Problem reported by Bdale Garbee.
