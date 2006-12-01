@@ -51,7 +51,6 @@ gzip.doc: gzip.1
 SUFFIXES = .in
 .in:
 	sed \
-		-e '$(SEDCMD)' \
 		-e 's|/bin/sh|$(SHELL)|g' \
 		-e 's|BINDIR|$(bindir)|g' \
 		-e 's|[@]VERSION@|$(VERSION)|g' \

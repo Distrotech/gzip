@@ -84,15 +84,9 @@ AC_HEADER_DIRENT
 AC_TYPE_SIGNAL
 AC_TYPE_SIZE_T
 AC_TYPE_OFF_T
-AC_SYS_INTERPRETER
-case $interpval in
-yes) SEDCMD='1d';;
-*) SEDCMD='';;
-esac
 
 AC_PREFIX_PROGRAM(gzip)
 AC_SUBST(ASCPP)dnl
-AC_SUBST(SEDCMD)dnl
 
 AC_CONFIG_FILES([Makefile doc/Makefile lib/Makefile])
 AC_OUTPUT

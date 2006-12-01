@@ -1,3 +1,14 @@
+Major changes in Gzip 1.3.7 (not yet released)
+
+* Fix some gzexe problems:
+  - Improve resistance to denial-of-service attacks.
+  - Fix some quoting and escaping bugs.
+  - Do not assume /tmp is sticky (though it should be!).
+  - Do not assume the working directory can be written.
+  - Rely on PATH in the generated executable, as the man page says.
+  - Don't assume IFS is sane.
+  - Exit with signal's status, if signaled.
+
 Major changes in Gzip 1.3.6 (2006-11-20)
 
 * Fix some race conditions in setting file time stamps, permissions, and owner.
