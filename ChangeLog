@@ -1,13 +1,16 @@
 2006-12-01  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* doc/gzip.texi (Overview): Mention limits of gzip format's
+	time stamps.  Also, gzip doesn't always preserve time stamps.
+
 	* gzip.c (abort_gzip_signal): Don't call abort () as a "safeguard",
 	since it actually causes a core dump.  Problem reported by
 	Jakub Bogusz.
 
 	* NEWS: Describe gzexe changes noted below.
 	* Makefile.am (.in): Don't bother with SEDCMD.  This stuff isn't needed
-	any more (the hosts it caters to are long extinct), and was questionable
-	anyway since the code assumes the skip= line was line 2.
+	any more (the hosts it caters to are long extinct), and was
+	questionable anyway since the code assumes the skip= line was line 2.
 	* configure.ac (AC_SYS_INTERPRETER, SEDCMD): Remove; no longer needed.
 
 	* gzexe.in: Sweep the code and fix some bugs.

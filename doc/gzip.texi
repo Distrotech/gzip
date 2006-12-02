@@ -96,7 +96,13 @@ By default, @code{gzip} keeps the original file name and timestamp in
 the compressed file. These are used when decompressing the file with the
 @samp{-N} option. This is useful when the compressed file name was
 truncated or when the time stamp was not preserved after a file
-transfer.
+transfer.  However, due to limitations in the current @code{gzip} file
+format, fractional seconds are discarded.  Also, time stamps must fall
+within the range 1970-01-01 00:00:00 through 2106-02-07 06:28:15
+@acronym{UTC}, and hosts whose operating systems use 32-bit time
+stamps are further restricted to time stamps no later than 2038-01-19
+03:14:07 @acronym{UTC}.  The upper bounds assume the typical case
+where leap seconds are ignored.
 
 Compressed files can be restored to their original form using @samp{gzip -d}
 or @code{gunzip} or @code{zcat}.  If the original name saved in the
@@ -153,8 +159,8 @@ Compression is always performed, even if the compressed file is slightly
 larger than the original. The worst case expansion is a few bytes for
 the @code{gzip} file header, plus 5 bytes every 32K block, or an expansion
 ratio of 0.015% for large files. Note that the actual number of used
-disk blocks almost never increases. @code{gzip} preserves the mode,
-ownership and timestamps of files when compressing or decompressing.
+disk blocks almost never increases.  @code{gzip} normally preserves the mode,
+ownership and time stamps of files when compressing or decompressing.
 
 The @code{gzip} file format is specified in P. Deutsch, @sc{gzip} file
 format specification version 4.3,
