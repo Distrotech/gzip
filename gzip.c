@@ -1848,5 +1848,4 @@ abort_gzip_signal (sig)
    remove_output_file ();
    signal (sig, SIG_DFL);
    raise (sig);
-   abort ();
 }
