@@ -1,3 +1,10 @@
+2006-12-04  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* .cvsignore: Add *.doc, build-aux.
+	* doc/.cvignore: New file.
+	* lib/.cvsignore: New file.
+	* m4/.cvsignore: New file.
+
 2006-12-01  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* doc/gzip.texi (Overview): Mention limits of gzip format's

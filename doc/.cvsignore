@@ -1,0 +1,4 @@
+*.info*
+Makefile.in
+stamp-vti
+version.texi

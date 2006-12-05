@@ -1,10 +1,12 @@
 *.cache
+*.doc
 *.lineno
 *.log
 INSTALL
 Makefile
 Makefile.in
 aclocal.m4
+build-aux
 config.status
 configure
 gzip-*
