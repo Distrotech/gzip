@@ -72,7 +72,6 @@ static char rcsid[] = "$Id$";
 #include "fcntl-safer.h"
 #include "getopt.h"
 #include "openat.h"
-#include "stat-macros.h"
 #include "stat-time.h"
 
 		/* configuration */
@@ -716,6 +715,29 @@ local void treat_file(iname)
 	close (ifd);
 	return;
     }
+
+    if (istat.st_mode & S_ISUID)
+      {
+	WARN ((stderr, "%s: %s is set-user-ID on execution - ignored\n",
+	       program_name, ifname));
+	close (ifd);
+	return;
+      }
+    if (istat.st_mode & S_ISGID)
+      {
+	WARN ((stderr, "%s: %s is set-group-ID on execution - ignored\n",
+	       program_name, ifname));
+	close (ifd);
+	return;
+      }
+    if (istat.st_mode & S_ISVTX)
+      {
+	WARN ((stderr, "%s: %s has the sticky bit set - file ignored\n",
+	       program_name, ifname));
+	close (ifd);
+	return;
+      }
+
     if (istat.st_nlink > 1 && !to_stdout && !force) {
 	WARN((stderr, "%s: %s has %lu other link%c -- unchanged\n",
 	      program_name, ifname, (unsigned long) istat.st_nlink - 1,
@@ -1669,7 +1691,7 @@ local int check_ofname()
 local void copy_stat(ifstat)
     struct stat *ifstat;
 {
-    mode_t mode = ifstat->st_mode & CHMOD_MODE_BITS;
+    mode_t mode = ifstat->st_mode & S_IRWXUGO;
     int r;
 
 #ifndef NO_UTIME
@@ -1698,6 +1720,15 @@ local void copy_stat(ifstat)
 	  }
       }
 #endif
+
+#ifndef NO_CHOWN
+# if HAVE_FCHOWN
+    fchown (ofd, ifstat->st_uid, ifstat->st_gid);  /* Copy ownership */
+# else
+    chown(ofname, ifstat->st_uid, ifstat->st_gid);  /* Copy ownership */
+# endif
+#endif
+
     /* Copy the protection modes */
 #if HAVE_FCHMOD
     r = fchmod (ofd, mode);
@@ -1712,13 +1743,6 @@ local void copy_stat(ifstat)
 	    perror(ofname);
 	}
     }
-#ifndef NO_CHOWN
-# if HAVE_FCHOWN
-    fchown (ofd, ifstat->st_uid, ifstat->st_gid);  /* Copy ownership */
-# else
-    chown(ofname, ifstat->st_uid, ifstat->st_gid);  /* Copy ownership */
-# endif
-#endif
 }
 
 #if ! NO_DIR

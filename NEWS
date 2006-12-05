@@ -1,5 +1,9 @@
 Major changes in Gzip 1.3.7 (not yet released)
 
+* Fix some gzip problems:
+  - Refuse to compress setuid or setgid files, or files with the sticky bit.
+  - Fix more race conditions in setting file permissions and owner.
+  - Fix a core dump caused by a stray abort mistakenly introduced in 1.3.6.
 * Fix some gzexe problems:
   - Improve resistance to denial-of-service attacks.
   - Fix some quoting and escaping bugs.
