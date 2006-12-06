@@ -71,7 +71,6 @@ static char rcsid[] = "$Id$";
 
 #include "fcntl-safer.h"
 #include "getopt.h"
-#include "openat.h"
 #include "stat-time.h"
 
 		/* configuration */
@@ -1759,11 +1758,18 @@ local void treat_dir (fd, dir)
     char     nbuf[MAX_PATH_LEN];
     int      len;
 
+#if HAVE_FDOPENDIR
     dirp = fdopendir (fd);
+#else
+    close (fd);
+    dirp = opendir(dir);
+#endif
 
     if (dirp == NULL) {
 	progerror(dir);
+#if HAVE_FDOPENDIR
 	close (fd);
+#endif
 	return ;
     }
     /*
