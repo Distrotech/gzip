@@ -1,3 +1,9 @@
+2006-12-07  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* deflate.c (deflate_fast, deflate): Avoid core dump.  Problem
+	originally reported by Jochen Friedrich and trivial patch supplied
+	by Anthony Towns; see <http://bugs.debian.org/184057>.
+
 2006-12-06  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* NEWS, configure.ac (AC_INIT):

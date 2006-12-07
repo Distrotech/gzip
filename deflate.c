@@ -607,7 +607,8 @@ local off_t deflate_fast()
         /* Find the longest match, discarding those <= prev_length.
          * At this point we have always match_length < MIN_MATCH
          */
-        if (hash_head != NIL && strstart - hash_head <= MAX_DIST) {
+        if (hash_head != NIL && strstart - hash_head <= MAX_DIST
+	    && strstart <= window_size - MIN_LOOKAHEAD) {
             /* To simplify the code, we prevent matches with the string
              * of window index 0 (in particular we have to avoid a match
              * of the string with itself at the start of the input file).
@@ -695,7 +696,8 @@ off_t deflate()
         match_length = MIN_MATCH-1;
 
         if (hash_head != NIL && prev_length < max_lazy_match &&
-            strstart - hash_head <= MAX_DIST) {
+            strstart - hash_head <= MAX_DIST &&
+            strstart <= window_size - MIN_LOOKAHEAD) {
             /* To simplify the code, we prevent matches with the string
              * of window index 0 (in particular we have to avoid a match
              * of the string with itself at the start of the input file).
