@@ -1,3 +1,12 @@
+2006-12-05  Bruno Haible  <bruno@clisp.org>  (tiny change)
+	and Paul Eggert  <eggert@cs.ucla.edu>
+
+	Fix build failure on case-insensitive file systems.
+	* configure.ac: Use match_.s instead of _match.s.
+	* Makefile.am (MOSTLYCLEANFILES): Likewise.
+	* lib/Makefile.am (match.$(OBJEXT)): Likewise.
+	(MOSTLYCLEANFILES): Likewise.
+
 2006-12-06  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* NEWS: Document the fixes below.

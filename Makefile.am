@@ -98,4 +98,4 @@ uninstall-local: remove-installed-links
 
 MAINTAINERCLEANFILES = gzip.doc
 
-MOSTLYCLEANFILES = _match.s _match.S gzexe zdiff zforce zgrep zless zmore znew
+MOSTLYCLEANFILES = match_.s _match.S gzexe zdiff zforce zgrep zless zmore znew

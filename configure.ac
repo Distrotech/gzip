@@ -59,15 +59,15 @@ AC_CACHE_CHECK([for assembler], [gzip_cv_assembler],
    *' NO_ASM '*) ;;
    *)
      if cp $srcdir/lib/match.c _match.S &&
-        eval "$ASCPP _match.S > _match.s 2>/dev/null"; then
-       if test ! -s _match.s || grep error < _match.s > /dev/null; then
+	eval "$ASCPP _match.S > match_.s 2>/dev/null"; then
+       if test ! -s match_.s || grep error < match_.s > /dev/null; then
 	 :
-       elif eval "$CC -c _match.s >/dev/null 2>&1" &&
-	    test -f _match.$OBJEXT; then
+       elif eval "$CC -c match_.s >/dev/null 2>&1" &&
+	    test -f match_.$OBJEXT; then
 	 gzip_cv_assembler=yes
        fi
      fi
-     rm -f _match.S _match.s _match.$OBJEXT;;
+     rm -f _match.S match_.s match_.$OBJEXT;;
    esac])
 if test $gzip_cv_assembler = yes; then
   AC_DEFINE(ASMV, ,

@@ -27,9 +27,9 @@ LN_S = @LN_S@
 
 match.$(OBJEXT): match.c
 	cp $(srcdir)/match.c _match.S
-	$(ASCPP) _match.S >_match.s
-	$(CC) -c $(CFLAGS) _match.s
-	mv _match.$(OBJEXT) match.$(OBJEXT)
-	rm -f _match.S _match.s
+	$(ASCPP) _match.S > match_.s
+	$(CC) -c $(CFLAGS) match_.s
+	mv match_.$(OBJEXT) $@
+	rm -f _match.S match_.s
 
-MOSTLYCLEANFILES += _match.S _match.s
+MOSTLYCLEANFILES += _match.S match_.s
