@@ -79,7 +79,7 @@ AC_ISC_POSIX
 AC_C_CONST
 AC_HEADER_STDC
 AC_CHECK_HEADERS_ONCE(fcntl.h limits.h memory.h time.h)
-AC_CHECK_FUNCS_ONCE([fchmod fchown fdopendir lstat])
+AC_CHECK_FUNCS_ONCE([fchmod fchown fdopendir lstat siginterrupt])
 AC_HEADER_DIRENT
 AC_TYPE_SIGNAL
 AC_TYPE_SIZE_T

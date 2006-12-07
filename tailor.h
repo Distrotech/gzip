@@ -1,6 +1,6 @@
 /* tailor.h -- target dependent definitions
 
-   Copyright (C) 1997, 1998, 1999, 2002 Free Software Foundation, Inc.
+   Copyright (C) 1997, 1998, 1999, 2002, 2006 Free Software Foundation, Inc.
    Copyright (C) 1992-1993 Jean-loup Gailly
 
    This program is free software; you can redistribute it and/or modify
@@ -254,10 +254,6 @@
 
 #ifdef TOPS20
 #  define OS_CODE  0x0a
-#endif
-
-#ifndef unix
-#  define NO_ST_INO /* don't rely on inode numbers */
 #endif
 
 

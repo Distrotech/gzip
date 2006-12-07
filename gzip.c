@@ -115,10 +115,6 @@ static char rcsid[] = "$Id$";
 # define CLOSEDIR(d) closedir(d)
 #endif
 
-#if !defined(HAVE_LSTAT) && !defined(lstat)
-# define lstat(name, buf) stat(name, buf)
-#endif
-
 #ifndef NO_UTIME
 #  include <utimens.h>
 #endif
@@ -147,6 +143,21 @@ static char rcsid[] = "$Id$";
 
 #ifndef OFF_T_MAX
 #define OFF_T_MAX (~ (off_t) 0 - OFF_T_MIN)
+#endif
+
+/* Use SA_NOCLDSTOP as a proxy for whether the sigaction machinery is
+   present.  */
+#ifndef SA_NOCLDSTOP
+# define SA_NOCLDSTOP 0
+# define sigprocmask(how, set, oset) /* empty */
+# define sigset_t int
+# if ! HAVE_SIGINTERRUPT
+#  define siginterrupt(sig, flag) /* empty */
+# endif
+#endif
+
+#ifndef HAVE_WORKING_O_NOFOLLOW
+# define HAVE_WORKING_O_NOFOLLOW 0
 #endif
 
 #ifndef ELOOP
@@ -203,13 +214,23 @@ char **args = NULL;   /* argv pointer if GZIP env variable defined */
 char *z_suffix;       /* default suffix (can be set with --suffix) */
 size_t z_len;         /* strlen(z_suffix) */
 
+/* The set of signals that are caught.  */
+static sigset_t caught_signals;
+
+/* If nonzero then exit with status 1, rather than with the usual
+   signal status, on receipt of a signal with this value.  This
+   suppresses a "Broken Pipe" message with some shells.  */
+static int volatile exiting_signal;
+
+/* If nonnegative, close this file descriptor and unlink ofname on error.  */
+static int volatile remove_ofname_fd = -1;
+
 off_t bytes_in;             /* number of input bytes */
 off_t bytes_out;            /* number of output bytes */
 off_t total_in;		    /* input bytes for all files */
 off_t total_out;	    /* output bytes for all files */
 char ifname[MAX_PATH_LEN]; /* input file name */
 char ofname[MAX_PATH_LEN]; /* output file name */
-int volatile remove_ofname = 0;  /* remove output file on error */
 struct stat istat;         /* status for input file */
 int  ifd;                  /* input file descriptor */
 int  ofd;                  /* output file descriptor */
@@ -261,13 +282,12 @@ local int create_outfile OF((void));
 local char *get_suffix  OF((char *name));
 local int  open_input_file OF((char *iname, struct stat *sbuf));
 local int  make_ofname  OF((void));
-local int  same_file    OF((struct stat *stat1, struct stat *stat2));
-local int name_too_long OF((char *name, struct stat *statb));
 local void shorten_name  OF((char *name));
 local int  get_method   OF((int in));
 local void do_list      OF((int ifd, int method));
 local int  check_ofname OF((void));
 local void copy_stat    OF((struct stat *ifstat));
+local void install_signal_handlers OF((void));
 local void remove_output_file OF((void));
 local RETSIGTYPE abort_gzip_signal OF((int));
 local void do_exit      OF((int exitcode)) ATTRIBUTE_NORETURN;
@@ -387,21 +407,6 @@ int main (argc, argv)
     env = add_envopt(&argc, &argv, OPTIONS_VAR);
     if (env != NULL) args = argv;
 
-    foreground = signal(SIGINT, SIG_IGN) != SIG_IGN;
-    if (foreground) {
-	signal (SIGINT, abort_gzip_signal);
-    }
-#ifdef SIGTERM
-    if (signal(SIGTERM, SIG_IGN) != SIG_IGN) {
-	signal (SIGTERM, abort_gzip_signal);
-    }
-#endif
-#ifdef SIGHUP
-    if (signal(SIGHUP, SIG_IGN) != SIG_IGN) {
-	signal (SIGHUP, abort_gzip_signal);
-    }
-#endif
-
 #ifndef GNU_STANDARD
     /* For compatibility with old compress, use program name as an option.
      * If you compile with -DGNU_STANDARD, this program will behave as
@@ -500,12 +505,6 @@ int main (argc, argv)
 	}
     } /* loop on all arguments */
 
-#ifdef SIGPIPE
-    /* Ignore "Broken Pipe" message with --quiet */
-    if (quiet && signal (SIGPIPE, SIG_IGN) != SIG_IGN)
-      signal (SIGPIPE, abort_gzip_signal);
-#endif
-
     /* By default, save name and timestamp on compression but do not
      * restore them on decompression.
      */
@@ -539,6 +538,8 @@ int main (argc, argv)
     ALLOC(ush, tab_prefix0, 1L<<(BITS-1));
     ALLOC(ush, tab_prefix1, 1L<<(BITS-1));
 #endif
+
+    install_signal_handlers ();
 
     /* And get to work */
     if (file_count != 0) {
@@ -774,7 +775,8 @@ local void treat_file(iname)
     }
     if (list) {
         do_list(ifd, method);
-        close(ifd);
+        if (close (ifd) != 0)
+	  read_error ();
         return;
     }
 
@@ -784,7 +786,7 @@ local void treat_file(iname)
      */
     if (to_stdout) {
 	ofd = fileno(stdout);
-	/* keep remove_ofname as zero */
+	/* Keep remove_ofname_fd negative.  */
     } else {
 	if (create_outfile() != OK) return;
 
@@ -816,32 +818,40 @@ local void treat_file(iname)
 	bytes_out = 0;            /* required for length check */
     }
 
-    close(ifd);
+    if (close (ifd) != 0)
+      read_error ();
 
     if (!to_stdout)
       {
+	sigset_t oldset;
+	int unlink_errno;
+
 	copy_stat (&istat);
 	if (close (ofd) != 0)
 	  write_error ();
-	remove_ofname = 0;
 
-	/* It's now safe to remove the input file.  */
-	if (xunlink (ifname) != 0)
+	sigprocmask (SIG_BLOCK, &caught_signals, &oldset);
+	remove_ofname_fd = -1;
+	unlink_errno = xunlink (ifname) == 0 ? 0 : errno;
+	sigprocmask (SIG_SETMASK, &oldset, NULL);
+
+	if (unlink_errno)
 	  {
-	    int e = errno;
 	    WARN ((stderr, "%s: ", program_name));
 	    if (!quiet)
 	      {
-		errno = e;
+		errno = unlink_errno;
 		perror (ifname);
 	      }
 	  }
       }
 
     if (method == -1) {
-	if (!to_stdout) xunlink (ofname);
+	if (!to_stdout)
+	  remove_output_file ();
 	return;
     }
+
     /* Display statistics */
     if(verbose) {
 	if (test) {
@@ -869,55 +879,55 @@ local void treat_file(iname)
  */
 local int create_outfile()
 {
-    struct stat	ostat; /* stat for ofname */
-    int flags = O_WRONLY | O_CREAT | O_EXCL | O_BINARY;
+  int name_shortened = 0;
+  int flags = (O_WRONLY | O_CREAT | O_EXCL
+	       | (ascii && decompress ? 0 : O_BINARY));
 
-    if (ascii && decompress) {
-	flags &= ~O_BINARY; /* force ascii text mode */
-    }
-    for (;;) {
-	/* Make sure that ofname is not an existing file */
-	if (check_ofname() != OK) {
-	    close(ifd);
-	    return ERROR;
-	}
-	/* Create the output file */
-	remove_ofname = 1;
-	ofd = OPEN(ofname, flags, RW_USER);
-	if (ofd == -1) {
-	    progerror(ofname);
-	    close(ifd);
-	    return ERROR;
-	}
+  for (;;)
+    {
+      int open_errno;
+      sigset_t oldset;
 
-	/* Check for name truncation on new file (1234567890123.gz) */
-#ifdef NO_FSTAT
-	if (stat(ofname, &ostat) != 0) {
-#else
-	if (fstat(ofd, &ostat) != 0) {
+      sigprocmask (SIG_BLOCK, &caught_signals, &oldset);
+      remove_ofname_fd = ofd = OPEN (ofname, flags, RW_USER);
+      open_errno = errno;
+      sigprocmask (SIG_SETMASK, &oldset, NULL);
+
+      if (0 <= ofd)
+	break;
+
+      switch (open_errno)
+	{
+#ifdef ENAMETOOLONG
+	case ENAMETOOLONG:
+	  shorten_name (ofname);
+	  name_shortened = 1;
+	  break;
 #endif
-	    progerror(ofname);
-	    close(ifd); close(ofd);
-	    xunlink (ofname);
-	    return ERROR;
-	}
-	if (!name_too_long(ofname, &ostat)) return OK;
 
-	if (decompress) {
-	    /* name might be too long if an original name was saved */
-	    WARN((stderr, "%s: %s: warning, name truncated\n",
-		  program_name, ofname));
-	    return OK;
+	case EEXIST:
+	  if (check_ofname () != OK)
+	    {
+	      close (ifd);
+	      return ERROR;
+	    }
+	  break;
+
+	default:
+	  progerror (ofname);
+	  close (ifd);
+	  return ERROR;
 	}
-	close(ofd);
-	xunlink (ofname);
-#ifdef NO_MULTIPLE_DOTS
-	/* Should never happen, see check_ofname() */
-	fprintf (stderr, "%s: %s: name too long\n", program_name, ofname);
-	do_exit(ERROR);
-#endif
-	shorten_name(ofname);
     }
+
+  if (name_shortened && decompress)
+    {
+      /* name might be too long if an original name was saved */
+      WARN ((stderr, "%s: %s: warning, name truncated\n",
+	     program_name, ofname));
+    }
+
+  return OK;
 }
 
 /* ========================================================================
@@ -986,12 +996,19 @@ open_and_stat (char *name, int flags, mode_t mode, struct stat *st)
   /* Refuse to follow symbolic links unless -c or -f.  */
   if (!to_stdout && !force)
     {
-      if (O_NOFOLLOW)
+      if (HAVE_WORKING_O_NOFOLLOW)
 	flags |= O_NOFOLLOW;
-      else if (lstat (name, st) == 0 && S_ISLNK (st->st_mode))
+      else
 	{
-	  errno = ELOOP;
-	  return -1;
+#if HAVE_LSTAT || defined lstat
+	  if (lstat (name, st) != 0)
+	    return -1;
+	  else if (S_ISLNK (st->st_mode))
+	    {
+	      errno = ELOOP;
+	      return -1;
+	    }
+#endif
 	}
     }
 
@@ -1028,7 +1045,8 @@ open_input_file (iname, sbuf)
     char *dot; /* pointer to ifname extension, or NULL */
 #endif
     int fd;
-    int open_flags = ascii && !decompress ? O_RDONLY : O_RDONLY | O_BINARY;
+    int open_flags = (O_RDONLY | O_NONBLOCK | O_NOCTTY
+		      | (ascii && !decompress ? 0 : O_BINARY));
 
     *suf = z_suffix;
 
@@ -1170,8 +1188,8 @@ local int make_ofname()
 		strcat(ofname, "gz"); /* enough room */
 		return OK;
 	    }
-        /* On the Atari and some versions of MSDOS, name_too_long()
-         * does not work correctly because of a bug in stat(). So we
+        /* On the Atari and some versions of MSDOS,
+         * ENAMETOOLONG does not work correctly.  So we
          * must truncate here.
          */
         } else if (strlen(suff)-1 + z_len > MAX_SUFFIX) {
@@ -1501,49 +1519,6 @@ local void do_list(ifd, method)
 }
 
 /* ========================================================================
- * Return true if the two stat structures correspond to the same file.
- */
-local int same_file(stat1, stat2)
-    struct stat *stat1;
-    struct stat *stat2;
-{
-    return stat1->st_ino   == stat2->st_ino
-	&& stat1->st_dev   == stat2->st_dev
-#ifdef NO_ST_INO
-        /* Can't rely on st_ino and st_dev, use other fields: */
-	&& stat1->st_mode  == stat2->st_mode
-	&& stat1->st_uid   == stat2->st_uid
-	&& stat1->st_gid   == stat2->st_gid
-	&& stat1->st_size  == stat2->st_size
-	&& stat1->st_atime == stat2->st_atime
-	&& stat1->st_mtime == stat2->st_mtime
-	&& stat1->st_ctime == stat2->st_ctime
-#endif
-	    ;
-}
-
-/* ========================================================================
- * Return true if a file name is ambiguous because the operating system
- * truncates file names.
- */
-local int name_too_long(name, statb)
-    char *name;           /* file name to check */
-    struct stat *statb;   /* stat buf for this file name */
-{
-    int s = strlen(name);
-    char c = name[s-1];
-    struct stat	tstat; /* stat for truncated name */
-    int res;
-
-    tstat = *statb;      /* Just in case OS does not fill all fields */
-    name[s-1] = '\0';
-    res = lstat(name, &tstat) == 0 && same_file(statb, &tstat);
-    name[s-1] = c;
-    Trace((stderr, " too_long(%s) => %d\n", name, res));
-    return res;
-}
-
-/* ========================================================================
  * Shorten the given name by one character, or replace a .tar extension
  * with .tgz. Truncate the last part of the name which is longer than
  * MIN_PART characters: 1234.678.012.gz -> 123.678.012.gz. If the name
@@ -1608,58 +1583,11 @@ local void shorten_name(name)
 }
 
 /* ========================================================================
- * If compressing to a file, check if ofname is not ambiguous
- * because the operating system truncates names. Otherwise, generate
- * a new ofname and save the original name in the compressed file.
- * If the compressed file already exists, ask for confirmation.
- *    The check for name truncation is made dynamically, because different
- * file systems on the same OS might use different truncation rules (on SVR4
- * s5 truncates to 14 chars and ufs does not truncate).
- *    This function returns -1 if the file must be skipped, and
- * updates save_orig_name if necessary.
- * IN assertions: save_orig_name is already set if ofname has been
- * already truncated because of NO_MULTIPLE_DOTS. The input file has
- * already been open and istat is set.
+ * The compressed file already exists, so ask for confirmation.
+ * Return ERROR if the file must be skipped.
  */
 local int check_ofname()
 {
-    struct stat	ostat; /* stat for ofname */
-
-#ifdef ENAMETOOLONG
-    /* Check for strictly conforming Posix systems (which return ENAMETOOLONG
-     * instead of silently truncating filenames).
-     */
-    errno = 0;
-    while (lstat(ofname, &ostat) != 0) {
-        if (errno != ENAMETOOLONG) return 0; /* ofname does not exist */
-	shorten_name(ofname);
-    }
-#else
-    if (lstat(ofname, &ostat) != 0) return 0;
-#endif
-    /* Check for name truncation on existing file. Do this even on systems
-     * defining ENAMETOOLONG, because on most systems the strict Posix
-     * behavior is disabled by default (silent name truncation allowed).
-     */
-    if (!decompress && name_too_long(ofname, &ostat)) {
-	shorten_name(ofname);
-	if (lstat(ofname, &ostat) != 0) return 0;
-    }
-
-    /* Check that the input and output files are different (could be
-     * the same by name truncation or links).
-     */
-    if (same_file(&istat, &ostat)) {
-	if (strequ(ifname, ofname)) {
-	    fprintf(stderr, "%s: %s: cannot %scompress onto itself\n",
-		    program_name, ifname, decompress ? "de" : "");
-	} else {
-	    fprintf(stderr, "%s: %s and %s are the same file\n",
-		    program_name, ifname, ofname);
-	}
-	exit_code = ERROR;
-	return ERROR;
-    }
     /* Ask permission to overwrite the existing file */
     if (!force) {
 	int ok = 0;
@@ -1821,6 +1749,73 @@ local void treat_dir (fd, dir)
 }
 #endif /* ! NO_DIR */
 
+/* Make sure signals get handled properly.  */
+
+static void
+install_signal_handlers ()
+{
+  static int sig[] =
+    {
+      /* SIGINT must be first, as 'foreground' depends on it.  */
+      SIGINT
+
+#ifdef SIGHUP
+      , SIGHUP
+#endif
+#ifdef SIGPIPE
+      , SIGPIPE
+#else
+# define SIGPIPE 0
+#endif
+#ifdef SIGTERM
+      , SIGTERM
+#endif
+#ifdef SIGXCPU
+      , SIGXCPU
+#endif
+#ifdef SIGXFSZ
+      , SIGXFSZ
+#endif
+    };
+  int nsigs = sizeof sig / sizeof sig[0];
+  int i;
+
+  exiting_signal = quiet ? SIGPIPE : 0;
+
+#if SA_NOCLDSTOP
+  struct sigaction act;
+
+  sigemptyset (&caught_signals);
+  for (i = 0; i < nsigs; i++)
+    {
+      sigaction (sig[i], NULL, &act);
+      if (act.sa_handler != SIG_IGN)
+	sigaddset (&caught_signals, sig[i]);
+    }
+
+  act.sa_handler = abort_gzip_signal;
+  act.sa_mask = caught_signals;
+  act.sa_flags = 0;
+
+  for (i = 0; i < nsigs; i++)
+    if (sigismember (&caught_signals, sig[i]))
+      {
+	if (i == 0)
+	  foreground = 1;
+	sigaction (sig[i], &act, NULL);
+      }
+#else
+  for (i = 0; i < nsigs; i++)
+    if (signal (sig[i], SIG_IGN) != SIG_IGN)
+      {
+	if (i == 0)
+	  foreground = 1;
+	signal (sig[i], abort_gzip_signal);
+	siginterrupt (sig[i], 1);
+      }
+#endif
+}
+
 /* ========================================================================
  * Free all dynamically allocated variables and exit with the given code.
  */
@@ -1852,10 +1847,18 @@ local void do_exit(exitcode)
 static void
 remove_output_file ()
 {
-   if (remove_ofname) {
-       close(ofd);
-       xunlink (ofname);
-   }
+  int fd;
+  sigset_t oldset;
+
+  sigprocmask (SIG_BLOCK, &caught_signals, &oldset);
+  fd = remove_ofname_fd;
+  if (0 <= fd)
+    {
+      remove_ofname_fd = -1;
+      close (fd);
+      xunlink (ofname);
+    }
+  sigprocmask (SIG_SETMASK, &oldset, NULL);
 }
 
 /* ========================================================================
@@ -1875,7 +1878,11 @@ static RETSIGTYPE
 abort_gzip_signal (sig)
      int sig;
 {
+  if (! SA_NOCLDSTOP)
+    signal (sig, SIG_IGN);
    remove_output_file ();
+   if (sig == exiting_signal)
+     _exit (ERROR);
    signal (sig, SIG_DFL);
    raise (sig);
 }
