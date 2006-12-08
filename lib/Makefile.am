@@ -28,7 +28,7 @@ LN_S = @LN_S@
 match.$(OBJEXT): match.c
 	cp $(srcdir)/match.c _match.S
 	$(ASCPP) _match.S > match_.s
-	$(CC) -c $(CFLAGS) match_.s
+	$(CC) -c $(CFLAGS) $(ASFLAGS_config) match_.s
 	mv match_.$(OBJEXT) $@
 	rm -f _match.S match_.s
 

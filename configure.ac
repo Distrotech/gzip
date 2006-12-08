@@ -64,16 +64,30 @@ AC_CACHE_CHECK([for assembler], [gzip_cv_assembler],
 	 :
        elif eval "$CC -c match_.s >/dev/null 2>&1" &&
 	    test -f match_.$OBJEXT; then
+	 rm -f match_.$OBJEXT
 	 gzip_cv_assembler=yes
+	 if echo 'void foo (void) {}' > conftest.c &&
+	    eval "$CC -S conftest.c >/dev/null 2>&1" &&
+	    grep '\.note\.GNU-stack' conftest.s >/dev/null 2>&1 &&
+	    eval "$CC -c -Wa,--noexecstack match_.s >/dev/null 2>&1" &&
+	    test -f match_.$OBJEXT; then
+	   gzip_cv_assembler='yes, with -Wa,--noexecstack'
+	 fi
        fi
      fi
-     rm -f _match.S match_.s match_.$OBJEXT;;
+     rm -f conftest* _match.S match_.s match_.$OBJEXT;;
    esac])
-if test $gzip_cv_assembler = yes; then
+if test "$gzip_cv_assembler" != no; then
   AC_DEFINE(ASMV, ,
     [Define if an assembler version of longest_match is available.])
   AC_LIBOBJ(match)
 fi
+if test "$gzip_cv_assembler" = 'yes, with -Wa,--noexecstack'; then
+  ASFLAGS_config='-Wa,--noexecstack'
+else
+  ASFLAGS_config=
+fi
+AC_SUBST([ASFLAGS_config])
 
 AC_ISC_POSIX
 AC_C_CONST
