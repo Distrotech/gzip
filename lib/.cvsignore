@@ -1,6 +1,10 @@
+.deps
+Makefile
 Makefile.in
 alloca.c
+alloca.h
 alloca_.h
+config.h
 config.hin
 creat-safer.c
 dup-safer.c
@@ -11,6 +15,7 @@ exitfail.c
 exitfail.h
 fcntl--.h
 fcntl-safer.h
+fcntl.h
 fcntl_.h
 fd-safer.c
 getdelim.c
@@ -37,15 +42,18 @@ regex_internal.c
 regex_internal.h
 regexec.c
 rpmatch.c
+stamp-h1
 stat-time.h
 stat_.h
 stdbool_.h
+stdint.h
 stdint_.h
 strcase.h
 strcasecmp.c
 strncasecmp.c
 strnlen1.c
 strnlen1.h
+sys
 timespec.h
 unistd--.h
 unistd-safer.h

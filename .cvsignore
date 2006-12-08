@@ -2,6 +2,7 @@
 *.doc
 *.lineno
 *.log
+.deps
 INSTALL
 Makefile
 Makefile.in
@@ -9,4 +10,12 @@ aclocal.m4
 build-aux
 config.status
 configure
+gzexe
+gzip
 gzip-*
+zdiff
+zforce
+zgrep
+zless
+zmore
+znew

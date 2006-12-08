@@ -1,4 +1,5 @@
 *.info*
+Makefile
 Makefile.in
 fdl.texi
 stamp-vti
