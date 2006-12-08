@@ -1,3 +1,9 @@
+2006-12-08  Ralf Wildenhues  <Ralf.Wildenhues@gmx.de>  (tiny change)
+
+	* gzexe.in: Work around FreeBSD shell trap bug.
+	* gzip.1: Fix typo.
+	* doc/gzip.texi: Likewise.
+
 2006-12-08  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* .cvsignore: Add .deps, gzexe, gzip, zdiff, zforce, zgrep,
