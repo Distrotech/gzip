@@ -1,5 +1,8 @@
 2006-12-07  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* Makefile.am (install-exec-hook): Fix bug when installing
+	symbolic links as aliases.  Problem reported by Mike Frysinger.
+
 	* deflate.c (deflate_fast, deflate): Avoid core dump.  Problem
 	originally reported by Jochen Friedrich and trivial patch supplied
 	by Anthony Towns; see <http://bugs.debian.org/184057>.

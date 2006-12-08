@@ -79,16 +79,16 @@ install-exec-hook remove-installed-links:
 	  transform='$(transform)'; \
 	  test "X$$prog" = "X$$prog_ext" || \
 	    transform="$$transform"';s/$$/$(EXEEXT)/'; \
-	  source=$(DESTDIR)$(bindir)/`echo "$$prog"|sed "$$transform"`; \
+	  destbindir=$(DESTDIR)$(bindir); \
+	  source=`echo "$$prog"|sed "$$transform"`; \
 	  for alias in $$aliases; do \
-	    dest=$(DESTDIR)$(bindir)/`echo "$$alias"|sed "$$transform"`; \
+	    dest=`echo "$$alias"|sed "$$transform"`; \
 	    (set -x; \
+	     cd "$$destbindir" && \
 	     rm -f "$$dest" && \
 	     case $@ in \
 	     install-exec-hook) \
-	       for ln in ln "$(LN_S)"; do \
-		 $$ln "$$source" "$$dest" && break; \
-	       done;; \
+	       ln "$$source" "$$dest" || $(LN_S) "$$source" "$$dest";; \
 	     esac \
 	    ) || exit; \
 	  done; \
