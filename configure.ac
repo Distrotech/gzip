@@ -52,7 +52,7 @@ fi
 AC_OBJEXT
 
 # Try to assemble match.S.
-# "gcc -E match.s" ignores -E, so we must use match.S.
+# "gcc -E match.s" ignores -E, so we must use match_.s.
 AC_CACHE_CHECK([for assembler], [gzip_cv_assembler],
   [gzip_cv_assembler=no
    case " $DEFS " in
