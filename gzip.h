@@ -59,6 +59,10 @@
 #  define memzero(s, n)     bzero((s), (n))
 #endif
 
+#ifdef HAVE_LIMITS_H
+# include <limits.h>
+#endif
+
 #ifndef RETSIGTYPE
 #  define RETSIGTYPE void
 #endif
@@ -100,6 +104,10 @@ extern int method;         /* compression method */
 #    define INBUFSIZ  0x2000  /* input buffer size */
 #  else
 #    define INBUFSIZ  0x8000  /* input buffer size */
+#  endif
+#  if defined SSIZE_MAX && SSIZE_MAX < INBUFSIZ
+#    undef INBUFSIZ
+#    define INBUFSIZ SSIZE_MAX
 #  endif
 #endif
 #define INBUF_EXTRA  64     /* required by unlzw() */

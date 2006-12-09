@@ -28,6 +28,8 @@ static char rcsid[] = "$Id$";
 #include "gzip.h"
 #include "crypt.h"
 
+#include "timespec.h"
+
 #ifdef HAVE_UNISTD_H
 #  include <unistd.h>
 #endif

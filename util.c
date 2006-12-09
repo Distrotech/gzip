@@ -1,6 +1,7 @@
 /* util.c -- utility functions for gzip support
 
-   Copyright (C) 1997, 1998, 1999, 2001, 2002 Free Software Foundation, Inc.
+   Copyright (C) 1997, 1998, 1999, 2001, 2002, 2006 Free Software
+   Foundation, Inc.
    Copyright (C) 1992-1993 Jean-loup Gailly
 
    This program is free software; you can redistribute it and/or modify
@@ -27,9 +28,6 @@ static char rcsid[] = "$Id$";
 
 #include "tailor.h"
 
-#ifdef HAVE_LIMITS_H
-#  include <limits.h>
-#endif
 #ifdef HAVE_UNISTD_H
 #  include <unistd.h>
 #endif

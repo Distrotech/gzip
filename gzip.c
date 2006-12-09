@@ -85,10 +85,6 @@ static char rcsid[] = "$Id$";
 #  include <fcntl.h>
 #endif
 
-#ifdef HAVE_LIMITS_H
-#  include <limits.h>
-#endif
-
 #ifdef HAVE_UNISTD_H
 #  include <unistd.h>
 #endif
@@ -539,6 +535,7 @@ int main (argc, argv)
     ALLOC(ush, tab_prefix1, 1L<<(BITS-1));
 #endif
 
+    exiting_signal = quiet ? SIGPIPE : 0;
     install_signal_handlers ();
 
     /* And get to work */
@@ -1779,8 +1776,6 @@ install_signal_handlers ()
     };
   int nsigs = sizeof sig / sizeof sig[0];
   int i;
-
-  exiting_signal = quiet ? SIGPIPE : 0;
 
 #if SA_NOCLDSTOP
   struct sigaction act;
