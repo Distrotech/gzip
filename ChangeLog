@@ -1,5 +1,9 @@
 2006-12-08  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* gzexe.in (mktemp_status): New var, used to see whether
+	mktemp is a known command.  Use this instead of confounding
+	mktemp's existence with its success.
+
 	* zdiff.in: Remove first line containing ":".  This follows
 	up on the SEDCMD fix of 2006-12-01.
 	* zforce.in: Likewise.

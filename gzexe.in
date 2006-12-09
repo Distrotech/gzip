@@ -79,6 +79,8 @@ trap 'res=$?
   (exit $res); exit $res
 ' 0 1 2 3 5 10 13 15
 
+mktemp_status=
+
 for i do
   case $i in
   -*) file=./$i;;
@@ -114,8 +116,15 @@ for i do
   dir=`dirname "$file"` || dir=$TMPDIR
   test -d "$dir" && test -w "$dir" && test -x "$dir" || dir=/tmp
   test -n "$tmp" && rm -f "$tmp"
-  tmp=`TMPDIR=$dir mktemp -t gzexeXXXXXX` || tmp=$dir/gzexe$$
-  cp -p "$file" "$tmp" 2>/dev/null || cp "$file" "$tmp" || {
+  if test -z "$mktemp_status"; then
+    type mktemp >/dev/null 2>&1
+    mktemp_status=$?
+  fi
+  if test $mktemp_status -eq 0; then
+    tmp=`TMPDIR=$dir mktemp -t gzexeXXXXXX`
+  else
+    tmp=$dir/gzexe$$
+  fi && { cp -p "$file" "$tmp" 2>/dev/null || cp "$file" "$tmp"; } || {
     res=$?
     echo >&2 "$0: cannot copy $file"
     continue
@@ -133,7 +142,7 @@ for i do
   if test $decomp -eq 0; then
     (cat <<'EOF' &&
 #!/bin/sh
-skip=43
+skip=44
 
 tab='	'
 nl='
@@ -149,9 +158,11 @@ trap 'res=$?
   (exit $res); exit $res
 ' 0 1 2 3 5 10 13 15
 
-gztmpdir=`(mktemp -dt) 2>/dev/null` ||
-  { gztmpdir=/tmp/gztmp$$; mkdir $gztmpdir; } ||
-  { (exit 127); exit 127; }
+if type mktemp >/dev/null 2>&1; then
+  gztmpdir=`mktemp -dt`
+else
+  gztmpdir=/tmp/gztmp$$; mkdir $gztmpdir
+fi || { (exit 127); exit 127; }
 
 gztmp=$gztmpdir/$0
 case $0 in
@@ -182,7 +193,7 @@ EOF
 
   else
     # decompression
-    skip=43
+    skip=44
     skip_line=`sed -e 1d -e 2q "$file"`
     case $skip_line in
     skip=[0-9] | skip=[0-9][0-9] | skip=[0-9][0-9][0-9])
