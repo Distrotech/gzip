@@ -1,4 +1,3 @@
-:
 #!/bin/sh
 # zforce: force a gz extension on all gzip files so that gzip will not
 # compress them twice.
