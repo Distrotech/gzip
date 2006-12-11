@@ -257,7 +257,8 @@ int unlzw(in, out)
 	posbits = 0;
 
 	if (insize < INBUF_EXTRA) {
-	    if ((rsize = read(in, (char*)inbuf+insize, INBUFSIZ)) == -1) {
+	    rsize = read_buffer (in, (char *) inbuf + insize, INBUFSIZ);
+	    if (rsize == -1) {
 		read_error();
 	    }
 	    insize += rsize;

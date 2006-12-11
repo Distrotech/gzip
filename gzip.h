@@ -59,10 +59,6 @@
 #  define memzero(s, n)     bzero((s), (n))
 #endif
 
-#ifdef HAVE_LIMITS_H
-# include <limits.h>
-#endif
-
 #ifndef RETSIGTYPE
 #  define RETSIGTYPE void
 #endif
@@ -104,10 +100,6 @@ extern int method;         /* compression method */
 #    define INBUFSIZ  0x2000  /* input buffer size */
 #  else
 #    define INBUFSIZ  0x8000  /* input buffer size */
-#  endif
-#  if defined SSIZE_MAX && SSIZE_MAX < INBUFSIZ
-#    undef INBUFSIZ
-#    define INBUFSIZ SSIZE_MAX
 #  endif
 #endif
 #define INBUF_EXTRA  64     /* required by unlzw() */
@@ -329,6 +321,7 @@ extern int  fill_inbuf    OF((int eof_ok));
 extern void flush_outbuf  OF((void));
 extern void flush_window  OF((void));
 extern void write_buf     OF((int fd, voidp buf, unsigned cnt));
+extern int read_buffer    OF((int fd, voidp buf, unsigned int cnt));
 extern char *strlwr       OF((char *s));
 extern char *gzip_base_name OF((char *fname));
 extern int xunlink        OF((char *fname));

@@ -1,3 +1,20 @@
+2006-12-11  Paul Eggert  <eggert@cs.ucla.edu>
+
+	The SSIZE_MAX fix didn't work on NSK, so fix it in a more-reliable
+	(albeit more-complicated) way.  Problem reported by Matthew Woehlke.
+	* gzip.h (read_buffer): New decl.
+	* unlzw.c (unlzw): Use read_buffer rather than read.
+	* zip.c (file_read): Likewise.
+	* util.c (copy, fill_inbuf): Likewise.
+	(read_buffer, write_buffer): New functions.
+	(write_buf): Use write_buffer rather than write.
+
+	Undo the previous SSIZE_MAX-related change; it didn't work.
+	* gzip.c: Include <limits.h>.
+	* util.c: Likewise.
+	* gzip.h: Don't include <limits.h>.
+	(INBUFSIZ): Don't worry about SSIZE_MAX here.
+
 2006-12-08  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* NEWS, configure.ac (AC_INIT):

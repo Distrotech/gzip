@@ -126,7 +126,7 @@ int file_read(buf, size)
 
     Assert(insize == 0, "inbuf not empty");
 
-    len = read(ifd, buf, size);
+    len = read_buffer (ifd, buf, size);
     if (len == 0) return (int)len;
     if (len == (unsigned)-1) {
 	read_error();

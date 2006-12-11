@@ -28,6 +28,9 @@ static char rcsid[] = "$Id$";
 
 #include "tailor.h"
 
+#ifdef HAVE_LIMITS_H
+#  include <limits.h>
+#endif
 #ifdef HAVE_UNISTD_H
 #  include <unistd.h>
 #endif
@@ -49,6 +52,8 @@ static char rcsid[] = "$Id$";
 #  define CHAR_BIT 8
 #endif
 
+static int write_buffer OF((int, voidp, unsigned int));
+
 extern ulg crc_32_tab[];   /* crc table, defined below */
 
 /* ===========================================================================
@@ -62,7 +67,7 @@ int copy(in, out)
     while (insize != 0 && (int)insize != -1) {
 	write_buf(out, (char*)inbuf, insize);
 	bytes_out += insize;
-	insize = read(in, (char*)inbuf, INBUFSIZ);
+	insize = read_buffer (in, (char *) inbuf, INBUFSIZ);
     }
     if ((int)insize == -1) {
 	read_error();
@@ -117,7 +122,7 @@ int fill_inbuf(eof_ok)
     /* Read as much as possible */
     insize = 0;
     do {
-	len = read(ifd, (char*)inbuf+insize, INBUFSIZ-insize);
+	len = read_buffer (ifd, (char *) inbuf + insize, INBUFSIZ - insize);
 	if (len == 0) break;
 	if (len == -1) {
 	  read_error();
@@ -135,6 +140,35 @@ int fill_inbuf(eof_ok)
     bytes_in += (off_t)insize;
     inptr = 1;
     return inbuf[0];
+}
+
+/* Like the standard read function, except do not attempt to read more
+   than SSIZE_MAX bytes at a time.  */
+int
+read_buffer (fd, buf, cnt)
+     int fd;
+     voidp buf;
+     unsigned int cnt;
+{
+#ifdef SSIZE_MAX
+  if (SSIZE_MAX < cnt)
+    cnt = SSIZE_MAX;
+#endif
+  return read (fd, buf, cnt);
+}
+
+/* Likewise for 'write'.  */
+static int
+write_buffer (fd, buf, cnt)
+     int fd;
+     voidp buf;
+     unsigned int cnt;
+{
+#ifdef SSIZE_MAX
+  if (SSIZE_MAX < cnt)
+    cnt = SSIZE_MAX;
+#endif
+  return write (fd, buf, cnt);
 }
 
 /* ===========================================================================
@@ -177,7 +211,7 @@ void write_buf(fd, buf, cnt)
 {
     unsigned  n;
 
-    while ((n = write(fd, buf, cnt)) != cnt) {
+    while ((n = write_buffer (fd, buf, cnt)) != cnt) {
 	if (n == (unsigned)(-1)) {
 	    write_error();
 	}
