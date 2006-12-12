@@ -22,14 +22,12 @@ include gnulib.mk
 libgzip_a_LIBADD += $(LIBOBJS)
 libgzip_a_DEPENDENCIES += $(LIBOBJS)
 
-ASCPP = @ASCPP@
-LN_S = @LN_S@
-
 match.$(OBJEXT): match.c
 	cp $(srcdir)/match.c _match.S
-	$(ASCPP) _match.S > match_.s
+	$(CPP) $(ASCPPFLAGS) _match.S > _match.i
+	@ASCPPPOST@ < _match.i > match_.s
 	$(CC) -c $(CFLAGS) $(ASFLAGS_config) match_.s
 	mv match_.$(OBJEXT) $@
-	rm -f _match.S match_.s
+	rm -f _match.S _match.i match_.s
 
-MOSTLYCLEANFILES += _match.S match_.s
+MOSTLYCLEANFILES += _match.S _match.i match_.s

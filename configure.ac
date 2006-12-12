@@ -28,6 +28,7 @@ AM_INIT_AUTOMAKE([gnits])
 AC_PROG_CC_STDC
 AM_PROG_CC_C_O
 AC_PROG_CPP
+AC_CHECK_TOOL([NM], [nm], [nm])
 AC_PROG_LN_S
 AC_PROG_RANLIB
 AC_PROG_SHELL
@@ -37,29 +38,32 @@ AC_SYS_LARGEFILE
 
 gl_INIT
 
-# cc -E produces incorrect asm files on SVR4, we must use /lib/cpp.
-test -z "$ASCPP" && test -f /lib/cpp && ASCPP=/lib/cpp
-test -z "$ASCPP" && ASCPP="$CPP"
+# cc -E produces incorrect asm files on SVR4, so postprocess it.
+ASCPPPOST="sed '/^ *#/d; s,//.*,,; s/% /%/g; s/\\. /./g'"
+AC_SUBST([ASCPPPOST])
 
 AC_CACHE_CHECK([for underline in external names], [gzip_cv_underline],
   [gzip_cv_underline=yes
    AC_TRY_COMPILE([int foo() {return 0;}], [],
-     [nm conftest.$OBJEXT | grep _foo >/dev/null 2>&1 ||
+     [$NM conftest.$OBJEXT | grep _foo >/dev/null 2>&1 ||
 	gzip_cv_underline=no])])
+ASCPPFLAGS=
 if test $gzip_cv_underline = no; then
-  ASCPP="${ASCPP} -DNO_UNDERLINE"
+  ASCPPFLAGS='-DNO_UNDERLINE'
 fi
+AC_SUBST([ASCPPFLAGS])
 AC_OBJEXT
 
 # Try to assemble match.S.
 # "gcc -E match.s" ignores -E, so we must use match_.s.
-AC_CACHE_CHECK([for assembler], [gzip_cv_assembler],
+AC_CACHE_CHECK([for an assembler syntax supported by this package],
+  [gzip_cv_assembler],
   [gzip_cv_assembler=no
    case " $DEFS " in
    *' NO_ASM '*) ;;
    *)
      if cp $srcdir/lib/match.c _match.S &&
-	eval "$ASCPP _match.S > match_.s 2>/dev/null"; then
+	eval "$CPP $ASCPPFLAGS _match.S | $ASCPPPOST > match_.s 2>/dev/null"; then
        if test ! -s match_.s || grep error < match_.s > /dev/null; then
 	 :
        elif eval "$CC -c match_.s >/dev/null 2>&1" &&
@@ -93,14 +97,13 @@ AC_ISC_POSIX
 AC_C_CONST
 AC_HEADER_STDC
 AC_CHECK_HEADERS_ONCE(fcntl.h limits.h memory.h time.h)
-AC_CHECK_FUNCS_ONCE([fchmod fchown fdopendir lstat siginterrupt])
+AC_CHECK_FUNCS_ONCE([chown fchmod fchown fdopendir lstat siginterrupt])
 AC_HEADER_DIRENT
 AC_TYPE_SIGNAL
 AC_TYPE_SIZE_T
 AC_TYPE_OFF_T
 
 AC_PREFIX_PROGRAM(gzip)
-AC_SUBST(ASCPP)dnl
 
 AC_CONFIG_FILES([Makefile doc/Makefile lib/Makefile])
 AC_OUTPUT

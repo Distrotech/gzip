@@ -72,6 +72,7 @@ static char rcsid[] = "$Id$";
 #include "fcntl-safer.h"
 #include "getopt.h"
 #include "stat-time.h"
+#include "timespec.h"
 
 		/* configuration */
 
@@ -1652,7 +1653,7 @@ local void copy_stat(ifstat)
 #ifndef NO_CHOWN
 # if HAVE_FCHOWN
     fchown (ofd, ifstat->st_uid, ifstat->st_gid);  /* Copy ownership */
-# else
+# elif HAVE_CHOWN
     chown(ofname, ifstat->st_uid, ifstat->st_gid);  /* Copy ownership */
 # endif
 #endif

@@ -1,5 +1,22 @@
 2006-12-11  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* configure.ac (ASCPPPOST): Simplify to use just 'sed'.
+	* lib/Makefile.am (match.$(OBJEXT)): Check for CPP failure.
+
+2006-12-11  Bruno Haible  <bruno@clisp.org>
+
+	Cross-compilation support.
+	* configure.ac (ASCPP): Remove substituted variable.
+	(ASCPPPOST, ASCPPFLAGS): New substituted variables.
+	* lib/Makefile.am (ASCPP, LN_S): Remove unnecessary macro definitions.
+	(match.$(OBJEXT)): Use CPP, ASCPPFLAGS, ASCPPPOST instead of ASCPP.
+	* configure.ac: Add test for chown function.
+	* gzip.c (treat_file) [!HAVE_CHOWN]: Don't call chown.
+	* gzip.c: Include "timespec.h".  This doesn't fix any bugs, but
+	it is clearer.
+
+2006-12-11  Paul Eggert  <eggert@cs.ucla.edu>
+
 	The SSIZE_MAX fix didn't work on NSK, so fix it in a more-reliable
 	(albeit more-complicated) way.  Problem reported by Matthew Woehlke.
 	* gzip.h (read_buffer): New decl.
