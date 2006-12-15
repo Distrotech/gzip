@@ -1,3 +1,7 @@
+Gzip 1.3.9 (2006-12-15)
+
+* No major changes; only porting fixes.
+
 Major changes in Gzip 1.3.8 (2006-12-08)
 
 * Fix some gzip problems:
