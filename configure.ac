@@ -80,7 +80,7 @@ AC_CACHE_CHECK([for an assembler syntax supported by this package],
 	 fi
        fi
      fi
-     rm -f conftest* _match.S match_.s match_.$OBJEXT;;
+     rm -f conftest* _match.i _match.S match_.s match_.$OBJEXT;;
    esac])
 if test "$gzip_cv_assembler" != no; then
   AC_DEFINE(ASMV, ,

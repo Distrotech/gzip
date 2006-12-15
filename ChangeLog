@@ -4,6 +4,8 @@
 	Version 1.3.9 released.
 
 	* Makefile.am (MOSTLYCLEANFILES): Add _match.i.
+	* configure.ac (for an assembler syntax supported by this package):
+	Remove _match.i.
 
 	* bootstrap (gnulib_tool_options_extras): New var.
 	(gnulib_tool_options): Use it.
