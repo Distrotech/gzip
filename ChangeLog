@@ -3,6 +3,8 @@
 	* NEWS, configure.ac (AC_INIT):
 	Version 1.3.9 released.
 
+	* Makefile.am (MOSTLYCLEANFILES): Add _match.i.
+
 	* bootstrap (gnulib_tool_options_extras): New var.
 	(gnulib_tool_options): Use it.
 	* bootstrap.conf (gnulib_tool_options_extras): Avoid getline and
