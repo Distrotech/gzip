@@ -335,9 +335,16 @@ int *m;                 /* maximum lookup bits, returns actual */
   } while (--i);
   if (c[0] == n)                /* null input--all zero length codes */
   {
-    *t = (struct huft *)NULL;
-    *m = 0;
-    return 2;
+    q = (struct huft *) malloc (2 * sizeof *q);
+    if (!q)
+      return 3;
+    hufts += 2;
+    q[0].v.t = (struct huft *) NULL;
+    q[1].e = 99;    /* invalid code marker */
+    q[1].b = 1;
+    *t = q + 1;
+    *m = 1;
+    return 0;
   }
 
 

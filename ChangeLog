@@ -1,3 +1,11 @@
+2006-12-20  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* inflate.c (huft_build): Fix regression that caused gzip to
+	refuse to uncompress null input (all zero length codes).  Problem
+	reported by Yiorgos Adamopoulos.  This regression was caused by
+	the security patch installed 2006-11-20, which in turn came from
+	Debian, which in turn apparently came from Thomas Biege of SuSe.
+
 2006-12-15  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* NEWS, configure.ac (AC_INIT):
