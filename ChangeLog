@@ -1,3 +1,9 @@
+2006-12-22  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* zdiff.1: Mention that these programs currently understand only
+	formats that gzip does.  Problem reported by Jari Aalto in
+	<http://bugs.debian.org/404099>.
+
 2006-12-20  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* inflate.c (huft_build): Fix regression that caused gzip to
