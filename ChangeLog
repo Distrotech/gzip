@@ -10,6 +10,7 @@
 	the inputs be regular files.  Avoid creating a temporary entirely,
 	if /dev/fd works.  If not, then resist denial-of-service attacks
 	better, by using mktemp.
+	* NEWS: Document this.
 	* Makefile.am (gzip.doc.gz): New rule.
 	(check-local): Depend on it, and test zdiff for Debian bug 404114.
 
