@@ -1,3 +1,18 @@
+2006-12-23  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* zdiff.in: Fix typo that broke most usages.  Problem reported by
+	Jari Aalto in <http://bugs.debian.org/404114>.  While we're at it,
+	fix a bunch of other problems.  Handle "-" better.  Send
+	diagnostics to stderr, not stdout.  Use expr rather than echo |
+	sed, to handle special characters better.  Report a diagnostic in
+	the 1-arg case, if the argument doesn't end in .gz or the like,
+	rather than having incomprehensible behavior.  Do not require that
+	the inputs be regular files.  Avoid creating a temporary entirely,
+	if /dev/fd works.  If not, then resist denial-of-service attacks
+	better, by using mktemp.
+	* Makefile.am (gzip.doc.gz): New rule.
+	(check-local): Depend on it, and test zdiff for Debian bug 404114.
+
 2006-12-22  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* zdiff.1: Mention that these programs currently understand only

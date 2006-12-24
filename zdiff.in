@@ -11,8 +11,8 @@
 
 PATH="BINDIR:$PATH"; export PATH
 case "$0" in
-  *cmp) prog=cmp ; comp=${CMP-cmp}   ;;
-  *)    prog=diff; comp=${DIFF-diff} ;;
+  *cmp) prog=cmp ; cmp='${CMP-cmp}'  ;;
+  *)    prog=diff; cmp='${DIFF-diff}';;
 esac
 
 version="z$prog (gzip) @VERSION@
@@ -32,50 +32,72 @@ OPTIONs are the same as for '$prog'.
 
 Report bugs to <bug-gzip@gnu.org>."
 
-OPTIONS=
 FILES=
 while :; do
   case $1 in
   --h*) echo "$usage" || exit 2; exit;;
   --v*) echo "$version" || exit 2; exit;;
   --) shift; break;;
-  -*) OPTIONS="$OPTIONS $ARG"; shift;;
+  -*\'*) echo >&2 "$prog: $1: option contains apostrophe"; exit 2;;
+  -?*) cmp="$cmp '$1'"; shift;;
+  *) break;;
   esac
 done
-for file; do
-  test -f "$file" || {
-    echo "$prog: $file not found or not a regular file"
-    exit 2
-  }
-done
-if test $# -eq 1; then
-	FILE=`echo "$1" | sed 's/[-.][zZtga]*$//'`
-	gzip -cd -- "$1" | $comp $OPTIONS - "$FILE"
+cmp="$cmp --"
 
+for file; do
+  test "X$file" = X- || <"$file" || exit 2
+done
+
+if test $# -eq 1; then
+  case $1 in
+  *[-.]gz* | *[-.][zZ] | *.t[ga]z)
+    FILE=`expr "X$1" : 'X\(.*\)[-.][zZtga]*$'`
+    gzip -cd -- "$1" | eval "$cmp" - '"$FILE"';;
+  *)
+    echo >&2 "$prog: $1: unknown compressed file extension"
+    exit 2;;
+  esac
 elif test $# -eq 2; then
 	case "$1" in
-        *[-.]gz* | *[-.][zZ] | *.t[ga]z)
+	*[-.]gz* | *[-.][zZ] | *.t[ga]z | -)
                 case "$2" in
-	        *[-.]gz* | *[-.][zZ] | *.t[ga]z)
-			F=`echo "$2" | sed 's|.*/||;s|[-.][zZtga]*||'`
-			set -C
-			trap 'rm -f /tmp/"$F".$$; exit 2' HUP INT PIPE TERM 0
-			gzip -cdfq -- "$2" > /tmp/"$F".$$ || exit
-			gzip -cdfq -- "$1" | $comp $OPTIONS - /tmp/"$F".$$
+		*[-.]gz* | *[-.][zZ] | *.t[ga]z | -)
+		    if test "$1$2" = --; then
+			gzip -cdfq - | eval "$cmp" - -
+		    elif test -r /dev/fd/3 3</dev/null; then
+			gzip -cdfq -- "$1" |
+			  (gzip -cdfq -- "$2" |
+			   eval "$cmp" /dev/fd/3 -) 3<&0
+		    else
+			F=`expr "/$2" : '.*/\(.*\)[-.][zZtga]*$'` || F=$prog
+			tmp=
+			trap '
+			  test -n "$tmp" && rm -f "$tmp"
+			  (exit 2); exit 2
+			' HUP INT PIPE TERM 0
+			if type mktemp >/dev/null 2>&1; then
+			  tmp=`mktemp -t -- "$F.XXXXXX"` || exit
+			else
+			  set -C
+			  tmp=${TMPDIR-/tmp}/$F.$$
+			fi
+			gzip -cdfq -- "$2" > "$tmp" || exit
+			gzip -cdfq -- "$1" | eval "$cmp" - '"$tmp"'
                         STAT="$?"
-			/bin/rm -f /tmp/"$F".$$ || STAT=2
+			rm -f "$tmp" || STAT=2
 			trap - HUP INT PIPE TERM 0
-			exit $STAT;;
-
-		*)      gzip -cdfq -- "$1" | $comp $OPTIONS - "$2";;
+			exit $STAT
+		    fi;;
+		*)	gzip -cdfq -- "$1" | eval "$cmp" - '"$2"';;
                 esac;;
         *)      case "$2" in
-	        *[-.]gz* | *[-.][zZ] | *.t[ga]z)
-			gzip -cdfq -- "$2" | $comp $OPTIONS "$1" -;;
-                *)      $comp $OPTIONS "$1" "$2";;
+		*[-.]gz* | *[-.][zZ] | *.t[ga]z | -)
+			gzip -cdfq -- "$2" | eval "$cmp" '"$1"' -;;
+		*)	eval "$cmp" '"$1"' '"$2"';;
                 esac;;
 	esac
 else
-	echo "$usage"
+	echo >&2 "$usage"
 	exit 2
 fi

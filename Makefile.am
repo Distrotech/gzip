@@ -48,6 +48,9 @@ gzip_LDADD = lib/libgzip.a
 gzip.doc: gzip.1
 	groff -man -Tascii $(srcdir)/gzip.1 | col -b | uniq >$@
 
+gzip.doc.gz: gzip.doc
+	gzip <$? >$@
+
 SUFFIXES = .in
 .in:
 	sed \
@@ -60,7 +63,12 @@ SUFFIXES = .in
 # A simple test, just of gzip -- more of a sanity check than anything else.
 FILES_TO_CHECK = $(bin_SCRIPTS) $(gzip_LDADD) \
   $(top_srcdir)/ChangeLog $(top_srcdir)/configure $(top_srcdir)/gzip.c
-check-local: $(FILES_TO_CHECK)
+check-local: $(FILES_TO_CHECK) gzip.doc.gz
+	./zdiff -c gzip.doc.gz
+	./zdiff -c gzip.doc gzip.doc
+	./zdiff gzip.doc gzip.doc.gz
+	./zdiff -c - gzip.doc <gzip.doc.gz
+	./zdiff -c gzip.doc.gz gzip.doc.gz
 	for file in $(FILES_TO_CHECK); do \
 	  ./gzip -cv -- "$$file" | ./gzip -d | cmp - "$$file" || exit; \
 	done
@@ -96,7 +104,7 @@ install-exec-hook remove-installed-links:
 
 uninstall-local: remove-installed-links
 
-MAINTAINERCLEANFILES = gzip.doc
+MAINTAINERCLEANFILES = gzip.doc gzip.doc.gz
 
 MOSTLYCLEANFILES = _match.i match_.s _match.S \
   gzexe zdiff zforce zgrep zless zmore znew
