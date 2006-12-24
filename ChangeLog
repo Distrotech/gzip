@@ -1,5 +1,16 @@
 2006-12-23  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* NEWS: Fix bug reported by Martin Mares in
+	<http://bugs.debian.org/177942>.
+	* gzip.c (treat_stdin): Remove NO_STDIN_FSTAT and NO_PIPE_TIMESTAMP
+	stuff.  It didn't work (led to syntax errors) and was confusing.
+	Report an error if stdin cannot be statted even if !list && no_time.
+	Get stdin's size if it is regular.
+	(treat_file): Do not report an error with setuid, setgid,
+	sticky, or non-regular, non-directory files if to_stdout.
+	Allow 'force' to override the caution about sticky files.
+	Use the same form for time stamps that treat_stdin uses.
+
 	* zdiff.in: Fix typo that broke most usages.  Problem reported by
 	Jari Aalto in <http://bugs.debian.org/404114>.  While we're at it,
 	fix a bunch of other problems.  Handle "-" better.  Send

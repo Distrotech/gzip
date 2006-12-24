@@ -616,22 +616,16 @@ local void treat_stdin()
     strcpy(ifname, "stdin");
     strcpy(ofname, "stdout");
 
-    /* Get the time stamp on the input file. */
-    time_stamp.tv_nsec = -1;  /* The time is unknown by default.  */
-
-#ifndef NO_STDIN_FSTAT
-    if (list || !no_time) {
-	if (fstat(fileno(stdin), &istat) != 0) {
-	    progerror("standard input");
-	    do_exit(ERROR);
-	}
-# ifdef NO_PIPE_TIMESTAMP
-	if (S_ISREG(istat.st_mode))
-# endif
-	    time_stamp = get_stat_mtime (&istat);
-#endif /* NO_STDIN_FSTAT */
-    }
-    ifile_size = -1L; /* convention for unknown size */
+    /* Get the file's time stamp and size.  */
+    if (fstat (fileno (stdin), &istat) != 0)
+      {
+	progerror ("standard input");
+	do_exit (ERROR);
+      }
+    ifile_size = S_ISREG (istat.st_mode) ? istat.st_size : -1;
+    time_stamp.tv_nsec = -1;
+    if (!no_time || list)
+      time_stamp = get_stat_mtime (&istat);
 
     clear_bufs(); /* clear input and output buffers */
     to_stdout = 1;
@@ -710,48 +704,57 @@ local void treat_file(iname)
 	       program_name, ifname));
 	return;
     }
-    if (!S_ISREG(istat.st_mode)) {
-	WARN((stderr,
-	      "%s: %s is not a directory or a regular file - ignored\n",
-	      program_name, ifname));
-	close (ifd);
-	return;
-    }
 
-    if (istat.st_mode & S_ISUID)
+    if (! to_stdout)
       {
-	WARN ((stderr, "%s: %s is set-user-ID on execution - ignored\n",
-	       program_name, ifname));
-	close (ifd);
-	return;
-      }
-    if (istat.st_mode & S_ISGID)
-      {
-	WARN ((stderr, "%s: %s is set-group-ID on execution - ignored\n",
-	       program_name, ifname));
-	close (ifd);
-	return;
-      }
-    if (istat.st_mode & S_ISVTX)
-      {
-	WARN ((stderr, "%s: %s has the sticky bit set - file ignored\n",
-	       program_name, ifname));
-	close (ifd);
-	return;
+	if (! S_ISREG (istat.st_mode))
+	  {
+	    WARN ((stderr,
+		   "%s: %s is not a directory or a regular file - ignored\n",
+		   program_name, ifname));
+	    close (ifd);
+	    return;
+	  }
+	if (istat.st_mode & S_ISUID)
+	  {
+	    WARN ((stderr, "%s: %s is set-user-ID on execution - ignored\n",
+		   program_name, ifname));
+	    close (ifd);
+	    return;
+	  }
+	if (istat.st_mode & S_ISGID)
+	  {
+	    WARN ((stderr, "%s: %s is set-group-ID on execution - ignored\n",
+		   program_name, ifname));
+	    close (ifd);
+	    return;
+	  }
+
+	if (! force)
+	  {
+	    if (istat.st_mode & S_ISVTX)
+	      {
+		WARN ((stderr,
+		       "%s: %s has the sticky bit set - file ignored\n",
+		       program_name, ifname));
+		close (ifd);
+		return;
+	      }
+	    if (2 <= istat.st_nlink)
+	      {
+		WARN ((stderr, "%s: %s has %lu other link%c -- unchanged\n",
+		       program_name, ifname,
+		       (unsigned long int) istat.st_nlink - 1,
+		       istat.st_nlink == 2 ? ' ' : 's'));
+		close (ifd);
+		return;
+	      }
+	  }
       }
 
-    if (istat.st_nlink > 1 && !to_stdout && !force) {
-	WARN((stderr, "%s: %s has %lu other link%c -- unchanged\n",
-	      program_name, ifname, (unsigned long) istat.st_nlink - 1,
-	      istat.st_nlink > 2 ? 's' : ' '));
-	close (ifd);
-	return;
-    }
-
-    ifile_size = istat.st_size;
-    if (no_time && !list)
-      time_stamp.tv_nsec = -1;
-    else
+    ifile_size = S_ISREG (istat.st_mode) ? istat.st_size : -1;
+    time_stamp.tv_nsec = -1;
+    if (!no_time || list)
       time_stamp = get_stat_mtime (&istat);
 
     /* Generate output file name. For -r and (-t or -l), skip files
