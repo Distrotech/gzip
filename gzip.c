@@ -218,7 +218,7 @@ size_t z_len;         /* strlen(z_suffix) */
 /* The set of signals that are caught.  */
 static sigset_t caught_signals;
 
-/* If nonzero then exit with status 1, rather than with the usual
+/* If nonzero then exit with status WARNING, rather than with the usual
    signal status, on receipt of a signal with this value.  This
    suppresses a "Broken Pipe" message with some shells.  */
 static int volatile exiting_signal;
@@ -1885,7 +1885,7 @@ abort_gzip_signal (sig)
     signal (sig, SIG_IGN);
    remove_output_file ();
    if (sig == exiting_signal)
-     _exit (ERROR);
+     _exit (WARNING);
    signal (sig, SIG_DFL);
    raise (sig);
 }
