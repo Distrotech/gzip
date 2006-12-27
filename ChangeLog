@@ -1,5 +1,7 @@
 2006-12-26  Paul Eggert  <eggert@cs.ucla.edu>
 
+	Fix Debian bug 367673 <http://bugs.debian.org/367673> plus several
+	other bugs discovered in the neighborhood.
 	* NEWS: gzip -q now exits with status 2 (not 1) on SIGPIPE.
 	zgrep has many bugs fixed with argument handling, special characters,
 	and exit status.
