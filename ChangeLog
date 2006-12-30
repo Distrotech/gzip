@@ -1,3 +1,12 @@
+2006-12-29  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* zgrep.in (version): Fix bug: $grep wasn't evaluated.
+
+	* zgrep.in: Rewrite to make the option processing more
+	compatible with GNU and POSIX grep.  Assume POSIX shell
+	for more stuff, since we're already assuming that.
+	* Makefile.am (check-local): Check zgrep -iV.
+
 2006-12-26  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Fix Debian bug 367673 <http://bugs.debian.org/367673> plus several

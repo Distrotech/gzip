@@ -69,6 +69,7 @@ check-local: $(FILES_TO_CHECK) gzip.doc.gz
 	./zdiff gzip.doc gzip.doc.gz
 	./zdiff -c - gzip.doc <gzip.doc.gz
 	./zdiff -c gzip.doc.gz gzip.doc.gz
+	./zgrep -iV >/dev/null
 	for file in $(FILES_TO_CHECK); do \
 	  ./gzip -cv -- "$$file" | ./gzip -d | cmp - "$$file" || exit; \
 	done

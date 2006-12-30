@@ -28,13 +28,13 @@ case "$0" in
 (*)		grep='${GREP-grep}'	;;
 esac
 
-version="z$grep (gzip) @VERSION@
+eval 'version="z'"$grep"' (gzip) @VERSION@
 Copyright (C) 2006 Free Software Foundation, Inc.
 This is free software.  You may redistribute copies of it under the terms of
 the GNU General Public License <http://www.gnu.org/licenses/gpl.html>.
 There is NO WARRANTY, to the extent permitted by law.
 
-Written by Jean-loup Gailly."
+Written by Jean-loup Gailly."'
 
 usage="Usage: z$grep [OPTION]... [-e] PATTERN [FILE]...
 Look for instances of PATTERN in the input FILEs, using their
@@ -50,6 +50,7 @@ escape='
   s/'\''/'\''\\'\'''\''/g
   $s/X$/'\''/
 '
+operands=
 have_pat=0
 files_with_matches=0
 files_without_matches=0
@@ -58,34 +59,39 @@ with_filename=0
 
 while test $# -ne 0; do
   option=$1
+  shift
   optarg=
 
-  case $1 in
+  case $option in
   (-[0123456789abcdhHiIKLlnoqrRsTuUvVwxyzZ]?*)
-    option=$(expr "X$1" : 'X\(-.[0-9]*\)')
-    arg2=-\'$(expr "X$1X" : 'X-.[0-9]*\(.*\)' | sed "$escape")
-    shift
-    eval "set X $arg2 "'${1+"$@"}';;
+    arg2=-\'$(expr "X${option}X" : 'X-.[0-9]*\(.*\)' | sed "$escape")
+    eval "set -- $arg2 "'${1+"$@"}'
+    option=$(expr "X$option" : 'X\(-.[0-9]*\)');;
   (--binary-*=* | --[lm]a*=* | --reg*=*)
     ;;
   (-[ABCDefm] | --binary-* | --file | --[lm]a* | --reg*)
     have_optarg=1
-    case ${2?"$1 option requires an argument"} in
+    case ${1?"$option option requires an argument"} in
     (*\'*)
-      optarg=" '"$(printf '%sX\n' "$2" | sed "$escape");;
+      optarg=" '"$(printf '%sX\n' "$1" | sed "$escape");;
     (*)
-      optarg=" '$2'";;
+      optarg=" '$1'";;
     esac
     shift;;
   (--)
-    shift
     break;;
-  (-*)
+  (-?*)
     ;;
   (*)
-    break;;
+    case $option in
+    (*\'*)
+      operands="$operands '"$(printf '%sX\n' "$option" | sed "$escape");;
+    (*)
+      operands="$operands '$option'";;
+    esac
+    ${POSIXLY_CORRECT+break}
+    continue;;
   esac
-  shift
 
   case $option in
   (-[drRzZ] | --di* | --exc* | --inc* | --rec* | --nu*)
@@ -122,6 +128,8 @@ while test $# -ne 0; do
   grep="$grep $option$optarg"
 done
 
+eval "set -- $operands "'${1+"$@"}'
+
 if test $have_pat -eq 0; then
   case ${1?"missing pattern; try \`$0 --help' for help"} in
   (*\'*)
@@ -133,8 +141,7 @@ if test $have_pat -eq 0; then
 fi
 
 if test $# -eq 0; then
-  set X -
-  shift
+  set -- -
 fi
 
 exec 3>&1
