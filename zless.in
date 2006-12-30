@@ -38,5 +38,16 @@ case $1 in
 --version) exec echo "$version";;
 esac
 
+if test "${LESSMETACHARS+set}" != set; then
+  # Work around a bug in less 394 and earlier;
+  # it mishandles the metacharacters '$%=~'.
+  space=' '
+  tab='	'
+  newline='
+'
+  LESSMETACHARS="$space$tab$newline'"';*?"()<>[|&^`#\$%=~'
+  export LESSMETACHARS
+fi
+
 LESSOPEN="|gzip -cdfq -- %s"; export LESSOPEN
 exec less "$@"
