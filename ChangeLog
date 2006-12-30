@@ -1,5 +1,9 @@
 2006-12-29  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* doc/gzip.texi: Swap order of dircategory entries, to pacify
+	Debian install-info 1.10.28.  This should fix
+	<http://bugs.debian.org/404048>.
+
 	* zgrep.in (version): Fix bug: $grep wasn't evaluated.
 
 	* zgrep.in: Rewrite to make the option processing more

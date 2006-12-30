@@ -27,15 +27,17 @@ Free Documentation License''.
 @end copying
 
 @c Debian install-info (up through at least version 1.9.20) uses only the
-@c first dircategory.  Put this one first, as it is more useful in practice.
-@dircategory Individual utilities
-@direntry
-* gzip: (gzip)Invoking gzip.                    Compress files.
-@end direntry
-
+@c first dircategory.  But install-info 1.10.28 rejects any attempt to
+@c put the more-useful individual utility first.  So put the less-useful
+@c general category first.
 @dircategory Utilities
 @direntry
 * Gzip: (gzip).                 The gzip command for compressing files.
+@end direntry
+
+@dircategory Individual utilities
+@direntry
+* gzip: (gzip)Invoking gzip.                    Compress files.
 @end direntry
 
 @titlepage
