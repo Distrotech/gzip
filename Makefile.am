@@ -64,10 +64,10 @@ SUFFIXES = .in
 FILES_TO_CHECK = $(bin_SCRIPTS) $(gzip_LDADD) \
   $(top_srcdir)/ChangeLog $(top_srcdir)/configure $(top_srcdir)/gzip.c
 check-local: $(FILES_TO_CHECK) gzip.doc.gz
-	./zdiff -c gzip.doc.gz
-	./zdiff -c gzip.doc gzip.doc
-	./zdiff gzip.doc gzip.doc.gz
-	./zdiff -c - gzip.doc <gzip.doc.gz
+	test '$(srcdir)' != . || ./zdiff -c gzip.doc.gz
+	./zdiff -c $(srcdir)/gzip.doc $(srcdir)/gzip.doc
+	./zdiff $(srcdir)/gzip.doc gzip.doc.gz
+	./zdiff -c - $(srcdir)/gzip.doc <gzip.doc.gz
 	./zdiff -c gzip.doc.gz gzip.doc.gz
 	./zgrep -iV >/dev/null
 	for file in $(FILES_TO_CHECK); do \
@@ -105,7 +105,7 @@ install-exec-hook remove-installed-links:
 
 uninstall-local: remove-installed-links
 
-MAINTAINERCLEANFILES = gzip.doc gzip.doc.gz
+MAINTAINERCLEANFILES = gzip.doc
 
-MOSTLYCLEANFILES = _match.i match_.s _match.S \
+MOSTLYCLEANFILES = _match.i match_.s _match.S gzip.doc.gz \
   gzexe zdiff zforce zgrep zless zmore znew
