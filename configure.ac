@@ -19,7 +19,7 @@
 # 02111-1307, USA.
 
 AC_PREREQ([2.60])
-AC_INIT([gzip], [1.3.9], [bug-gzip@gnu.org])
+AC_INIT([gzip], [1.3.10], [bug-gzip@gnu.org])
 AC_CONFIG_SRCDIR(gzip.c)
 AC_CONFIG_AUX_DIR(build-aux)
 AC_CONFIG_HEADERS([lib/config.h:lib/config.hin])
