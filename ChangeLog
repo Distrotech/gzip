@@ -1,3 +1,11 @@
+2007-01-04  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* zdiff.in (cmp0): New var.
+	Rewrite test for /dev/fd/3 to detect bugs in Solaris 8
+	/bin/bash 2.03.  Problem reported by Nelson H. F. Beebe in
+	<http://lists.gnu.org/archive/html/bug-gzip/2007-01/msg00001.html>.
+	Avoid "for file; do", which doesn't work with Solaris 8 /bin/sh.
+
 2007-01-03  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* zdiff.in: Test /dev//fd/3, not /dev/fd/3, to work around a problem
