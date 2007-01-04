@@ -65,7 +65,9 @@ elif test $# -eq 2; then
 		*[-.]gz* | *[-.][zZ] | *.t[ga]z | -)
 		    if test "$1$2" = --; then
 			gzip -cdfq - | eval "$cmp" - -
-		    elif test -r /dev/fd/3 3</dev/null; then
+		    # The extra slash in /dev//fd works around a problem with
+		    # Tru64 4.0F ksh M-11/16/88f.
+		    elif test -r /dev//fd/3 3</dev/null; then
 			gzip -cdfq -- "$1" |
 			  (gzip -cdfq -- "$2" |
 			   eval "$cmp" /dev/fd/3 -) 3<&0
