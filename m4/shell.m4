@@ -16,7 +16,7 @@ AC_DEFUN([AC_PROG_SHELL],
 	>|conftest.c || exit
 	!>conftest.c || exit
 	# Test that $(...) works.
-	test "$(expr 3 + 4)" = 7 || exit
+	test "$(expr 3 + 4)" -eq 7 || exit
       '
       ac_cv_path_shell=no
 
