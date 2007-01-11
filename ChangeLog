@@ -1,3 +1,9 @@
+2007-01-10  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* m4/shell.m4 (AC_PROG_SHELL): Test that $(...) works.
+	Problem reported for SGI IRIX 6 by Nelson H. F. Beebe in
+	<http://lists.gnu.org/archive/html/bug-gzip/2007-01/msg00007.html>.
+
 2007-01-04  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* zdiff.in (cmp0): New var.

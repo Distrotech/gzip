@@ -1,4 +1,4 @@
-#serial 4
+#serial 5
 
 # AC_PROG_SHELL
 # -------------
@@ -15,6 +15,8 @@ AC_DEFUN([AC_PROG_SHELL],
 	>conftest.c || exit
 	>|conftest.c || exit
 	!>conftest.c || exit
+	# Test that $(...) works.
+	test "$(expr 3 + 4)" = 7 || exit
       '
       ac_cv_path_shell=no
 
