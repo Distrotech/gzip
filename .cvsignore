@@ -1,5 +1,6 @@
 *.cache
 *.doc
+*.gz
 *.lineno
 *.log
 .deps
@@ -10,10 +11,15 @@ aclocal.m4
 build-aux
 config.status
 configure
+gunzip
 gzexe
 gzip
 gzip-*
+zcat
+zcmp
 zdiff
+zegrep
+zfgrep
 zforce
 zgrep
 zless

@@ -10,6 +10,7 @@ getdelim.m4
 getline.m4
 getopt.m4
 gnulib-cache.m4
+gnulib-common.m4
 gnulib-comp.m4
 gnulib-tool.m4
 inline.m4
@@ -26,6 +27,7 @@ stdbool.m4
 stdint.m4
 strcase.m4
 sys_stat_h.m4
+sys_time_h.m4
 timespec.m4
 ulonglong.m4
 unistd-safer.m4
