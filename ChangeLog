@@ -1,3 +1,32 @@
+2007-02-05  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* gunzip.in, zcat.in, zcmp.in, zegrep.in, zfgrep.in: New files.
+	* Makefile.am (EXTRA_DIST): Add them.
+	(bin_SCRIPTS, MOSTLYCLEANFILES): Add gunzip, zcat, zcmp, zdgrep, zfgrep.
+	(.in): Use GZIP_BINDIR as the location of gzip binaries, if it is set.
+	(check-local): Use GZIP_BINDIR.
+	(install-exec-hook, remove-installed-links): Make 'uncompress' an
+	alias for gunzip.
+	* gzexe.1: At least one arg is required.  Don't give cat as an
+	example, since gzexe refuses to compress cat due to a bootstrapping
+	issue.  List more utilities in this category.
+	* gzexe.in, zdiff.in, zforce.in, zgrep.in, zless.in, zmore.in, znew.in:
+	Report our name in usage.
+	* gzexe.in: Don't compress bash.  Don't use rmdir, so it's
+	OK to compress rmdir.
+	* gzip.c: Now requires that you compile with -DGNU_STANDARD=0 to
+	get non GNU-standard behavior.  We now build with GNU-standard
+	behavior by default, so that programs do not depend on the names
+	of their executables.
+	* zdiff.in: Don't depend on the name of the executable, as per
+	GNU standard.  Instead, rely on an internal --__cmp option.
+	Support ' in options.  Check for failures in subsidiary gzip
+	invocations.
+	* zgrep.1: Clarify compression issues.
+	* zgrep.in: Don't assume POSIX-style case syntax.  Remove unused var
+	have_optarg.
+	* zless.1: zless sets LESSMETACHARS now.
+
 2007-01-10  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* m4/shell.m4 (AC_PROG_SHELL): Test that $(...) works.

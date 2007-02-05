@@ -1,6 +1,6 @@
 /* gzip (GNU zip) -- compress files with zip algorithm and 'compress' interface
 
-   Copyright (C) 1999, 2001, 2002, 2006 Free Software Foundation, Inc.
+   Copyright (C) 1999, 2001, 2002, 2006, 2007 Free Software Foundation, Inc.
    Copyright (C) 1992-1993 Jean-loup Gailly
 
    This program is free software; you can redistribute it and/or modify
@@ -28,7 +28,7 @@
  */
 
 static char  *license_msg[] = {
-"Copyright (C) 2006 Free Software Foundation, Inc.",
+"Copyright (C) 2007 Free Software Foundation, Inc.",
 "Copyright (C) 1993 Jean-loup Gailly.",
 "This is free software.  You may redistribute copies of it under the terms of",
 "the GNU General Public License <http://www.gnu.org/licenses/gpl.html>.",
@@ -409,8 +409,11 @@ int main (argc, argv)
     if (env != NULL) args = argv;
 
 #ifndef GNU_STANDARD
+# define GNU_STANDARD 1
+#endif
+#if !GNU_STANDARD
     /* For compatibility with old compress, use program name as an option.
-     * If you compile with -DGNU_STANDARD, this program will behave as
+     * Unless you compile with -DGNU_STANDARD=0, this program will behave as
      * gzip even if it is invoked under the name gunzip or zcat.
      *
      * Systems which do not support links can still use -d or -dc.
