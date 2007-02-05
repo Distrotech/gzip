@@ -1,5 +1,8 @@
 2007-02-05  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* doc/gzip.texi: Convert Texinfo format into a more modern style.
+	Put in current output samples.
+
 	* .cvsignore: Add *.gz, gunzip, zcat, zcmp, zegrep, zfgrep.
 	* lib/.cvsignore: Add sys_time_.h, unistd_.h.
 	* m4/.cvsignore: Add gnulib-common.m4, sys_time_h.m4.
