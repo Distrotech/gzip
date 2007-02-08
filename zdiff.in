@@ -103,7 +103,7 @@ elif test $# -eq 2; then
 			gzip_status=$(
 			  exec 4>&1
 			  (gzip -cdfq -- "$1" 4>&-; echo $? >&4) 3>&- |
-			    ((gzip -cdfq -- "$2" 4>&-; echo $? >&4) 3>&- 5<&- </dev/null |
+			    ( (gzip -cdfq -- "$2" 4>&-; echo $? >&4) 3>&- 5<&- </dev/null |
 			       eval "$cmp" /dev/fd/5 -) 5<&0
 			)
 			case $gzip_status in
