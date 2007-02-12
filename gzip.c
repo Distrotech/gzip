@@ -199,7 +199,7 @@ int verbose = 0;      /* be verbose (-v) */
 int quiet = 0;        /* be very quiet (-q) */
 int do_lzw = 0;       /* generate output compatible with old compress (-Z) */
 int test = 0;         /* test .gz file integrity */
-int foreground;       /* set if program run in foreground */
+int foreground = 0;   /* set if program run in foreground */
 char *program_name;   /* program name */
 int maxbits = BITS;   /* max bits per code for LZW */
 int method = DEFLATED;/* compression method */
