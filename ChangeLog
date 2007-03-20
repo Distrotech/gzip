@@ -1,3 +1,15 @@
+2007-03-19  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* README-hacking: New file, renamed from README-cvs.
+	* README-cvs: Remove.
+	* bootstrap: Sync from today's gnulib.
+	* bootstrap.conf (gnulib_modules): Add 'time'.
+	* gzip.c: Don't include timespec.h; 'time' fixes time.h for that.
+	* zip.c: Likewise.
+	* gzip.c: Don't include time.h or sys/time.h; gzip.h now includes
+	time.h, which is now enough.
+	* gzip.h: Include <time.h>.
+
 2007-03-14  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* README (WARNING): Reword to avoid mention of no-longer-existing

@@ -72,15 +72,8 @@ static char rcsid[] = "$Id$";
 #include "fcntl-safer.h"
 #include "getopt.h"
 #include "stat-time.h"
-#include "timespec.h"
 
 		/* configuration */
-
-#ifdef HAVE_TIME_H
-#  include <time.h>
-#else
-#  include <sys/time.h>
-#endif
 
 #ifdef HAVE_FCNTL_H
 #  include <fcntl.h>
