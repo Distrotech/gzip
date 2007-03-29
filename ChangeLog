@@ -1,3 +1,8 @@
+2007-03-29  Paul Eggert  <eggert@cs.ucla.edu>  (tiny change)
+
+	* znew.in (tmp): Use $TMPDIR as temp directory, if given.
+	Suggested by Juan Manuel Guerrero.
+
 2007-03-19  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* README-hacking: New file, renamed from README-cvs.

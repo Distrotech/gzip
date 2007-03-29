@@ -55,7 +55,7 @@ block=1024
 # block is the disk block size (best guess, need not be exact)
 
 warn="(does not preserve modes and timestamp)"
-tmp=/tmp/zfoo.$$
+tmp=${TMPDIR-/tmp}/zfoo.$$
 set -C
 echo hi > $tmp || exit
 if test -z "`(${CPMOD-cpmod} $tmp $tmp) 2>&1`"; then
