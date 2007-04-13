@@ -1,3 +1,21 @@
+2007-04-13  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* bootstrap (gnulib_tool_option_extras): Put this back; it was
+	inadvertently omitted from gnulib.
+	(gnulib_tool_option): Use it.
+	* .cvsignore: Add *._bootmp*.
+	* lib/.cvsignore: Add stdlib.h, stdlib_.h, time.h, time_.h, unistd.h.
+	Remove alloca.c, alloca.h, alloca_.h, exit.h, getdelim.c, getdelim.h,
+	getline.c, getline.h, malloc.c, mbchar.c, mbchar.h, mbuiter.h, memchr.c,
+	regcomp.c, regex.c, regex.h, regex_internal.c, regex_internal.h,
+	regexec.c, rpmatch.c, stdint.h, stdint_.h, strcase.h, strcasecmp.c,
+	strncasecmp.c, strnlen1.c, strnlen1.h, timespec.h, wcwidth.h.
+	* m4/.cvsignore: Add stdlib_h.m4, time_h.m4.
+	Remove alloca.m4, codeset.m4, getdelim.m4, getline.m4,
+	longlong.m4, mbchar.m4, mbiter.m4, mbrtowc.m4, memchr.m4, regex.m4,
+	rpmatch.m4, ssize_t.m4, stdint.m4 strcase.m4, timespec.m4, ulonglong.m4,
+	wchar_t.m4, wcwidth.m4, wint_t.m4.
+
 2007-03-29  Paul Eggert  <eggert@cs.ucla.edu>  (tiny change)
 
 	* znew.in (tmp): Use $TMPDIR as temp directory, if given.
