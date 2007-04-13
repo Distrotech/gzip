@@ -1,5 +1,11 @@
 2007-04-13  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* NEWS: Version 1.3.12 released.
+	* configure.ac (AC_INIT): Likewise.
+
+	* README: Update year in copyright notice.
+	* m4/shell.m4: Add copyright notice.
+
 	* bootstrap (gnulib_tool_option_extras): Put this back; it was
 	inadvertently omitted from gnulib.
 	(gnulib_tool_option): Use it.
