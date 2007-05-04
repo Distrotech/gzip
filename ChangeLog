@@ -1,3 +1,19 @@
+2007-05-04  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* Makefile.am (.in): Substitute @bindir@, not BINDIR, for
+	consistency with other substitutions.
+	(check-local): Use --__bindir . rather than setting GZIP_BINDIR=.,
+	to allay security concerns voiced by Joerg Lehners in
+	<http://lists.gnu.org/archive/html/bug-gzip/2007-04/msg00003.html>.
+	* gunzip.in, gzexe.in, zcat.in, zcmp.in, zdiff.in, zegrep.in, zfgrep.in:
+	* zforce.in, zgrep.in, zless.in, zmore.in, znew.in:
+	Support --__bindir rather than GZIP_BINDIR.
+
+	* gunzip.in, zcat.in, zcmp.in: Support --help and --version
+	directly, to avoid some confusion in help and version output.
+	Problem reported by Eric Blake in
+	<http://lists.gnu.org/archive/html/bug-gzip/2007-04/msg00006.html>.
+
 2007-04-28  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* m4/shell.m4 (AC_PROG_SHELL): Check for old-fashioned shells that

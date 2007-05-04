@@ -53,7 +53,11 @@ Rename each FILE with a compressed version of itself, renaming FILE to FILE~.
 Report bugs to <bug-gzip@gnu.org>."
 
 
-PATH="BINDIR:$PATH"
+bindir=@bindir@
+case $1 in
+--__bindir) bindir=${2?}; shift; shift;;
+esac
+PATH=$bindir:$PATH
 
 decomp=0
 res=0

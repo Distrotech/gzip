@@ -23,7 +23,11 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-PATH="BINDIR:$PATH"; export PATH
+bindir=@bindir@
+case $1 in
+--__bindir) bindir=${2?}; shift; shift;;
+esac
+PATH=$bindir:$PATH; export PATH
 
 version="zforce (gzip) @VERSION@
 Copyright (C) 2007 Free Software Foundation, Inc.
