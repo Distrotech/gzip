@@ -80,7 +80,7 @@ Free Documentation License''.
 @command{gzip} reduces the size of the named files using Lempel-Ziv coding
 (LZ77).  Whenever possible, each file is replaced by one with the
 extension @samp{.gz}, while keeping the same ownership modes, access and
-modification times.  (The default extension is @option{-gz} for @abbr{VMS},
+modification times.  (The default extension is @samp{-gz} for @abbr{VMS},
 @samp{z} for @abbr{MSDOS}, @abbr{OS/2} @abbr{FAT} and Atari.)
 If no files are specified or
 if a file name is "-", the standard input is compressed to the standard
@@ -113,8 +113,9 @@ compressed file is not suitable for its file system, a new name is
 constructed from the original one to make it legal.
 
 @command{gunzip} takes a list of files on its command line and replaces
-each file whose name ends with @samp{.gz}, @samp{.z}, @samp{.Z},
-@option{-gz}, @option{-z} or @samp{_z} and which begins with the correct
+each file whose name ends with @samp{.gz}, @samp{.z}
+@samp{-gz}, @samp{-z}, or @samp{_z} (ignoring case)
+and which begins with the correct
 magic number with an uncompressed file without the original extension.
 @command{gunzip} also recognizes the special extensions @samp{.tgz} and
 @samp{.taz} as shorthands for @samp{.tar.gz} and @samp{.tar.Z}

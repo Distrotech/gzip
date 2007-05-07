@@ -1,3 +1,14 @@
+2007-05-07  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* NEWS: 'gzip -f foo.gz' now works instead of complaining.
+	* gzip.c (make_ofname): Implement this.
+	Problem reported by Sven Hartrump in
+	<http://lists.gnu.org/archive/html/bug-gzip/2007-05/msg00003.html>.
+
+	* NEWS, gzip.1: Document that case is ignored when looking at file name
+	extensions.
+	* doc/gzip.texi (Overview): Likewise.
+
 2007-05-04  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* Makefile.am (.in): Substitute @bindir@, not BINDIR, for

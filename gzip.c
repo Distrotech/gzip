@@ -1165,7 +1165,7 @@ local int make_ofname()
 	}
         /* ofname might be changed later if infile contains an original name */
 
-    } else if (suff != NULL) {
+    } else if (suff && ! force) {
 	/* Avoid annoying messages with -r (see treat_dir()) */
 	if (verbose || (!recursive && !quiet)) {
 	    /* Don't use WARN, as it affects exit status.  */
