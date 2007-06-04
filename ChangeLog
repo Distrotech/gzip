@@ -1,3 +1,8 @@
+2007-06-04  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* gzip.c (get_method): Fix typo: "a a" -> "a" in diagnostic.  Reported
+	by Justin Pryzby in Debian bug 426965 <http://bugs.debian.org/426965>.
+
 2007-05-07  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* NEWS: 'gzip -f foo.gz' now works instead of complaining.

@@ -1273,7 +1273,7 @@ local int get_method(in)
 	}
 	if ((flags & CONTINUATION) != 0) {
 	    fprintf(stderr,
-		    "%s: %s is a a multi-part gzip file -- not supported\n",
+		    "%s: %s is a multi-part gzip file -- not supported\n",
 		    program_name, ifname);
 	    exit_code = ERROR;
 	    if (force <= 1) return -1;
