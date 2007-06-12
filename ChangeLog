@@ -422,7 +422,7 @@
 	compress files with the sticky bit set, on general principle.
 	(copy_stat): Don't copy the setuid, setgid, or sticky bits,
 	as (given the above change) they'll always be zero here.
-	Invoke chmod before chown, to close a race condition.
+	Invoke chown before chmod, to close a race condition.
 
 	* .cvsignore: Add *.doc, build-aux.
 	* doc/.cvignore: New file.
