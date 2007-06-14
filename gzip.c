@@ -1637,7 +1637,7 @@ local void copy_stat(ifstat)
 	}
       }
 
-    if (futimens (ofd, ofname, timespec) != 0)
+    if (gl_futimens (ofd, ofname, timespec) != 0)
       {
 	int e = errno;
 	WARN ((stderr, "%s: ", program_name));

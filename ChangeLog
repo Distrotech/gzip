@@ -1,3 +1,8 @@
+2007-06-13  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* gzip.c (copy_stat): Adjust to gnulib's renaming of futimens to
+	gl_futimens.
+
 2007-06-04  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* gzip.c (get_method): Fix typo: "a a" -> "a" in diagnostic.  Reported
