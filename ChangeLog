@@ -1,5 +1,8 @@
 2007-06-13  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* zless.1: Fix some troff typos mentioned in the latest Debian patch.
+	Also, give a workaround for the pipe problem.
+
 	* gzip.c (copy_stat): Adjust to gnulib's renaming of futimens to
 	gl_futimens.
 
