@@ -1,3 +1,7 @@
+2007-07-03  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* COPYING: Update to GPLv3.  All uses changed.
+
 2007-06-13  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* zless.1: Fix some troff typos mentioned in the latest Debian patch.
