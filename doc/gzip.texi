@@ -69,7 +69,7 @@ Free Documentation License''.
 * Environment::		The @env{GZIP} environment variable
 * Tapes::               Using @command{gzip} on tapes.
 * Problems::		Reporting bugs.
-* Copying This Manual:: How to make copies of this manual.
+* GNU Free Documentation License:: Copying and sharing this manual.
 * Concept Index::	Index of concepts.
 @end menu
 
@@ -512,12 +512,8 @@ a description of the bug behavior, and the input to @command{gzip}
 that triggered
 the bug.@refill
 
-@node Copying This Manual
-@appendix Copying This Manual
-
-@menu
-* GNU Free Documentation License::  License for copying this manual.
-@end menu
+@node GNU Free Documentation License
+@appendix GNU Free Documentation License
 
 @include fdl.texi
 

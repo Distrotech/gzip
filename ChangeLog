@@ -1,5 +1,7 @@
 2007-10-04  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* doc/gzip.texi: Adjust to new fdl.texi format, in gnulib.
+
 	* Makefile.am (gzip.doc.gz, check-local): Depend on $(bin_PROGRAMS).
 	(gzip.doc.gz): Use our gzip, not the system-installed one.
 	Problem reported by Chris Staub in
