@@ -49,8 +49,8 @@ gzip_LDADD = lib/libgzip.a
 gzip.doc: gzip.1
 	groff -man -Tascii $(srcdir)/gzip.1 | col -b | uniq >$@
 
-gzip.doc.gz: gzip.doc
-	gzip <$? >$@
+gzip.doc.gz: gzip.doc $(bin_PROGRAMS)
+	./gzip <gzip.doc >$@
 
 SUFFIXES = .in
 .in:
@@ -64,7 +64,7 @@ SUFFIXES = .in
 # A simple test, just of gzip -- more of a sanity check than anything else.
 FILES_TO_CHECK = $(bin_SCRIPTS) $(gzip_LDADD) \
   $(top_srcdir)/ChangeLog $(top_srcdir)/configure $(top_srcdir)/gzip.c
-check-local: $(FILES_TO_CHECK) gzip.doc.gz
+check-local: $(FILES_TO_CHECK) $(bin_PROGRAMS) gzip.doc.gz
 	{ test '$(srcdir)' != . || ./zdiff --__bindir . -c gzip.doc.gz; }
 	./zdiff --__bindir . -c $(srcdir)/gzip.doc $(srcdir)/gzip.doc
 	./zdiff --__bindir . $(srcdir)/gzip.doc gzip.doc.gz
