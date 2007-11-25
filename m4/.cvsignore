@@ -9,10 +9,13 @@ gnulib-cache.m4
 gnulib-common.m4
 gnulib-comp.m4
 gnulib-tool.m4
+include_next.m4
 inline.m4
 stat-time.m4
 stdbool.m4
 stdlib_h.m4
+strerror.m4
+string_h.m4
 sys_stat_h.m4
 sys_time_h.m4
 time_h.m4

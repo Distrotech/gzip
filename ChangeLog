@@ -1,5 +1,8 @@
 2007-11-25  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* lib/.cvsignore: Update to match current gnulib.
+	* m4/.cvsignore: Likewise.
+
 	* gzip.c (handled_sig): Move out of install_signal_handlers, and
 	move previous to all uses of SIGPIPE, to fix a bug encountered when
 	porting to mingw32.  Reported by Robert Millan in
