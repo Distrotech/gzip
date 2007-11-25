@@ -232,6 +232,30 @@ unsigned insize;           /* valid bytes in inbuf */
 unsigned inptr;            /* index of next byte to be processed in inbuf */
 unsigned outcnt;           /* bytes in output buffer */
 
+static int handled_sig[] =
+  {
+    /* SIGINT must be first, as 'foreground' depends on it.  */
+    SIGINT
+
+#ifdef SIGHUP
+    , SIGHUP
+#endif
+#ifdef SIGPIPE
+    , SIGPIPE
+#else
+# define SIGPIPE 0
+#endif
+#ifdef SIGTERM
+    , SIGTERM
+#endif
+#ifdef SIGXCPU
+    , SIGXCPU
+#endif
+#ifdef SIGXFSZ
+    , SIGXFSZ
+#endif
+  };
+
 struct option longopts[] =
 {
  /* { name  has_arg  *flag  val } */
@@ -1755,30 +1779,7 @@ local void treat_dir (fd, dir)
 static void
 install_signal_handlers ()
 {
-  static int sig[] =
-    {
-      /* SIGINT must be first, as 'foreground' depends on it.  */
-      SIGINT
-
-#ifdef SIGHUP
-      , SIGHUP
-#endif
-#ifdef SIGPIPE
-      , SIGPIPE
-#else
-# define SIGPIPE 0
-#endif
-#ifdef SIGTERM
-      , SIGTERM
-#endif
-#ifdef SIGXCPU
-      , SIGXCPU
-#endif
-#ifdef SIGXFSZ
-      , SIGXFSZ
-#endif
-    };
-  int nsigs = sizeof sig / sizeof sig[0];
+  int nsigs = sizeof handled_sig / sizeof handled_sig[0];
   int i;
 
 #if SA_NOCLDSTOP
@@ -1787,9 +1788,9 @@ install_signal_handlers ()
   sigemptyset (&caught_signals);
   for (i = 0; i < nsigs; i++)
     {
-      sigaction (sig[i], NULL, &act);
+      sigaction (handled_sig[i], NULL, &act);
       if (act.sa_handler != SIG_IGN)
-	sigaddset (&caught_signals, sig[i]);
+	sigaddset (&caught_signals, handled_sig[i]);
     }
 
   act.sa_handler = abort_gzip_signal;
@@ -1797,20 +1798,20 @@ install_signal_handlers ()
   act.sa_flags = 0;
 
   for (i = 0; i < nsigs; i++)
-    if (sigismember (&caught_signals, sig[i]))
+    if (sigismember (&caught_signals, handled_sig[i]))
       {
 	if (i == 0)
 	  foreground = 1;
-	sigaction (sig[i], &act, NULL);
+	sigaction (handled_sig[i], &act, NULL);
       }
 #else
   for (i = 0; i < nsigs; i++)
-    if (signal (sig[i], SIG_IGN) != SIG_IGN)
+    if (signal (handled_sig[i], SIG_IGN) != SIG_IGN)
       {
 	if (i == 0)
 	  foreground = 1;
-	signal (sig[i], abort_gzip_signal);
-	siginterrupt (sig[i], 1);
+	signal (handled_sig[i], abort_gzip_signal);
+	siginterrupt (handled_sig[i], 1);
       }
 #endif
 }
