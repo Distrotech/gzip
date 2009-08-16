@@ -90,7 +90,7 @@ check-local: $(FILES_TO_CHECK) $(bin_PROGRAMS) gzip.doc.gz
 	./zdiff --__bindir . -c gzip.doc.gz gzip.doc.gz
 	./zgrep --__bindir . -iV >/dev/null
 	for file in $(FILES_TO_CHECK); do \
-	  ./gzip -cv -- "$$file" | ./gzip -d | cmp - "$$file" || exit; \
+	  ./gzip -cv -- "$$file" | ./gzip -d | cmp - "$$file" || exit 1; \
 	done
 	@echo 'Test succeeded.'
 
