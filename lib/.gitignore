@@ -5,6 +5,7 @@ config.h
 config.hin
 creat-safer.c
 dup-safer.c
+errno.in.h
 error.c
 error.h
 exitfail.c
@@ -21,11 +22,15 @@ getopt_int.h
 gettext.h
 gnulib.mk
 intprops.h
+libgzip.a
 open-safer.c
+open.c
 pipe-safer.c
 stamp-h1
 stat-time.h
 stdbool.in.h
+stddef.in.h
+stdint.in.h
 stdlib.h
 stdlib.in.h
 strerror.c
@@ -42,6 +47,7 @@ unistd.h
 unistd.in.h
 utimens.c
 utimens.h
+wchar.in.h
 xalloc-die.c
 xalloc.h
 xmalloc.c

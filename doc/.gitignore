@@ -1,6 +1,4 @@
-*.info*
-Makefile
-Makefile.in
 fdl.texi
+gzip.info
 stamp-vti
 version.texi

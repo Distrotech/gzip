@@ -4,7 +4,11 @@
 *.gz
 *.lineno
 *.log
+*.o
+*~
 .deps
+/GNUmakefile
+/maint.mk
 INSTALL
 Makefile
 Makefile.in
