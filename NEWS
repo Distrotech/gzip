@@ -6,6 +6,8 @@ GNU gzip NEWS                                    -*- outline -*-
 
   gzip no longer ignores a close-induced write failure, e.g., on NFS
 
+  gzip -d no longer segfaults on certain invalid inputs
+
 
 Major changes in Gzip 1.3.12 (2007-04-13)
 
