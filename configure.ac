@@ -21,11 +21,15 @@
 # 02111-1307, USA.
 
 AC_PREREQ([2.60])
-AC_INIT([gzip], [1.3.12], [bug-gzip@gnu.org])
+AC_INIT([gzip],
+	m4_esyscmd([build-aux/git-version-gen .tarball-version]),
+	[bug-gzip@gnu.org])
+
 AC_CONFIG_SRCDIR(gzip.c)
 AC_CONFIG_AUX_DIR(build-aux)
 AC_CONFIG_HEADERS([lib/config.h:lib/config.hin])
-AM_INIT_AUTOMAKE([gnits])
+AM_INIT_AUTOMAKE
+AM_SILENT_RULES([yes]) # make --enable-silent-rules the default.
 
 AC_PROG_CC_STDC
 AM_PROG_CC_C_O

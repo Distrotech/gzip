@@ -24,6 +24,7 @@ man_MANS = gunzip.1 gzexe.1 gzip.1 \
   zcat.1 zcmp.1 zdiff.1 zforce.1 zgrep.1 zless.1 zmore.1 znew.1
 
 EXTRA_DIST = $(ACINCLUDE_INPUTS) $(man_MANS) \
+  ChangeLog-2007 \
   algorithm.doc amiga/match.a amiga/Makefile.gcc amiga/Makefile.sasc \
   amiga/tailor.c amiga/utime.h atari/Makefile.st crypt.h \
   gunzip.in gzexe.in gzip.doc gzip.h lzw.h msdos/match.asm msdos/tailor.c \
@@ -60,6 +61,21 @@ SUFFIXES = .in
 		-e 's|[@]VERSION@|$(VERSION)|g' \
 		$(srcdir)/$@.in >$@
 	chmod a+x $@
+
+# Arrange so that .tarball-version appears only in the distribution
+# tarball, and never in a checked-out repository.
+dist-hook: gen-ChangeLog
+	$(AM_V_GEN)echo $(VERSION) > $(distdir)/.tarball-version
+
+gen_start_date = 2008-01-01
+.PHONY: gen-ChangeLog
+gen-ChangeLog:
+	$(AM_V_GEN)if test -d .git; then				\
+	  $(top_srcdir)/build-aux/gitlog-to-changelog			\
+	    --since=$(gen_start_date) > $(distdir)/cl-t;		\
+	  rm -f $(distdir)/ChangeLog;					\
+	  mv $(distdir)/cl-t $(distdir)/ChangeLog;			\
+	fi
 
 # A simple test, just of gzip -- more of a sanity check than anything else.
 FILES_TO_CHECK = $(bin_SCRIPTS) $(gzip_LDADD) \

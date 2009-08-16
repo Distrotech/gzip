@@ -6,6 +6,7 @@ extensions.m4
 fcntl-safer.m4
 fcntl_h.m4
 getopt.m4
+gnu-make.m4
 gnulib-cache.m4
 gnulib-common.m4
 gnulib-comp.m4

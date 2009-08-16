@@ -30,3 +30,6 @@ zgrep
 zless
 zmore
 znew
+/GNUmakefile
+/maint.mk
+ChangeLog
