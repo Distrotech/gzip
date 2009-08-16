@@ -28,7 +28,7 @@ AC_INIT([gzip],
 AC_CONFIG_SRCDIR(gzip.c)
 AC_CONFIG_AUX_DIR(build-aux)
 AC_CONFIG_HEADERS([lib/config.h:lib/config.hin])
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([1.11 dist-xz])
 AM_SILENT_RULES([yes]) # make --enable-silent-rules the default.
 
 AC_PROG_CC_STDC
