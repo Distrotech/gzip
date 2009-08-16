@@ -25,6 +25,7 @@ man_MANS = gunzip.1 gzexe.1 gzip.1 \
 
 EXTRA_DIST = $(ACINCLUDE_INPUTS) $(man_MANS) \
   ChangeLog-2007 \
+  tests/hufts-segv.gz \
   algorithm.doc amiga/match.a amiga/Makefile.gcc amiga/Makefile.sasc \
   amiga/tailor.c amiga/utime.h atari/Makefile.st crypt.h \
   gunzip.in gzexe.in gzip.doc gzip.h lzw.h msdos/match.asm msdos/tailor.c \
@@ -92,6 +93,8 @@ check-local: $(FILES_TO_CHECK) $(bin_PROGRAMS) gzip.doc.gz
 	for file in $(FILES_TO_CHECK); do \
 	  ./gzip -cv -- "$$file" | ./gzip -d | cmp - "$$file" || exit 1; \
 	done
+	./gzip -dc $(srcdir)/tests/hufts-segv.gz > /dev/null 2>&1; \
+	  test $$? = 1
 	@echo 'Test succeeded.'
 
 install-exec-hook: remove-installed-links

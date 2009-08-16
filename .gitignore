@@ -1,7 +1,6 @@
 *._bootmp*
 *.cache
 *.doc
-*.gz
 *.lineno
 *.log
 *.o
