@@ -64,6 +64,7 @@ static char rcsid[] = "$Id$";
 #include <sys/stat.h>
 #include <errno.h>
 
+#include "closein.h"
 #include "tailor.h"
 #include "gzip.h"
 #include "lzw.h"
@@ -416,6 +417,8 @@ int main (argc, argv)
 
     program_name = gzip_base_name (argv[0]);
     proglen = strlen (program_name);
+
+    atexit (close_stdin);
 
     /* Suppress .exe for MSDOS, OS/2 and VMS: */
     if (4 < proglen && strequ (program_name + proglen - 4, ".exe"))
