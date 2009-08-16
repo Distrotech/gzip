@@ -1,6 +1,7 @@
 .deps
 Makefile
 Makefile.in
+charset.alias
 close-stream.c
 close-stream.h
 closein.c
@@ -10,6 +11,7 @@ closeout.h
 config.charset
 config.h
 config.hin
+configmake.h
 creat-safer.c
 dup-safer.c
 errno.in.h
@@ -50,7 +52,9 @@ open.c
 pipe-safer.c
 quotearg.c
 quotearg.h
+ref-add.sed
 ref-add.sin
+ref-del.sed
 ref-del.sin
 stamp-h1
 stat-time.h
@@ -59,6 +63,7 @@ stddef.in.h
 stdint.in.h
 stdio-impl.h
 stdio-write.c
+stdio.h
 stdio.in.h
 stdlib.h
 stdlib.in.h
