@@ -887,15 +887,16 @@ int inflate_dynamic()
   }
 
 
-  /* decompress until an end-of-block code */
-  if (inflate_codes(tl, td, bl, bd))
-    return 1;
+  {
+    /* decompress until an end-of-block code */
+    int err = inflate_codes(tl, td, bl, bd) ? 1 : 0;
 
+    /* free the decoding tables */
+    huft_free(tl);
+    huft_free(td);
 
-  /* free the decoding tables, return */
-  huft_free(tl);
-  huft_free(td);
-  return 0;
+    return err;
+  }
 }
 
 
