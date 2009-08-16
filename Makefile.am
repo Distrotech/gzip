@@ -48,19 +48,21 @@ gzip_SOURCES = \
 gzip_LDADD = lib/libgzip.a
 
 gzip.doc: gzip.1
-	groff -man -Tascii $(srcdir)/gzip.1 | col -b | uniq >$@
+	$(AM_V_GEN)groff -man -Tascii $(srcdir)/gzip.1 | col -b | uniq > $@-t \
+	  && mv $@-t $@
 
 gzip.doc.gz: gzip.doc $(bin_PROGRAMS)
-	./gzip <gzip.doc >$@
+	$(AM_V_GEN)./gzip < $(srcdir)/gzip.doc >$@-t && mv $@-t $@
 
 SUFFIXES = .in
 .in:
-	sed \
+	$(AM_V_GEN)sed \
 		-e 's|/bin/sh|$(SHELL)|g' \
 		-e 's|[@]bindir@|'\''$(bindir)'\''|g' \
 		-e 's|[@]VERSION@|$(VERSION)|g' \
-		$(srcdir)/$@.in >$@
-	chmod a+x $@
+		$(srcdir)/$@.in >$@-t \
+	  && chmod a+x $@-t \
+	  && mv $@-t $@
 
 # Arrange so that .tarball-version appears only in the distribution
 # tarball, and never in a checked-out repository.
