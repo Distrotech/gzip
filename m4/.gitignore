@@ -1,4 +1,5 @@
 00gnulib.m4
+absolute-header.m4
 close-stream.m4
 closein.m4
 closeout.m4
@@ -36,6 +37,7 @@ mbstate_t.m4
 mode_t.m4
 multiarch.m4
 open.m4
+openat.m4
 quotearg.m4
 stat-time.m4
 stdbool.m4
