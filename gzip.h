@@ -330,7 +330,7 @@ extern char *gzip_base_name OF((char *fname));
 extern int xunlink        OF((char *fname));
 extern void make_simple_name OF((char *name));
 extern char *add_envopt   OF((int *argcp, char ***argvp, char *env));
-extern void gzip_error    OF((char *m));
+extern void gzip_error    OF((char *m)) ATTRIBUTE_NORETURN;
 extern void xalloc_die    OF((void)) ATTRIBUTE_NORETURN;
 extern void warning       OF((char *m));
 extern void read_error    OF((void));
