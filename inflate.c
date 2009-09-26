@@ -512,7 +512,7 @@ struct huft *t;         /* table to free */
   while (p != (struct huft *)NULL)
   {
     q = (--p)->v.t;
-    free((char*)p);
+    free(p);
     p = q;
   }
   return 0;

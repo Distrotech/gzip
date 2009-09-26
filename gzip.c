@@ -1830,7 +1830,7 @@ local void do_exit(exitcode)
     if (in_exit) exit(exitcode);
     in_exit = 1;
     if (env != NULL)  free(env),  env  = NULL;
-    if (args != NULL) free((char*)args), args = NULL;
+    if (args != NULL) free(args), args = NULL;
     FREE(inbuf);
     FREE(outbuf);
     FREE(d_buf);

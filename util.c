@@ -392,7 +392,7 @@ char *add_envopt(argcp, argvp, env)
     /* Allocate the new argv array, with an extra element just in case
      * the original arg list did not end with a NULL.
      */
-    nargv = (char **) xcalloc (*argcp + 1, sizeof (char *));
+    nargv = xcalloc (*argcp + 1, sizeof (char *));
     oargv  = *argvp;
     *argvp = nargv;
 

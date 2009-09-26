@@ -26,7 +26,7 @@ vms_expand_args(old_argc, argv)
     int	    context, status;
     char    buf[255], *p;
     
-    vms_argv = (char**)xmalloc((max_files+1)*sizeof(char*));
+    vms_argv = xmalloc((max_files+1)*sizeof(char*));
 
     vms_argv[new_argc++] = **argv;
 
@@ -46,14 +46,14 @@ vms_expand_args(old_argc, argv)
 		    vms_argv[new_argc++] = argv[0][i];
 		}
 	    } else {
-		p = (char*)xmalloc(strlen(buf)+1);
+		p = xmalloc(strlen(buf)+1);
 		strcpy(p, buf);
 		if (new_argc < max_files) {
 		    vms_argv[new_argc++] = p;
 		}
 		while (find_file_c(argv[0][i], buf, 
 		       sizeof(buf), &context) & 1 == 1) {
-		    p = (char*)xmalloc(strlen(buf)+1);
+		    p = xmalloc(strlen(buf)+1);
 		    strcpy(p, buf);
 		    if (new_argc < max_files) {
 			vms_argv[new_argc++] = p;
