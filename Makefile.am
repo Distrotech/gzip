@@ -95,6 +95,8 @@ check-local: $(FILES_TO_CHECK) $(bin_PROGRAMS) gzip.doc.gz
 	done
 	./gzip -dc $(srcdir)/tests/hufts-segv.gz > /dev/null 2>&1; \
 	  test $$? = 1
+	k=in-$$$$; printf a | ./gzip > $$k && \
+	  test "`cat $$k | ./gzip -dc $$k - $$k`" = aaa && rm $$k
 	@echo 'Test succeeded.'
 
 install-exec-hook: remove-installed-links

@@ -4,6 +4,8 @@ GNU gzip NEWS                                    -*- outline -*-
 
 ** Bug fixes
 
+  gzip -d no longer fails with "-" as 2nd or subsequent argument
+
   gzip no longer ignores a close-induced write failure, e.g., on NFS
 
   gzip -d no longer segfaults on certain invalid inputs
