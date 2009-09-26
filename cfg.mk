@@ -31,7 +31,18 @@ url_dir_list = \
 gpg_key_ID = B9AB9A16
 
 # Tests not to run as part of "make distcheck".
-local-checks-to-skip = strftime-check
+local-checks-to-skip =		\
+  sc_error_message_period	\
+  sc_error_message_uppercase	\
+  sc_m4_quote_check		\
+  sc_obsolete_symbols		\
+  sc_program_name		\
+  sc_prohibit_S_IS_definition	\
+  sc_prohibit_atoi_atof		\
+  sc_prohibit_stat_st_blocks	\
+  sc_space_tab			\
+  sc_useless_cpp_parens
+
 
 # Tools used to bootstrap this package, used for "announcement".
 bootstrap-tools = autoconf,automake,gnulib
