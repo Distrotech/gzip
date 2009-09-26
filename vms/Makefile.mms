@@ -100,7 +100,7 @@ gzip.exe : $(OBJS)
 #  copies the data, not just the link.  Therefore, set up the link in the
 #  directory in which the executable is to reside, or else rename (move) the
 #  executables into the directory.
-# 
+#
 	set file/enter=gunzip.exe gzip.exe
 	set file/enter=zcat.exe   gzip.exe
 

@@ -20,7 +20,7 @@ struct	stat {
 	short	st_rwlock;      /* Primos read/write lock */
 
 	/* Begin Unix compatibility - don't believe these entries! */
-	dev_t	st_dev;       
+	dev_t	st_dev;
 	ino_t	st_ino;
 	mode_t	st_mode;
 	short	st_nlink;

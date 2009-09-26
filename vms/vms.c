@@ -25,7 +25,7 @@ vms_expand_args(old_argc, argv)
     int	    new_argc = 0;
     int	    context, status;
     char    buf[255], *p;
-    
+
     vms_argv = xmalloc((max_files+1)*sizeof(char*));
 
     vms_argv[new_argc++] = **argv;
@@ -38,7 +38,7 @@ vms_expand_args(old_argc, argv)
 	} else {		    /* Files */
 	    context = 0;
 	    if (find_file_c(argv[0][i], buf, sizeof(buf), &context) & 1 != 1) {
-		/* 
+		/*
 	         * Wrong file ?
 		 * forward it to gzip
 		 */
@@ -51,7 +51,7 @@ vms_expand_args(old_argc, argv)
 		if (new_argc < max_files) {
 		    vms_argv[new_argc++] = p;
 		}
-		while (find_file_c(argv[0][i], buf, 
+		while (find_file_c(argv[0][i], buf,
 		       sizeof(buf), &context) & 1 == 1) {
 		    p = xmalloc(strlen(buf)+1);
 		    strcpy(p, buf);
@@ -83,13 +83,13 @@ int find_file_c(in,out,out_len,context)
     struct	Str_desc in_desc,out_desc;
     int		status;
     char	*p;
-  
+
     in_desc.addr = in;
     in_desc.length = strlen(in);
-  
+
     out_desc.addr = out;
     out_desc.length = out_len;
-  
+
     status = lib$find_file(&in_desc,&out_desc,context);
 
     p   = out_desc.addr;
@@ -97,6 +97,6 @@ int find_file_c(in,out,out_len,context)
 	p++;
     }
     *p = 0;
-  
+
     return status;
 }

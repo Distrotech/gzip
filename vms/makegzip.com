@@ -44,7 +44,7 @@ $ goto Schleife
 $ endif
 $ write sys$output "linking ''linkobjs'"
 $ link  /exec=gzip.exe  'linkobjs',sys$input/opt
-SYS$LIBRARY:VAXCRTL/SHARE 
+SYS$LIBRARY:VAXCRTL/SHARE
 $
 $ ! Create a hard link.  (To remove both files, delete the copy FIRST, then
 $ ! the original.  Otherwise, if original deleted first [copy says "no such

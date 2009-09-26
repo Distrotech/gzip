@@ -30,7 +30,7 @@ char *getenv(var)
 {
   char buf[256];
   extern char *gvget();
-  
+
   buf[0] = '.';
   strcpy(buf+1, var);
 
@@ -43,7 +43,7 @@ unlink(path)
 {
   return delete(path);
 }
- 
+
 int lstat(path, buf)
   char *path;
   struct stat *buf;
@@ -84,7 +84,7 @@ int stat(path, buf)
 
     case -1:
       return -1;
-      
+
     default:
       buf->st_mode = primos_mode;
       buf->st_size = fsize(path);
@@ -99,7 +99,7 @@ int stat(path, buf)
    */
   buf->st_atime = buf->st_mtime;
   buf->st_ctime = buf->st_mtime;
-  
+
   return 0;
 }
 

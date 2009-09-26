@@ -20,7 +20,7 @@ LD=link
 LDFLAGS=/e/st:0x1000/noe
 #     If you use lzexe as recommended, remove /e from LDFLAGS
 AS=masm
-#     For MSC 6.0, use: AS=ml 
+#     For MSC 6.0, use: AS=ml
 ASFLAGS=-ml -t
 # Add -DDYN_ALLOC to ASFLAGS if you have defined it in tailor.h or CFLAGS
 LIB = c:\c51\lib

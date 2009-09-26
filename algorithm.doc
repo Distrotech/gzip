@@ -64,7 +64,7 @@ endian format, and bit 0 is the least significant bit.
 A gzip file is a sequence of compressed members. Each member has the
 following structure:
 
-2 bytes  magic header  0x1f, 0x8b (\037 \213)  
+2 bytes  magic header  0x1f, 0x8b (\037 \213)
 1 byte   compression method (0..7 reserved, 8 = deflate)
 1 byte   flags
             bit 0 set: file probably ascii text

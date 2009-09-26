@@ -233,7 +233,7 @@ endif
 maxmatch:                               ; come here if maximum match
         cmpsb                           ; increment si and di
         jmp     mismatch                ; force match_length = MAX_LENGTH
-        
+
 _longest_match  endp
 
 _TEXT   ends
