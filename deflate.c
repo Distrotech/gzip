@@ -81,10 +81,6 @@
 #include "gzip.h"
 #include "lzw.h" /* just for consistency checking */
 
-#ifdef RCSID
-static char rcsid[] = "$Id$";
-#endif
-
 /* ===========================================================================
  * Configuration parameters
  */

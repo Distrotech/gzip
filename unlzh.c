@@ -3,10 +3,6 @@
  * written by Haruhiko Okumura.
  */
 
-#ifdef RCSID
-static char rcsid[] = "$Id$";
-#endif
-
 #include <config.h>
 #include <stdio.h>
 

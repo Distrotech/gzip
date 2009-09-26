@@ -11,10 +11,6 @@
 #include "tailor.h"
 #include "gzip.h"
 
-#ifndef lint
-static char rcsid[] = "$Id$";
-#endif
-
 #ifdef __TURBOC__
 
 /************************/

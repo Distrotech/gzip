@@ -28,10 +28,6 @@
    either deflated or stored.
  */
 
-#ifdef RCSID
-static char rcsid[] = "$Id$";
-#endif
-
 #include <config.h>
 #include "tailor.h"
 #include "gzip.h"

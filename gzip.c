@@ -53,10 +53,6 @@ static char  *license_msg[] = {
  * For the meaning of all compilation flags, see comments in Makefile.in.
  */
 
-#ifdef RCSID
-static char rcsid[] = "$Id$";
-#endif
-
 #include <config.h>
 #include <ctype.h>
 #include <sys/types.h>

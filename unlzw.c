@@ -7,10 +7,6 @@
  * to accommodate in-memory decompression.
  */
 
-#ifdef RCSID
-static char rcsid[] = "$Id$";
-#endif
-
 #include <config.h>
 #include "tailor.h"
 

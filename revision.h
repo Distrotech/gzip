@@ -24,5 +24,3 @@
 #ifdef LZW
 #  undef LZW
 #endif
-
-/* $Id$ */

@@ -1,9 +1,5 @@
 /* Not copyrighted 1990 Mark Adler */
 
-#ifndef lint
-static char rcsid[] = "$Id$";
-#endif
-
 #include <stdio.h>
 
 main()

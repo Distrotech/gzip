@@ -115,10 +115,6 @@
       the two sets of lengths.
  */
 
-#ifdef RCSID
-static char rcsid[] = "$Id$";
-#endif
-
 #include <config.h>
 #include "tailor.h"
 

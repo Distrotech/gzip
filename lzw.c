@@ -2,10 +2,6 @@
  * This is a dummy version avoiding patent problems.
  */
 
-#ifdef RCSID
-static char rcsid[] = "$Id$";
-#endif
-
 #include <config.h>
 #include "tailor.h"
 #include "gzip.h"

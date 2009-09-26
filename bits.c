@@ -73,10 +73,6 @@
 #  include <stdio.h>
 #endif
 
-#ifdef RCSID
-static char rcsid[] = "$Id$";
-#endif
-
 /* ===========================================================================
  * Local data used by the "bit string" routines.
  */

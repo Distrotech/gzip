@@ -18,8 +18,6 @@
 ; only if the arrays are guaranteed to have zero offset (allocated by
 ; halloc). We also require SS==DS. This is satisfied for MSC but not Turbo C.
 
-; $Id$
-
         name    match
 
 ifndef DYN_ALLOC

@@ -72,10 +72,6 @@
 #include "tailor.h"
 #include "gzip.h"
 
-#ifdef RCSID
-static char rcsid[] = "$Id$";
-#endif
-
 /* ===========================================================================
  * Constants
  */
