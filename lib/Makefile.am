@@ -25,7 +25,7 @@ libgzip_a_DEPENDENCIES += $(LIBOBJS)
 match.$(OBJEXT): match.c
 	cp $(srcdir)/match.c _match.S
 	$(CPP) $(CPPFLAGS) $(ASCPPFLAGS) _match.S > _match.i
-	@ASCPPPOST@ < _match.i > match_.s
+	$(ASCPPPOST) < _match.i > match_.s
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(ASFLAGS_config) -c match_.s
 	mv match_.$(OBJEXT) $@
 	rm -f _match.S _match.i match_.s
