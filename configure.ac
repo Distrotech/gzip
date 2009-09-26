@@ -1,7 +1,6 @@
 # Configure template for gzip.
 
-# Copyright (C) 1999, 2000, 2001, 2002, 2006, 2007 Free Software
-# Foundation, Inc.
+# Copyright (C) 1999-2002, 2006-2007, 2009 Free Software Foundation, Inc.
 
 # Copyright (C) 1992-1993 Jean-loup Gailly
 

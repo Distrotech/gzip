@@ -1,6 +1,6 @@
 /* tailor.h -- target dependent definitions
 
-   Copyright (C) 1997, 1998, 1999, 2002, 2006 Free Software Foundation, Inc.
+   Copyright (C) 1997-1999, 2002, 2006, 2009 Free Software Foundation, Inc.
    Copyright (C) 1992-1993 Jean-loup Gailly
 
    This program is free software; you can redistribute it and/or modify
