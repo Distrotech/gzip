@@ -1,7 +1,7 @@
 : This file is a complement to gzip.prj for Turbo C 2.0 users.
 : To construct gzip, first transform all files to msdos CR LF format.
 : (Use utilities such as flip or do file transfers in ascii mode.)
-: Then invoke this file. Then enter Turbo C, set the the
+: Then invoke this file. Then enter Turbo C, set the
 : compilation model to compact, and the project file to gzip.prj.
 : Change the compilation flags if you wish (add SMALL_MEM
 : to reduce the memory requirements), and press F9...
