@@ -10,7 +10,7 @@
 # This Makefile is configured by default for the Atari ST using the
 # Minix filesytem. It can be modified (for efficiency) for an Atari TT
 # according to the instructions given below. It must be modified
-# for building a TOS-filesystem version.
+# for building a TOS-file system version.
 
 CC=gcc
 BASIC_FLAGS = -O2 -DATARI
@@ -18,10 +18,10 @@ BASIC_FLAGS = -O2 -DATARI
 # Use this for a TT-only version
 #TT_FLAGS = -m68020
 
-# CFLAGS for building a Minix-filesystem version
+# CFLAGS for building a Minix-file system version
 CFLAGS = $(BASIC_FLAGS) $(TT_FLAGS)
 
-# CFLAGS for building a TOS-filesystem version
+# CFLAGS for building a TOS-file system version
 #CFLAGS = $(BASIC_FLAGS) $(TT_FLAGS) -DTOSFS
 
 AS=$(CC) -c

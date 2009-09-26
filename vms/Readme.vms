@@ -12,7 +12,7 @@ README.VMS	! this file, how to install gzip
 VMS.C		! VMS-specific functions in gzip
 
 This file describe, how to compile and install the VMS-Port of gzip.
->>For restrictions or bugs due to the structure of the vms-filesystem
+>>For restrictions or bugs due to the structure of the vms-file system
 refer to gzip.hlp.<<
 
 Installing gzip
