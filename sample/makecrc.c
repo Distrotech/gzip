@@ -1,5 +1,6 @@
 /* Not copyrighted 1990 Mark Adler */
 
+#include <config.h>
 #include <stdio.h>
 
 main()

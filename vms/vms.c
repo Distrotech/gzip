@@ -6,6 +6,7 @@
  * and updated by Jean-loup Gailly.
  */
 
+#include <config.h>
 #include <stdio.h>
 
 static char **vms_argv = NULL;

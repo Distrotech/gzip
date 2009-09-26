@@ -6,6 +6,7 @@
    in the stream.  See sub.c for what the filtering is and what it's
    good for. */
 
+#include <config.h>
 #include <stdio.h>
 
 #define MAGIC1    'S' /* sub data */

@@ -33,6 +33,7 @@
       gunzip < double.data.sgz | add > double.data
 */
 
+#include <config.h>
 #include <stdio.h>
 
 #define MAGIC1    'S' /* sub data */

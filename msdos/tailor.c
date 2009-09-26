@@ -8,6 +8,7 @@
  * It should be kept to a minimum.
  */
 
+#include <config.h>
 #include "tailor.h"
 #include "gzip.h"
 

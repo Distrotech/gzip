@@ -1,3 +1,4 @@
+#include <config.h>
 #include <stdio.h>
 
 /* Trivial example of reading a gzip'ed file or gzip'ed standard input

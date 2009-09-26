@@ -8,6 +8,7 @@
 
 #ifdef __50SERIES
 
+#include <config.h>
 #include <stdio.h>
 #include <fcntl.h>
 #include <sys/stat.h>
