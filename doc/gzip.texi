@@ -2,12 +2,12 @@
 @c %**start of header
 @setfilename gzip.info
 @include version.texi
-@settitle Gzip User's Manual
+@settitle GNU Gzip
 @finalout
 @setchapternewpage odd
 @c %**end of header
 @copying
-This manual is for Gzip
+This manual is for GNU Gzip
 (version @value{VERSION}, @value{UPDATED}),
 and documents commands for compressing and decompressing data.
 
@@ -18,7 +18,7 @@ Copyright @copyright{} 1992, 1993 Jean-loup Gailly
 
 @quotation
 Permission is granted to copy, distribute and/or modify this document
-under the terms of the GNU Free Documentation License, Version 1.2 or
+under the terms of the GNU Free Documentation License, Version 1.3 or
 any later version published by the Free Software Foundation; with no
 Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
 Texts.  A copy of the license is included in the section entitled ``GNU
@@ -26,24 +26,26 @@ Free Documentation License''.
 @end quotation
 @end copying
 
-@c Debian install-info (up through at least version 1.9.20) uses only the
-@c first dircategory.  But install-info 1.10.28 rejects any attempt to
-@c put the more-useful individual utility first.  So put the less-useful
-@c general category first.
-@dircategory Utilities
+@dircategory Compression
 @direntry
-* Gzip: (gzip).                 The gzip command for compressing files.
+* Gzip: (gzip).                 General (de)compression of files (lzw).
 @end direntry
 
 @dircategory Individual utilities
 @direntry
-* gzip: (gzip)Invoking gzip.                    Compress files.
+* gunzip: (gzip)Overview.                       Decompression.
+* gzexe: (gzip)Overview.                        Compress executables.
+* zcat: (gzip)Overview.                         Decompression to stdout.
+* zdiff: (gzip)Overview.                        Compare compressed files.
+* zforce: (gzip)Overview.                       Force .gz extension on files.
+* zgrep: (gzip)Overview.                        Search compressed files.
+* zmore: (gzip)Overview.                        Decompression output by pages.
 @end direntry
 
 @titlepage
-@title gzip
+@title GNU gzip
 @subtitle The data compression program
-@subtitle for Gzip Version @value{VERSION}
+@subtitle for Gzip version @value{VERSION}
 @subtitle @value{UPDATED}
 @author by Jean-loup Gailly
 
@@ -56,7 +58,7 @@ Free Documentation License''.
 
 @ifnottex
 @node Top
-@top Compressing Files
+@top GNU Gzip: General file (de)compression
 
 @insertcopying
 @end ifnottex
@@ -70,7 +72,7 @@ Free Documentation License''.
 * Tapes::               Using @command{gzip} on tapes.
 * Problems::		Reporting bugs.
 * GNU Free Documentation License:: Copying and sharing this manual.
-* Concept Index::	Index of concepts.
+* Concept index::       Index of concepts.
 @end menu
 
 @node Overview
@@ -176,7 +178,7 @@ format specification version 4.3,
 1996).
 
 @node Sample
-@chapter Sample Output
+@chapter Sample output
 @cindex sample
 
 Here are some realistic examples of running @command{gzip}.
@@ -517,8 +519,8 @@ the bug.@refill
 
 @include fdl.texi
 
-@node Concept Index
-@appendix Concept Index
+@node Concept index
+@appendix Concept index
 
 @printindex cp
 
