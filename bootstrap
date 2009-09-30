@@ -70,6 +70,9 @@ gnulib_modules=
 # Any gnulib files needed that are not in modules.
 gnulib_files=
 
+# A function to be called after everything else in this script.
+bootstrap_epilogue() { :; }
+
 # The command to download all .po files for a specified domain into
 # a specified directory.  Fill in the first %s is the domain name, and
 # the second with the destination directory.  Use rsync's -L and -r
@@ -728,6 +731,10 @@ find "$m4_base" "$source_base" \
 
 # Reconfigure, getting other files.
 
+# Skip autoheader if it's not needed.
+grep '^[	 ]*AC_CONFIG_HEADERS\>' configure.ac >/dev/null ||
+  AUTOHEADER=true
+
 for command in \
   libtool \
   "${ACLOCAL-aclocal} --force -I m4" \
@@ -795,6 +802,8 @@ if test $with_gettext = yes; then
     (cd po && cp -p Makefile.in.in *-quot *.header *.sed *.sin ../runtime-po)
   fi
 fi
+
+bootstrap_epilogue
 
 echo "$0: done.  Now you can run './configure'."
 
