@@ -3,7 +3,7 @@
 # zgrep -- a wrapper around a grep program that decompresses files as needed
 # Adapted from a version sent by Charles Levert <charles@comm.polymtl.ca>
 
-# Copyright (C) 1998, 2001, 2002, 2006, 2007 Free Software Foundation
+# Copyright (C) 1998, 2001, 2002, 2006, 2007, 2009 Free Software Foundation
 # Copyright (C) 1993 Jean-loup Gailly
 
 # This program is free software; you can redistribute it and/or modify
@@ -52,6 +52,7 @@ escape='
 '
 operands=
 have_pat=0
+pat_on_stdin=0
 files_with_matches=0
 files_without_matches=0
 no_filename=0
@@ -97,6 +98,23 @@ while test $# -ne 0; do
     printf >&2 '%s: %s: option not supported\n' "$0" "$option"
     exit 2;;
   (-[ef]* | --file | --file=* | --reg*)
+    # The pattern is coming from a file rather than the command-line.
+    # If the file is actually stdin then we need to do a little
+    # magic, (since we use stdin to pass the gzip output to grep).
+    # So find a free fd and change the argument to then use this
+    # file descriptor for the pattern.
+    case $optarg in
+    (" '-'" | " '/dev/stdin'" | " '/dev/fd/0'")
+      pat_on_stdin=1
+      # Start search from 6 since the script already uses 3 and 5
+      for fd in $(seq 6 254); do
+	if test ! -e /dev/fd/$fd; then
+	  pat_fd=$fd
+	  break;
+	fi
+      done
+      optarg=/dev/fd/$pat_fd;
+    esac
     have_pat=1;;
   (--h | --he | --hel | --help)
     echo "$usage" || exit 2
@@ -151,6 +169,9 @@ do
   # Fail if gzip or grep (or sed) fails.
   gzip_status=$(
     exec 5>&1
+    if test $pat_on_stdin -eq 1; then
+      eval "exec $pat_fd<&0"
+    fi
     (gzip -cdfq -- "$i" 5>&-; echo $? >&5) 3>&- |
     if test $files_with_matches -eq 1; then
       eval "$grep" >/dev/null && { printf '%s\n' "$i" || exit 2; }
