@@ -106,12 +106,22 @@ while test $# -ne 0; do
     case $optarg in
     (" '-'" | " '/dev/stdin'" | " '/dev/fd/0'")
       pat_on_stdin=1
+      eval 'test -e .' 2>/dev/null \
+        && eval 'exists(){ test -e "$@"; }' \
+        || eval 'exists(){ test -r "$@" || test -w "$@"; }'
       # Start search from 6 since the script already uses 3 and 5
-      for fd in $(seq 6 254); do
-	if test ! -e /dev/fd/$fd; then
-	  pat_fd=$fd
-	  break;
-	fi
+      fd=6
+      pat_fd=
+      while : ; do
+        if ! exists /proc/$$/fd/$fd; then
+          pat_fd=$fd
+          break;
+        fi
+        fd=$(expr $fd + 1)
+        if test $fd = 255; then
+          printf >&2 '%s: no free file descriptor\n' "$0"
+          exit 2
+        fi
       done
       optarg=/dev/fd/$pat_fd;
     esac

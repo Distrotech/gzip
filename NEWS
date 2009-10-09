@@ -9,6 +9,8 @@ GNU gzip NEWS                                    -*- outline -*-
 
   zdiff would fail to print differences in two compressed inputs
 
+  zgrep -f - didn't work
+
 
 * Noteworthy changes in release 1.3.13 (2009-09-30) [stable]
 
