@@ -2,6 +2,10 @@ GNU gzip NEWS                                    -*- outline -*-
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+  zdiff would fail to print differences in two compressed inputs
+
 
 * Noteworthy changes in release 1.3.13 (2009-09-30) [stable]
 
