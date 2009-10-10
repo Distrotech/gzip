@@ -1266,8 +1266,13 @@ local int get_method(in)
 	/* If try_byte returned EOF, magic[1] == (char) EOF.  */
     } else {
 	magic[0] = (char)get_byte();
-	magic[1] = (char)get_byte();
-	imagic1 = 0; /* avoid lint warning */
+	if (magic[0]) {
+	    magic[1] = (char)get_byte();
+	    imagic1 = 0; /* avoid lint warning */
+	} else {
+	    imagic1 = try_byte ();
+	    magic[1] = (char) imagic1;
+	}
     }
     method = -1;                 /* unknown yet */
     part_nb++;                   /* number of parts in gzip file */
