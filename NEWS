@@ -4,6 +4,9 @@ GNU gzip NEWS                                    -*- outline -*-
 
 ** Bug fixes
 
+  gzip no longer fails when there is exactly one trailing NUL byte
+  gzip has always accepted trailing NUL bytes.  Note the plural.
+
   zdiff would exit with status 2 (indicating an error) rather than 1 to
   indicate differences when both inputs were compressed and different.
 

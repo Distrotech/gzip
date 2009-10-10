@@ -100,9 +100,11 @@ check-local: $(FILES_TO_CHECK) $(bin_PROGRAMS) gzip.doc.gz
 	  test "`cat $$k | ./gzip -dc $$k - $$k`" = aaa && rm $$k
 	@echo 'Test succeeded.'
 
-TESTS =		\
-  tests/zdiff	\
+TESTS =						\
+  tests/trailing-nul				\
+  tests/zdiff					\
   tests/zgrep-f
+
 EXTRA_DIST += $(TESTS)
 
 install-exec-hook: remove-installed-links
