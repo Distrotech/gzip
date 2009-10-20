@@ -109,7 +109,5 @@ AC_TYPE_SIGNAL
 AC_TYPE_SIZE_T
 AC_TYPE_OFF_T
 
-AC_PREFIX_PROGRAM(gzip)
-
 AC_CONFIG_FILES([Makefile doc/Makefile lib/Makefile])
 AC_OUTPUT
