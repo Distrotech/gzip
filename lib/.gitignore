@@ -62,6 +62,8 @@ getopt1.c
 getopt_int.h
 getpagesize.c
 gettext.h
+gettime.c
+gettimeofday.c
 gnulib.mk
 intprops.h
 isnan.c
@@ -139,6 +141,7 @@ sys_time_.h
 time.h
 time.in.h
 time_.h
+timespec.h
 unistd--.h
 unistd-safer.h
 unistd.h

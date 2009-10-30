@@ -2,6 +2,7 @@
 absolute-header.m4
 alloca.m4
 calloc.m4
+clock_time.m4
 close-stream.m4
 close.m4
 closein.m4
@@ -32,6 +33,8 @@ fseeko.m4
 ftello.m4
 getopt.m4
 getpagesize.m4
+gettime.m4
+gettimeofday.m4
 glibc21.m4
 gnu-make.m4
 gnulib-cache.m4
@@ -87,6 +90,7 @@ string_h.m4
 sys_stat_h.m4
 sys_time_h.m4
 time_h.m4
+timespec.m4
 unistd-safer.m4
 unistd_h.m4
 utimbuf.m4
