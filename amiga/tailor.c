@@ -116,7 +116,7 @@ void _expand_args (oargc, oargv)
               {
                 expand_next_file (NULL);
                 fprintf (stderr,"Too many files.\n");
-                exit (20);
+                exit (EXIT_FAILURE);
               }
             else
               {
@@ -134,7 +134,7 @@ void _expand_args (oargc, oargv)
         if (argc >= MAXARGS)
           {
             fprintf (stderr,"Too many files.\n");
-            exit (20);
+            exit (EXIT_FAILURE);
           }
         else
           {
@@ -146,7 +146,7 @@ void _expand_args (oargc, oargv)
   *oargv = argv;
   if (no_match_at_all && contains_wildcards) {
     fprintf (stderr,"No match.\n");
-    exit (20);
+    exit (EXIT_FAILURE);
   }
 }
 
