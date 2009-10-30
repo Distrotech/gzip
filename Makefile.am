@@ -48,6 +48,7 @@ gzip_SOURCES = \
   bits.c crypt.c deflate.c gzip.c inflate.c lzw.c \
   trees.c unlzh.c unlzw.c unpack.c unzip.c util.c zip.c
 gzip_LDADD = lib/libgzip.a
+gzip_LDADD += $(LIB_CLOCK_GETTIME)
 
 gzip.doc: gzip.1
 	$(AM_V_GEN)groff -man -Tascii $(srcdir)/gzip.1 | col -b | uniq > $@-t \
@@ -82,7 +83,7 @@ gen-ChangeLog:
 	fi
 
 # A simple test, just of gzip -- more of a sanity check than anything else.
-FILES_TO_CHECK = $(bin_SCRIPTS) $(gzip_LDADD) \
+FILES_TO_CHECK = $(bin_SCRIPTS) \
   $(top_srcdir)/ChangeLog $(top_srcdir)/configure $(top_srcdir)/gzip.c
 check-local: $(FILES_TO_CHECK) $(bin_PROGRAMS) gzip.doc.gz
 	{ test '$(srcdir)' != . || ./zdiff --__bindir . -c gzip.doc.gz; }
