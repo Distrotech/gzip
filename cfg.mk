@@ -50,4 +50,4 @@ bootstrap-tools = autoconf,automake,gnulib
 # Now that we have better tests, make this the default.
 export VERBOSE = yes
 
-old_NEWS_hash = 64181e85404e55175cca6f40effac854
+old_NEWS_hash = 22b19691660f1870cec5f64b2c0e4641
