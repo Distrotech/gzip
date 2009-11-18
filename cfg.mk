@@ -15,10 +15,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Use alpha.gnu.org for alpha and beta releases.
-# Use ftp.gnu.org for major releases.
+# Use ftp.gnu.org for stable releases.
 gnu_ftp_host-alpha = alpha.gnu.org
 gnu_ftp_host-beta = alpha.gnu.org
-gnu_ftp_host-major = ftp.gnu.org
+gnu_ftp_host-stable = ftp.gnu.org
 gnu_rel_host = $(gnu_ftp_host-$(RELEASE_TYPE))
 
 # Used in maint.mk's web-manual rule
