@@ -57,6 +57,7 @@ longlong.m4
 lseek.m4
 lstat.m4
 malloc.m4
+manywarnings.m4
 math_h.m4
 mbrtowc.m4
 mbsinit.m4
@@ -98,6 +99,7 @@ utimens.m4
 utimes.m4
 vasnprintf.m4
 vfprintf-posix.m4
+warnings.m4
 wchar.m4
 wchar_t.m4
 wctype.m4
