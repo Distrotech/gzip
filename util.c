@@ -360,20 +360,21 @@ int strcspn(s, reject)
 char *add_envopt(
     int *argcp,          /* pointer to argc */
     char ***argvp,       /* pointer to argv */
-    char const *env)     /* name of environment variable */
+    char const *envvar_name) /* name of environment variable */
 {
     char *p;             /* running pointer through env variable */
     char **oargv;        /* runs through old argv array */
     char **nargv;        /* runs through new argv array */
     int	 oargc = *argcp; /* old argc */
     int  nargc = 0;      /* number of arguments in env variable */
+    char *env_val;
 
-    env = (char*)getenv(env);
-    if (env == NULL) return NULL;
+    env_val = getenv(envvar_name);
+    if (env_val == NULL) return NULL;
 
-    env = xstrdup (env);
+    env_val = xstrdup (env_val);
 
-    for (p = env; *p; nargc++ ) {            /* move through env */
+    for (p = env_val; *p; nargc++ ) {        /* move through env_val */
 	p += strspn(p, SEPARATOR);	     /* skip leading separators */
 	if (*p == '\0') break;
 
@@ -381,7 +382,7 @@ char *add_envopt(
 	if (*p) *p++ = '\0';		     /* mark it */
     }
     if (nargc == 0) {
-	free(env);
+	free(env_val);
 	return NULL;
     }
     *argcp += nargc;
@@ -398,7 +399,7 @@ char *add_envopt(
     *(nargv++) = *(oargv++);
 
     /* Then copy the environment args */
-    for (p = env; nargc > 0; nargc--) {
+    for (p = env_val; nargc > 0; nargc--) {
 	p += strspn(p, SEPARATOR);	     /* skip separators */
 	*(nargv++) = p;			     /* store start */
 	while (*p++) ;			     /* skip over word */
@@ -407,7 +408,7 @@ char *add_envopt(
     /* Finally copy the old args and add a NULL (usual convention) */
     while (oargc--) *(nargv++) = *(oargv++);
     *nargv = NULL;
-    return env;
+    return env_val;
 }
 
 /* ========================================================================
