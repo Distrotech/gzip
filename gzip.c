@@ -28,7 +28,7 @@
  * See the file algorithm.doc for the compression algorithms and file formats.
  */
 
-static char  *license_msg[] = {
+static char const *const license_msg[] = {
 "Copyright (C) 2007 Free Software Foundation, Inc.",
 "Copyright (C) 1993 Jean-loup Gailly.",
 "This is free software.  You may redistribute copies of it under the terms of",
@@ -203,7 +203,7 @@ struct timespec time_stamp; /* original time stamp (modification time) */
 off_t ifile_size;      /* input file size, -1 for devices (debug only) */
 char *env;            /* contents of GZIP env variable */
 char **args = NULL;   /* argv pointer if GZIP env variable defined */
-char *z_suffix;       /* default suffix (can be set with --suffix) */
+char const *z_suffix; /* default suffix (can be set with --suffix) */
 size_t z_len;         /* strlen(z_suffix) */
 
 /* The set of signals that are caught.  */
@@ -327,7 +327,7 @@ try_help ()
 /* ======================================================================== */
 local void help()
 {
-    static char  *help_msg[] = {
+    static char const* const help_msg[] = {
  "Compress or uncompress FILEs (by default, compress FILES in-place).",
  "",
  "Mandatory arguments to long options are mandatory for short options too.",
@@ -368,7 +368,7 @@ local void help()
  "",
  "Report bugs to <bug-gzip@gnu.org>.",
   0};
-    char **p = help_msg;
+    char const *const *p = help_msg;
 
     printf ("Usage: %s [OPTION]... [FILE]...\n", program_name);
     while (*p) printf ("%s\n", *p++);
@@ -377,7 +377,7 @@ local void help()
 /* ======================================================================== */
 local void license()
 {
-    char **p = license_msg;
+    char const *const *p = license_msg;
 
     printf ("%s %s\n", program_name, VERSION);
     while (*p) printf ("%s\n", *p++);
@@ -970,13 +970,13 @@ local char *get_suffix(name)
 {
     int nlen, slen;
     char suffix[MAX_SUFFIX+3]; /* last chars of name, forced to lower case */
-    static char *known_suffixes[] =
+    static char const *known_suffixes[] =
        {NULL, ".gz", ".z", ".taz", ".tgz", "-gz", "-z", "_z",
 #ifdef MAX_EXT_CHARS
           "z",
 #endif
           NULL};
-    char **suf = known_suffixes;
+    char const **suf = known_suffixes;
 
     *suf = z_suffix;
     if (strequ(z_suffix, "z")) suf++; /* check long suffixes first */
@@ -1061,9 +1061,9 @@ open_input_file (iname, sbuf)
 {
     int ilen;  /* strlen(ifname) */
     int z_suffix_errno = 0;
-    static char *suffixes[] = {NULL, ".gz", ".z", "-z", ".Z", NULL};
-    char **suf = suffixes;
-    char *s;
+    static char const *suffixes[] = {NULL, ".gz", ".z", "-z", ".Z", NULL};
+    char const **suf = suffixes;
+    char const *s;
 #ifdef NO_MULTIPLE_DOTS
     char *dot; /* pointer to ifname extension, or NULL */
 #endif
@@ -1107,7 +1107,7 @@ open_input_file (iname, sbuf)
 
     /* Search for all suffixes */
     do {
-        char *s0 = s = *suf;
+        char const *s0 = s = *suf;
         strcpy (ifname, iname);
 #ifdef NO_MULTIPLE_DOTS
         if (*s == '.') s++;
@@ -1448,7 +1448,7 @@ local void do_list(ifd, method)
 {
     ulg crc;  /* original crc */
     static int first_time = 1;
-    static char* methods[MAX_METHODS] = {
+    static char const *const methods[MAX_METHODS] = {
         "store",  /* 0 */
         "compr",  /* 1 */
         "pack ",  /* 2 */

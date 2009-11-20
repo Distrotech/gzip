@@ -357,10 +357,10 @@ int strcspn(s, reject)
  */
 #define SEPARATOR	" \t"	/* separators in env variable */
 
-char *add_envopt(argcp, argvp, env)
-    int *argcp;          /* pointer to argc */
-    char ***argvp;       /* pointer to argv */
-    char *env;           /* name of environment variable */
+char *add_envopt(
+    int *argcp,          /* pointer to argc */
+    char ***argvp,       /* pointer to argv */
+    char const *env)     /* name of environment variable */
 {
     char *p;             /* running pointer through env variable */
     char **oargv;        /* runs through old argv array */
@@ -414,8 +414,7 @@ char *add_envopt(argcp, argvp, env)
  * Error handlers.
  */
 void
-gzip_error (m)
-    char *m;
+gzip_error (char const *m)
 {
     fprintf (stderr, "\n%s: %s: %s\n", program_name, ifname, m);
     abort_gzip();
@@ -428,8 +427,7 @@ xalloc_die ()
   abort_gzip ();
 }
 
-void warning (m)
-    char *m;
+void warning (char const *m)
 {
     WARN ((stderr, "%s: %s: warning: %s\n", program_name, ifname, m));
 }
