@@ -391,8 +391,7 @@ local void version()
     printf ("Written by Jean-loup Gailly.\n");
 }
 
-local void progerror (string)
-    char *string;
+local void progerror (char const *string)
 {
     int e = errno;
     fprintf (stderr, "%s: ", program_name);
@@ -402,9 +401,7 @@ local void progerror (string)
 }
 
 /* ======================================================================== */
-int main (argc, argv)
-    int argc;
-    char **argv;
+int main (int argc, char **argv)
 {
     int file_count;     /* number of files to process */
     size_t proglen;     /* length of program_name */
