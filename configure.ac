@@ -90,6 +90,7 @@ if test "$gl_gcc_warnings" = yes; then
   # initial problems in gzip
   nw="$nw -Wold-style-definition"
   nw="$nw -Wshadow"
+  nw="$nw -Wunused-macros"
   # ?? -Wstrict-overflow
 
   gl_MANYWARN_ALL_GCC([ws])
@@ -120,7 +121,6 @@ if test "$gl_gcc_warnings" = yes; then
   # Remove the following and save the result in GNULIB_WARN_CFLAGS.
   nw=
   nw="$nw -Wuninitialized"
-  nw="$nw -Wunused-macros"
   nw="$nw -Wmissing-prototypes"
   nw="$nw -Wold-style-definition"
   gl_MANYWARN_COMPLEMENT([GNULIB_WARN_CFLAGS], [$WARN_CFLAGS], [$nw])
