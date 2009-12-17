@@ -21,6 +21,7 @@ include gnulib.mk
 
 libgzip_a_LIBADD += $(LIBOBJS)
 libgzip_a_DEPENDENCIES += $(LIBOBJS)
+AM_CFLAGS = $(WARN_CFLAGS) $(WERROR_CFLAGS)
 
 match.$(OBJEXT): match.c
 	cp $(srcdir)/match.c _match.S
