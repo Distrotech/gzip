@@ -333,8 +333,8 @@ extern char *add_envopt   OF((int *argcp, char ***argvp, char const *env));
 extern void gzip_error    OF((char const *m)) ATTRIBUTE_NORETURN;
 extern void xalloc_die    OF((void)) ATTRIBUTE_NORETURN;
 extern void warning       OF((char const *m));
-extern void read_error    OF((void));
-extern void write_error   OF((void));
+extern void read_error    OF((void)) ATTRIBUTE_NORETURN;
+extern void write_error   OF((void)) ATTRIBUTE_NORETURN;
 extern void display_ratio OF((off_t num, off_t den, FILE *file));
 extern void fprint_off    OF((FILE *, off_t, int));
 
