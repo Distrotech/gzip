@@ -69,6 +69,7 @@ static char const *const license_msg[] = {
 
 #include "fcntl-safer.h"
 #include "getopt.h"
+#include "ignore-value.h"
 #include "stat-time.h"
 
 		/* configuration */
@@ -1677,10 +1678,11 @@ local void copy_stat(ifstat)
 #endif
 
 #ifndef NO_CHOWN
+    /* Copy ownership */
 # if HAVE_FCHOWN
-    fchown (ofd, ifstat->st_uid, ifstat->st_gid);  /* Copy ownership */
+    ignore_value (fchown (ofd, ifstat->st_uid, ifstat->st_gid));
 # elif HAVE_CHOWN
-    chown(ofname, ifstat->st_uid, ifstat->st_gid);  /* Copy ownership */
+    ignore_value (chown (ofname, ifstat->st_uid, ifstat->st_gid));
 # endif
 #endif
 

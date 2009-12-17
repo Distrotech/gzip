@@ -82,6 +82,7 @@ gettext.h
 gettime.c
 gettimeofday.c
 gnulib.mk
+ignore-value.h
 intprops.h
 isnan.c
 isnand-nolibm.h
