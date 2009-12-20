@@ -74,23 +74,11 @@ static char const *const license_msg[] = {
 
 		/* configuration */
 
-#ifdef HAVE_FCNTL_H
-#  include <fcntl.h>
-#endif
-
-#ifdef HAVE_LIMITS_H
-#  include <limits.h>
-#endif
-
-#ifdef HAVE_UNISTD_H
-#  include <unistd.h>
-#endif
-
-#if defined STDC_HEADERS || defined HAVE_STDLIB_H
-#  include <stdlib.h>
-#else
-   extern int errno;
-#endif
+#include <fcntl.h>
+#include <limits.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <errno.h>
 
 #ifndef NO_DIR
 # define NO_DIR 0

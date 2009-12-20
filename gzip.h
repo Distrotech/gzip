@@ -47,20 +47,8 @@
 #include <stdio.h>
 #include <sys/types.h> /* for off_t */
 #include <time.h>
-#if defined HAVE_STRING_H || defined STDC_HEADERS
-#  include <string.h>
-#  if !defined STDC_HEADERS && defined HAVE_MEMORY_H && !defined __GNUC__
-#    include <memory.h>
-#  endif
-#  define memzero(s, n)     memset ((voidp)(s), 0, (n))
-#else
-#  include <strings.h>
-#  define strchr            index
-#  define strrchr           rindex
-#  define memcpy(d, s, n)   bcopy((s), (d), (n))
-#  define memcmp(s1, s2, n) bcmp((s1), (s2), (n))
-#  define memzero(s, n)     bzero((s), (n))
-#endif
+#include <string.h>
+#define memzero(s, n) memset ((voidp)(s), 0, (n))
 
 #ifndef RETSIGTYPE
 #  define RETSIGTYPE void

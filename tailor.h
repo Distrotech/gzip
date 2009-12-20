@@ -200,11 +200,6 @@
 #endif
 
 #if defined(ATARI) || defined(atarist)
-#  ifndef STDC_HEADERS
-#    define STDC_HEADERS
-#    define HAVE_UNISTD_H
-#    define HAVE_DIRENT_H
-#  endif
 #  define ASMV
 #  define OS_CODE  0x05
 #  ifdef TOSFS

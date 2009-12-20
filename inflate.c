@@ -117,9 +117,7 @@
 #include <config.h>
 #include "tailor.h"
 
-#if defined STDC_HEADERS || defined HAVE_STDLIB_H
-#  include <stdlib.h>
-#endif
+#include <stdlib.h>
 
 #include "gzip.h"
 #define slide window

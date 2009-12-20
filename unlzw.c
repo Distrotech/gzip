@@ -10,12 +10,8 @@
 #include <config.h>
 #include "tailor.h"
 
-#ifdef HAVE_UNISTD_H
-#  include <unistd.h>
-#endif
-#ifdef HAVE_FCNTL_H
-#  include <fcntl.h>
-#endif
+#include <unistd.h>
+#include <fcntl.h>
 
 #include "gzip.h"
 #include "lzw.h"

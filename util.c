@@ -24,21 +24,11 @@
 
 #include "tailor.h"
 
-#ifdef HAVE_LIMITS_H
-#  include <limits.h>
-#endif
-#ifdef HAVE_UNISTD_H
-#  include <unistd.h>
-#endif
-#ifdef HAVE_FCNTL_H
-#  include <fcntl.h>
-#endif
-
-#if defined STDC_HEADERS || defined HAVE_STDLIB_H
-#  include <stdlib.h>
-#else
-   extern int errno;
-#endif
+#include <limits.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <errno.h>
 
 #include "gzip.h"
 #include "crypt.h"
@@ -146,10 +136,8 @@ read_buffer (fd, buf, cnt)
      voidp buf;
      unsigned int cnt;
 {
-#ifdef SSIZE_MAX
-  if (SSIZE_MAX < cnt)
-    cnt = SSIZE_MAX;
-#endif
+  if (INT_MAX < cnt)
+    cnt = INT_MAX;
   return read (fd, buf, cnt);
 }
 
@@ -160,10 +148,8 @@ write_buffer (fd, buf, cnt)
      voidp buf;
      unsigned int cnt;
 {
-#ifdef SSIZE_MAX
-  if (SSIZE_MAX < cnt)
-    cnt = SSIZE_MAX;
-#endif
+  if (INT_MAX < cnt)
+    cnt = INT_MAX;
   return write (fd, buf, cnt);
 }
 
@@ -296,59 +282,6 @@ void make_simple_name(name)
         if (*--p == '.') *p = '_';
     } while (p != name);
 }
-
-
-#if !defined HAVE_STRING_H && !defined STDC_HEADERS
-
-/* Provide missing strspn and strcspn functions. */
-
-#  ifndef __STDC__
-#    define const
-#  endif
-
-int strspn  OF((const char *s, const char *accept));
-int strcspn OF((const char *s, const char *reject));
-
-/* ========================================================================
- * Return the length of the maximum initial segment
- * of s which contains only characters in accept.
- */
-int strspn(s, accept)
-    const char *s;
-    const char *accept;
-{
-    register const char *p;
-    register const char *a;
-    register int count = 0;
-
-    for (p = s; *p != '\0'; ++p) {
-	for (a = accept; *a != '\0'; ++a) {
-	    if (*p == *a) break;
-	}
-	if (*a == '\0') return count;
-	++count;
-    }
-    return count;
-}
-
-/* ========================================================================
- * Return the length of the maximum inital segment of s
- * which contains no characters from reject.
- */
-int strcspn(s, reject)
-    const char *s;
-    const char *reject;
-{
-    register int count = 0;
-
-    while (*s != '\0') {
-	if (strchr(reject, *s++) != NULL) return count;
-	++count;
-    }
-    return count;
-}
-
-#endif
 
 /* ========================================================================
  * Add an environment variable (if any) before argv, and update argc.
