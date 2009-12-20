@@ -41,3 +41,10 @@ bootstrap-tools = autoconf,automake,gnulib
 export VERBOSE = yes
 
 old_NEWS_hash = 22b19691660f1870cec5f64b2c0e4641
+
+sc_obs_header_regex = \
+  \<(STDC_HEADERS|HAVE_(LIMITS|STRING|UNISTD|STDLIB)_H)\>
+sc_prohibit_obsolete_HAVE_HEADER_H:
+	@re='^[	 ]*#[	 ]*(el)?if.*$(sc_obs_header_regex)' \
+	msg='remove the above obsolete #if...HAVE_HEADER_H test(s)' \
+	  $(_prohibit_regexp)
