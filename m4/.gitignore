@@ -26,7 +26,9 @@ exponentl.m4
 extensions.m4
 fchdir.m4
 fclose.m4
+fcntl-o.m4
 fcntl-safer.m4
+fcntl.m4
 fcntl_h.m4
 fdopendir.m4
 fflush.m4
