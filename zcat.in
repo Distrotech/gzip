@@ -24,7 +24,7 @@ esac
 PATH=$bindir:$PATH
 
 version="zcat (gzip) @VERSION@
-Copyright (C) 2007, 2009 Free Software Foundation, Inc.
+Copyright (C) 2007, 2009-2010 Free Software Foundation, Inc.
 This is free software.  You may redistribute copies of it under the terms of
 the GNU General Public License <http://www.gnu.org/licenses/gpl.html>.
 There is NO WARRANTY, to the extent permitted by law.
