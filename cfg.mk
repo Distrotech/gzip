@@ -45,3 +45,7 @@ sc_prohibit_obsolete_HAVE_HEADER_H:
 	@re='^[	 ]*#[	 ]*(el)?if.*$(sc_obs_header_regex)' \
 	msg='remove the above obsolete #if...HAVE_HEADER_H test(s)' \
 	  $(_prohibit_regexp)
+
+update-copyright-env = \
+  UPDATE_COPYRIGHT_USE_INTERVALS=1 \
+  UPDATE_COPYRIGHT_MAX_LINE_LENGTH=79
