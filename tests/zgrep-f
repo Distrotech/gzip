@@ -23,7 +23,8 @@ if test "$VERBOSE" = yes; then
   zgrep --version
 fi
 
-. $srcdir/tests/test-lib.sh
+: ${srcdir=.}
+. "$srcdir/tests/init.sh"; path_prepend_ .
 
 echo needle > n || framework_failure
 echo needle > haystack || framework_failure

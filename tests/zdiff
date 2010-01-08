@@ -23,7 +23,8 @@ if test "$VERBOSE" = yes; then
   zdiff --version
 fi
 
-. $srcdir/tests/test-lib.sh
+: ${srcdir=.}
+. "$srcdir/tests/init.sh"; path_prepend_ .
 
 echo a > a || framework_failure
 echo b > b || framework_failure

@@ -41,7 +41,7 @@ EXTRA_DIST = $(ACINCLUDE_INPUTS) $(man_MANS) \
   tailor.h vms/Makefile.mms vms/gzip.hlp vms/vms.c vms/Readme.vms \
   vms/Makefile.vms vms/Makefile.gcc vms/makegzip.com zcat.in zcmp.in zdiff.in \
   zegrep.in zfgrep.in zforce.in zgrep.in zless.in zmore.in znew.in \
-  tests/test-lib.sh
+  tests/init.sh
 
 bin_PROGRAMS = gzip
 bin_SCRIPTS = gunzip gzexe zcat zcmp zdiff \
