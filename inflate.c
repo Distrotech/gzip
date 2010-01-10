@@ -589,7 +589,7 @@ int bl, bd;             /* number of bits decoded by tl[] and td[] */
       do {
         n -= (e = (e = WSIZE - ((d &= WSIZE-1) > w ? d : w)) > n ? n : e);
 #if !defined(NOMEMCPY) && !defined(DEBUG)
-        if (w - d >= e)         /* (this test assumes unsigned comparison) */
+        if (d < w && w - d >= e)
         {
           memcpy(slide + w, slide + d, e);
           w += e;

@@ -2,6 +2,14 @@ GNU gzip NEWS                                    -*- outline -*-
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+  gzip -d would fail with a CRC error for some valid inputs.
+  So far, the only valid input known to exhibit this failure was
+  compressed "from FAT filesystem (MS-DOS, OS/2, NT)".  In addition,
+  to trigger the failure, your memcpy implementation must copy in
+  the "reverse" order.
+
 
 * Noteworthy changes in release 1.3.14 (2009-10-30) [beta]
 
