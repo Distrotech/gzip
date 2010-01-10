@@ -4,6 +4,11 @@ GNU gzip NEWS                                    -*- outline -*-
 
 ** Bug fixes
 
+  gzip -d could segfault and/or clobber the stack, possibly leading to
+  arbitrary code execution.  This affects x86_64 but not 32-bit systems.
+  This fixes CVE-2010-0001.
+  For more details, see http://bugzilla.redhat.com/554418
+
   gzip -d would fail with a CRC error for some valid inputs.
   So far, the only valid input known to exhibit this failure was
   compressed "from FAT filesystem (MS-DOS, OS/2, NT)".  In addition,

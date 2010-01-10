@@ -240,7 +240,8 @@ int unlzw(in, out)
 	int  o;
 
     resetbuf:
-	e = insize-(o = (posbits>>3));
+	o = posbits >> 3;
+	e = o <= insize ? insize - o : 0;
 
 	for (i = 0 ; i < e ; ++i) {
 	    inbuf[i] = inbuf[i+o];
