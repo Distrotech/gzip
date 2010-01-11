@@ -589,7 +589,8 @@ int bl, bd;             /* number of bits decoded by tl[] and td[] */
       do {
         n -= (e = (e = WSIZE - ((d &= WSIZE-1) > w ? d : w)) > n ? n : e);
 #if !defined(NOMEMCPY) && !defined(DEBUG)
-        if (d < w && w - d >= e)
+        unsigned int delta = w > d ? w - d : d - w;
+        if (delta >= e)
         {
           memcpy(slide + w, slide + d, e);
           w += e;
