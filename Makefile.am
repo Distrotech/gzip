@@ -104,6 +104,7 @@ check-local: $(FILES_TO_CHECK) $(bin_PROGRAMS) gzip.doc.gz
 	@echo 'Test succeeded.'
 
 TESTS =						\
+  tests/helin-segv				\
   tests/memcpy-abuse				\
   tests/trailing-nul				\
   tests/zdiff					\
