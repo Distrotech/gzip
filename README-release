@@ -20,13 +20,10 @@ Here are most of the steps we (maintainers) follow when making a release.
 
 * Run "make distcheck"
 
-* Manually set the date, version number, and [stable/alpha/beta] on
-  line 3 of NEWS, then do e.g.,:
+* Set the date, version number, and release type [stable/alpha/beta] on
+  line 3 of NEWS, commit that, and tag the release by running e.g.,
 
-    v=1.3.13
-    pkg=$(sed -n 's/^PACKAGE = \(.*\)/\1/p' Makefile)
-    git commit -F <(printf 'version '$v'\n\n* NEWS: Record release date.\n') -a
-    git tag -s -m "$pkg $v" v$v HEAD
+    build-aux/do-release-commit-and-tag 8.1 beta
 
 * Run the following to create release tarballs.  Your choice selects the
   corresponding upload-to destination in the emitted gnupload command.
@@ -50,10 +47,10 @@ Once all the builds and tests have passed,
   download all tarball/signature pairs and use gpg --verify to ensure
   that they're all valid.
 
-* Push the new tag:
+* Push the NEWS-updating changes and the new tag:
 
     v=$(cat .prev-version)
-    git push origin tag v$v
+    git push origin master tag v$v
 
 * Send the gpg-signed announcement mail, e.g.,
 
@@ -79,5 +76,7 @@ Once all the builds and tests have passed,
 * After each non-alpha release, update the on-line manual accessible via
 
     http://www.gnu.org/software/gzip/manual/
+
+  by running this:
 
     build-aux/gnu-web-doc-update
