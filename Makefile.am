@@ -108,7 +108,8 @@ TESTS =						\
   tests/memcpy-abuse				\
   tests/trailing-nul				\
   tests/zdiff					\
-  tests/zgrep-f
+  tests/zgrep-f					\
+  tests/znew-k
 
 EXTRA_DIST += $(TESTS)
 

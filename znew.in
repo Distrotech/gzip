@@ -41,7 +41,7 @@ Options:
   -v     Verbose; display name and statistics for each file compressed.
   -9     Use the slowest compression method (optimal compression).
   -P     Use pipes for the conversion to reduce disk space usage.
-  -K     Keep a .Z file when it is smaller than the .gz file.
+  -K     Keep a .Z file when it is smaller than the .gz file; implies -t.
       --help     display this help and exit
       --version  output version information and exit
 
@@ -106,7 +106,7 @@ case "$opt" in
   *t*) check=1; opt=`echo "$opt" | sed 's/t//g'`
 esac
 case "$opt" in
-  *K*) keep=1; opt=`echo "$opt" | sed 's/K//g'`
+  *K*) keep=1; check=1; opt=`echo "$opt" | sed 's/K//g'`
 esac
 case "$opt" in
   *P*) pipe=1; opt=`echo "$opt" | sed 's/P//g'`
@@ -164,10 +164,8 @@ for i do
 			      `expr \( $new + $block - 1 \) / $block`; then
     if test $pipe -eq 1; then
       rm -f "$n$ext"
-    elif test $check -eq 1; then
-      mv "$n.$$" "$n.Z" && rm -f "$n$ext"
     else
-      gzip -d "$n$ext" && compress "$n" && rm -f "$n$ext"
+      mv "$n.$$" "$n.Z" && rm -f "$n$ext"
     fi
     echo "$n.Z smaller than $n$ext -- unchanged"
 
