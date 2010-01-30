@@ -213,11 +213,16 @@ do
       r=$(
         exec 4>&1
         (eval "$grep" 4>&-; echo $? >&4) 3>&- | sed "$sed_script" >&3 4>&-
-      ) || r=2
-      exit $r
+      ) && exit $r
+      r=$?
+      test $r -gt 128 && test $r -le 143 && exit $r || exit 2
     fi >&3 5>&-
   )
   r=$?
+  if test $r -gt 128 && test $r -le 143; then
+    kill -$(($r-128)) $$
+    exit $r
+  fi
   test "$gzip_status" -eq 0 || test "$gzip_status" -eq 2 || r=2
   test $res -lt $r && res=$r
 done

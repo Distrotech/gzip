@@ -110,6 +110,7 @@ TESTS =						\
   tests/trailing-nul				\
   tests/zdiff					\
   tests/zgrep-f					\
+  tests/zgrep-signal				\
   tests/znew-k
 
 EXTRA_DIST += $(TESTS)
