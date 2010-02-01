@@ -24,7 +24,7 @@ if test "$VERBOSE" = yes; then
 fi
 
 : ${srcdir=.}
-. "$srcdir/tests/init.sh"; path_prepend_ .
+. "$srcdir/tests/init.sh"
 
 (echo 0 | gzip; printf '\0') > 0.gz || framework_failure
 (echo 00 | gzip; printf '\0\0') > 00.gz || framework_failure

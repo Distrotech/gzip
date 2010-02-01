@@ -24,7 +24,7 @@ if test "$VERBOSE" = yes; then
 fi
 
 : ${srcdir=.}
-. "$srcdir/tests/init.sh"; path_prepend_ .
+. "$srcdir/tests/init.sh"
 
 # The input must be larger than 32KiB and slightly
 # less uniform than e.g., all zeros.

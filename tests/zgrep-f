@@ -24,7 +24,7 @@ if test "$VERBOSE" = yes; then
 fi
 
 : ${srcdir=.}
-. "$srcdir/tests/init.sh"; path_prepend_ .
+. "$srcdir/tests/init.sh"
 
 echo needle > n || framework_failure
 echo needle > haystack || framework_failure

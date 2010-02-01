@@ -24,7 +24,7 @@ if test "$VERBOSE" = yes; then
 fi
 
 : ${srcdir=.}
-. "$srcdir/tests/init.sh"; path_prepend_ .
+. "$srcdir/tests/init.sh"
 
 echo a > a || framework_failure
 echo b > b || framework_failure
