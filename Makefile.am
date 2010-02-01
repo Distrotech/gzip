@@ -99,13 +99,12 @@ check-local: $(FILES_TO_CHECK) $(bin_PROGRAMS) gzip.doc.gz
 	done
 	./gzip -dc $(srcdir)/tests/hufts-segv.gz > /dev/null 2>&1; \
 	  test $$? = 1
-	k=in-$$$$; printf a | ./gzip > $$k && \
-	  test "`cat $$k | ./gzip -dc $$k - $$k`" = aaa && rm $$k
 	@echo 'Test succeeded.'
 
 TESTS =						\
   tests/helin-segv				\
   tests/memcpy-abuse				\
+  tests/stdin					\
   tests/trailing-nul				\
   tests/zdiff					\
   tests/zgrep-f					\
