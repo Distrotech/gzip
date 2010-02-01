@@ -27,16 +27,20 @@ fi
 
 cat <<'EOF' >compress || framework_failure
 #!/bin/sh
-echo >&2 'compress have been called'
+echo >&2 'compress has been invoked'
 exit 1
 EOF
 chmod +x compress || framework_failure
 
-printf '%1012977s' ' ' | gzip -c >znew-k.Z || framework_failure
+# Note that the basename must have a length of 6 or greater.
+# Otherwise, "test -f $name" below would fail.
+name=123456.Z
+
+printf '%1012977s' ' ' | gzip -c > $name || framework_failure
 
 fail=0
 
-znew -K znew-k.Z || fail=1
-test -f znew-k.Z || fail=1
+znew -K $name || fail=1
+test -f $name || fail=1
 
 Exit $fail
