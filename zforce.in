@@ -44,7 +44,7 @@ not compress them twice.
 Report bugs to <bug-gzip@gnu.org>."
 
 if test $# = 0; then
-  echo "$usage"
+  echo >&2 "$0: invalid number of operands; try \`$0 --help' for help"
   exit 1
 fi
 

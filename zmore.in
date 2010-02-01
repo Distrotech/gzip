@@ -57,7 +57,7 @@ fi
 
 if test $# = 0; then
     if test -t 0; then
-	echo "$usage"
+	echo >&2 "$0: invalid number of operands; try \`$0 --help' for help"
     else
 	gzip -cdfq | eval ${PAGER-more}
     fi
