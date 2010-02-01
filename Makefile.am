@@ -97,12 +97,11 @@ check-local: $(FILES_TO_CHECK) $(bin_PROGRAMS) gzip.doc.gz
 	for file in $(FILES_TO_CHECK); do \
 	  ./gzip -cv -- "$$file" | ./gzip -d | cmp - "$$file" || exit 1; \
 	done
-	./gzip -dc $(srcdir)/tests/hufts-segv.gz > /dev/null 2>&1; \
-	  test $$? = 1
 	@echo 'Test succeeded.'
 
 TESTS =						\
   tests/helin-segv				\
+  tests/hufts					\
   tests/memcpy-abuse				\
   tests/stdin					\
   tests/trailing-nul				\
