@@ -99,6 +99,9 @@ check-local: $(FILES_TO_CHECK) $(bin_PROGRAMS) gzip.doc.gz
 	done
 	@echo 'Test succeeded.'
 
+XFAIL_TESTS =					\
+  tests/mixed
+
 TESTS =						\
   tests/helin-segv				\
   tests/hufts					\
