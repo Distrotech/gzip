@@ -1239,6 +1239,7 @@ local int get_method(in)
 {
     uch flags;     /* compression flags */
     char magic[2]; /* magic header */
+    int imagic0;   /* first magic byte or EOF */
     int imagic1;   /* like magic[1], but can represent EOF */
     ulg stamp;     /* time stamp */
 
@@ -1246,12 +1247,14 @@ local int get_method(in)
      * premature end of file: use try_byte instead of get_byte.
      */
     if (force && to_stdout) {
-        magic[0] = (char)try_byte();
+        imagic0 = try_byte();
+        magic[0] = (char) imagic0;
         imagic1 = try_byte ();
         magic[1] = (char) imagic1;
         /* If try_byte returned EOF, magic[1] == (char) EOF.  */
     } else {
         magic[0] = (char)get_byte();
+        imagic0 = 0;
         if (magic[0]) {
             magic[1] = (char)get_byte();
             imagic1 = 0; /* avoid lint warning */
@@ -1395,8 +1398,13 @@ local int get_method(in)
     } else if (force && to_stdout && !list) { /* pass input unchanged */
         method = STORED;
         work = copy;
-        inptr = 0;
+        if (imagic1 != EOF)
+            inptr--;
         last_member = 1;
+        if (imagic0 != EOF) {
+            write_buf(fileno(stdout), magic, 1);
+            bytes_out++;
+        }
     }
     if (method >= 0) return method;
 

@@ -44,21 +44,25 @@ extern ulg crc_32_tab[];   /* crc table, defined below */
 
 /* ===========================================================================
  * Copy input to output unchanged: zcat == cat with --force.
- * IN assertion: insize bytes have already been read in inbuf.
+ * IN assertion: insize bytes have already been read in inbuf and inptr bytes
+ * already processed or copied.
  */
 int copy(in, out)
     int in, out;   /* input and output file descriptors */
 {
+    int got;
+
     errno = 0;
-    while (insize != 0 && (int)insize != -1) {
-        write_buf(out, (char*)inbuf, insize);
-        bytes_out += insize;
-        insize = read_buffer (in, (char *) inbuf, INBUFSIZ);
+    while (insize > inptr) {
+        write_buf(out, (char*)inbuf + inptr, insize - inptr);
+        bytes_out += insize - inptr;
+        got = read_buffer (in, (char *) inbuf, INBUFSIZ);
+        if (got == -1)
+            read_error();
+        bytes_in += got;
+        insize = (unsigned)got;
+        inptr = 0;
     }
-    if ((int)insize == -1) {
-        read_error();
-    }
-    bytes_in = bytes_out;
     return OK;
 }
 
