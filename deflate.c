@@ -329,7 +329,7 @@ void lm_init (pack_level, flags)
 #endif
 
     lookahead = read_buf((char*)window,
-			 sizeof(int) <= 2 ? (unsigned)WSIZE : 2*WSIZE);
+                         sizeof(int) <= 2 ? (unsigned)WSIZE : 2*WSIZE);
 
     if (lookahead == 0 || lookahead == (unsigned)EOF) {
        eofile = 1, lookahead = 0;
@@ -481,7 +481,7 @@ int longest_match(cur_match)
 #endif
         }
     } while ((cur_match = prev[cur_match & WMASK]) > limit
-	     && --chain_length != 0);
+             && --chain_length != 0);
 
     return best_len;
 }
@@ -601,7 +601,7 @@ local off_t deflate_fast()
          * At this point we have always match_length < MIN_MATCH
          */
         if (hash_head != NIL && strstart - hash_head <= MAX_DIST
-	    && strstart <= window_size - MIN_LOOKAHEAD) {
+            && strstart <= window_size - MIN_LOOKAHEAD) {
             /* To simplify the code, we prevent matches with the string
              * of window index 0 (in particular we have to avoid a match
              * of the string with itself at the start of the input file).
@@ -617,7 +617,7 @@ local off_t deflate_fast()
 
             lookahead -= match_length;
 
-	    /* Insert new strings in the hash table only if the match length
+            /* Insert new strings in the hash table only if the match length
              * is not too large. This saves time but degrades compression.
              */
             if (match_length <= max_insert_length) {
@@ -631,12 +631,12 @@ local off_t deflate_fast()
                      * the next lookahead bytes will be emitted as literals.
                      */
                 } while (--match_length != 0);
-	        strstart++;
+                strstart++;
             } else {
-	        strstart += match_length;
-	        match_length = 0;
-	        ins_h = window[strstart];
-	        UPDATE_HASH(ins_h, window[strstart+1]);
+                strstart += match_length;
+                match_length = 0;
+                ins_h = window[strstart];
+                UPDATE_HASH(ins_h, window[strstart+1]);
 #if MIN_MATCH != 3
                 Call UPDATE_HASH() MIN_MATCH-3 more times
 #endif
@@ -646,7 +646,7 @@ local off_t deflate_fast()
             Tracevv((stderr,"%c",window[strstart]));
             flush = ct_tally (0, window[strstart]);
             lookahead--;
-	    strstart++;
+            strstart++;
         }
         if (flush) FLUSH_BLOCK(0), block_start = strstart;
 

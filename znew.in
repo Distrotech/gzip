@@ -133,9 +133,9 @@ for i do
   else
     if test $check -eq 1; then
       if cp -p "$n.Z" "$n.$$" 2> /dev/null || cp "$n.Z" "$n.$$"; then
-	:
+        :
       else
-	echo cannot backup "$n.Z"
+        echo cannot backup "$n.Z"
         res=1; continue
       fi
     fi
@@ -150,10 +150,10 @@ for i do
       :
     else
       if test $check -eq 1; then
-	mv "$n.$$" "$n.Z" && rm -f "$n"
+        mv "$n.$$" "$n.Z" && rm -f "$n"
         echo error while recompressing $n
       else
-	# compress $n  (might be dangerous if disk full)
+        # compress $n  (might be dangerous if disk full)
         echo error while recompressing $n, left uncompressed
       fi
       res=1; continue
@@ -161,7 +161,7 @@ for i do
   fi
   test $keep -eq 1 && new=`wc -c < "$n$ext"`
   if test $keep -eq 1 && test `expr \( $old + $block - 1 \) / $block` -lt \
-			      `expr \( $new + $block - 1 \) / $block`; then
+                              `expr \( $new + $block - 1 \) / $block`; then
     if test $pipe -eq 1; then
       rm -f "$n$ext"
     else

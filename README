@@ -85,7 +85,7 @@ Many thanks to those who provided me with bug reports and feedback.
 See the files THANKS and ChangeLog for more details.
 
 
-		Note about zip vs. gzip:
+                Note about zip vs. gzip:
 
 The name 'gzip' was a very unfortunate choice, because zip and gzip
 are two really different programs, although the actual compression and

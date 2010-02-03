@@ -118,7 +118,7 @@ void bi_init (zipfile)
      * for in-memory compression.
      */
     if (zfile != NO_FILE) {
-	read_buf  = file_read;
+        read_buf  = file_read;
     }
 }
 
@@ -208,8 +208,8 @@ void copy_block(buf, len, header)
     while (len--) {
 #ifdef CRYPT
         int t;
-	if (key) zencode(*buf, t);
+        if (key) zencode(*buf, t);
 #endif
-	put_byte(*buf++);
+        put_byte(*buf++);
     }
 }

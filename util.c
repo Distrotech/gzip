@@ -51,12 +51,12 @@ int copy(in, out)
 {
     errno = 0;
     while (insize != 0 && (int)insize != -1) {
-	write_buf(out, (char*)inbuf, insize);
-	bytes_out += insize;
-	insize = read_buffer (in, (char *) inbuf, INBUFSIZ);
+        write_buf(out, (char*)inbuf, insize);
+        bytes_out += insize;
+        insize = read_buffer (in, (char *) inbuf, INBUFSIZ);
     }
     if ((int)insize == -1) {
-	read_error();
+        read_error();
     }
     bytes_in = bytes_out;
     return OK;
@@ -76,9 +76,9 @@ ulg updcrc(s, n)
     static ulg crc = (ulg)0xffffffffL; /* shift register contents */
 
     if (s == NULL) {
-	c = 0xffffffffL;
+        c = 0xffffffffL;
     } else {
-	c = crc;
+        c = crc;
         if (n) do {
             c = crc_32_tab[((int)c ^ (*s++)) & 0xff] ^ (c >> 8);
         } while (--n);
@@ -108,20 +108,20 @@ int fill_inbuf(eof_ok)
     /* Read as much as possible */
     insize = 0;
     do {
-	len = read_buffer (ifd, (char *) inbuf + insize, INBUFSIZ - insize);
-	if (len == 0) break;
-	if (len == -1) {
-	  read_error();
-	  break;
-	}
-	insize += len;
+        len = read_buffer (ifd, (char *) inbuf + insize, INBUFSIZ - insize);
+        if (len == 0) break;
+        if (len == -1) {
+          read_error();
+          break;
+        }
+        insize += len;
     } while (insize < INBUFSIZ);
 
     if (insize == 0) {
-	if (eof_ok) return EOF;
-	flush_window();
-	errno = 0;
-	read_error();
+        if (eof_ok) return EOF;
+        flush_window();
+        errno = 0;
+        read_error();
     }
     bytes_in += (off_t)insize;
     inptr = 1;
@@ -176,7 +176,7 @@ void flush_window()
     updcrc(window, outcnt);
 
     if (!test) {
-	write_buf(ofd, (char *)window, outcnt);
+        write_buf(ofd, (char *)window, outcnt);
     }
     bytes_out += (off_t)outcnt;
     outcnt = 0;
@@ -194,11 +194,11 @@ void write_buf(fd, buf, cnt)
     unsigned  n;
 
     while ((n = write_buffer (fd, buf, cnt)) != cnt) {
-	if (n == (unsigned)(-1)) {
-	    write_error();
-	}
-	cnt -= n;
-	buf = (voidp)((char*)buf+n);
+        if (n == (unsigned)(-1)) {
+            write_error();
+        }
+        cnt -= n;
+        buf = (voidp)((char*)buf+n);
     }
 }
 
@@ -252,10 +252,10 @@ int xunlink (filename)
     {
       int e = errno;
       if (chmod (filename, S_IWUSR) != 0)
-	{
-	  errno = e;
-	  return -1;
-	}
+        {
+          errno = e;
+          return -1;
+        }
 
       r = unlink (filename);
     }
@@ -308,15 +308,15 @@ char *add_envopt(
     env_val = xstrdup (env_val);
 
     for (p = env_val; *p; nargc++ ) {        /* move through env_val */
-	p += strspn(p, SEPARATOR);	     /* skip leading separators */
-	if (*p == '\0') break;
+        p += strspn(p, SEPARATOR);	     /* skip leading separators */
+        if (*p == '\0') break;
 
-	p += strcspn(p, SEPARATOR);	     /* find end of word */
-	if (*p) *p++ = '\0';		     /* mark it */
+        p += strcspn(p, SEPARATOR);	     /* find end of word */
+        if (*p) *p++ = '\0';		     /* mark it */
     }
     if (nargc == 0) {
-	free(env_val);
-	return NULL;
+        free(env_val);
+        return NULL;
     }
     *argcp += nargc;
     /* Allocate the new argv array, with an extra element just in case
@@ -333,9 +333,9 @@ char *add_envopt(
 
     /* Then copy the environment args */
     for (p = env_val; nargc > 0; nargc--) {
-	p += strspn(p, SEPARATOR);	     /* skip separators */
-	*(nargv++) = p;			     /* store start */
-	while (*p++) ;			     /* skip over word */
+        p += strspn(p, SEPARATOR);	     /* skip separators */
+        *(nargv++) = p;			     /* store start */
+        while (*p++) ;			     /* skip over word */
     }
 
     /* Finally copy the old args and add a NULL (usual convention) */
@@ -371,10 +371,10 @@ void read_error()
     int e = errno;
     fprintf (stderr, "\n%s: ", program_name);
     if (e != 0) {
-	errno = e;
-	perror(ifname);
+        errno = e;
+        perror(ifname);
     } else {
-	fprintf(stderr, "%s: unexpected end of file\n", ifname);
+        fprintf(stderr, "%s: unexpected end of file\n", ifname);
     }
     abort_gzip();
 }
@@ -413,23 +413,23 @@ void fprint_off(file, offset, width)
 
     /* Don't negate offset here; it might overflow.  */
     if (offset < 0) {
-	do
-	  *--p = '0' - offset % 10;
-	while ((offset /= 10) != 0);
+        do
+          *--p = '0' - offset % 10;
+        while ((offset /= 10) != 0);
 
-	*--p = '-';
+        *--p = '-';
     } else {
-	do
-	  *--p = '0' + offset % 10;
-	while ((offset /= 10) != 0);
+        do
+          *--p = '0' + offset % 10;
+        while ((offset /= 10) != 0);
     }
 
     width -= buf + sizeof buf - p;
     while (0 < width--) {
-	putc (' ', file);
+        putc (' ', file);
     }
     for (;  p < buf + sizeof buf;  p++)
-	putc (*p, file);
+        putc (*p, file);
 }
 
 /* ========================================================================

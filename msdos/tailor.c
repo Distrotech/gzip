@@ -34,9 +34,9 @@ void * fcalloc(items, size)
     if (buf == NULL) return NULL;
     /* Normalize the pointer to seg:0 */
     if (ptr_offset == 0) {
-	ptr_offset = (ush)((uch*)buf-0);
+        ptr_offset = (ush)((uch*)buf-0);
     } else if (ptr_offset != (ush)((uch*)buf-0)) {
-	error("inconsistent ptr_offset");
+        error("inconsistent ptr_offset");
     }
     *((ush*)&buf+1) += (ptr_offset + 15) >> 4;
     *(ush*)&buf = 0;

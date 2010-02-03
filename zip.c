@@ -55,12 +55,12 @@ int zip(in, out)
     put_byte(DEFLATED);      /* compression method */
 
     if (save_orig_name) {
-	flags |= ORIG_NAME;
+        flags |= ORIG_NAME;
     }
     put_byte(flags);         /* general flags */
     stamp = (0 <= time_stamp.tv_sec && time_stamp.tv_sec <= 0xffffffff
-	     ? (ulg) time_stamp.tv_sec
-	     : (ulg) 0);
+             ? (ulg) time_stamp.tv_sec
+             : (ulg) 0);
     put_long (stamp);
 
     /* Write deflated file to zip file */
@@ -74,10 +74,10 @@ int zip(in, out)
     put_byte(OS_CODE);            /* OS identifier */
 
     if (save_orig_name) {
-	char *p = gzip_base_name (ifname); /* Don't save the directory part. */
-	do {
-	    put_char(*p);
-	} while (*p++);
+        char *p = gzip_base_name (ifname); /* Don't save the directory part. */
+        do {
+            put_char(*p);
+        } while (*p++);
     }
     header_bytes = (off_t)outcnt;
 
@@ -88,8 +88,8 @@ int zip(in, out)
    * and not on MSDOS -- diet in TSR mode reports an incorrect file size)
    */
     if (ifile_size != -1L && bytes_in != ifile_size) {
-	fprintf(stderr, "%s: %s: file size changed while zipping\n",
-		program_name, ifname);
+        fprintf(stderr, "%s: %s: file size changed while zipping\n",
+                program_name, ifname);
     }
 #endif
 
@@ -119,8 +119,8 @@ int file_read(buf, size)
     len = read_buffer (ifd, buf, size);
     if (len == 0) return (int)len;
     if (len == (unsigned)-1) {
-	read_error();
-	return EOF;
+        read_error();
+        return EOF;
     }
 
     crc = updcrc((uch*)buf, len);

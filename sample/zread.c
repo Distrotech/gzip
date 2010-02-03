@@ -20,35 +20,35 @@ int main(argc, argv)
     int n;
 
     if (argc < 1 || argc > 2) {
-	fprintf(stderr, "usage: %s [file[.gz]]\n", argv[0]);
-	exit(EXIT_FAILURE);
+        fprintf(stderr, "usage: %s [file[.gz]]\n", argv[0]);
+        exit(EXIT_FAILURE);
     }
     strcpy(cmd, "gzip -dc ");  /* use "gzip -c" for zwrite */
     if (argc == 2) {
-	strncat(cmd, argv[1], sizeof(cmd)-strlen(cmd));
+        strncat(cmd, argv[1], sizeof(cmd)-strlen(cmd));
     }
     infile = popen(cmd, "r");  /* use "w" for zwrite */
     if (infile == NULL) {
-	fprintf(stderr, "%s: popen('%s', 'r') failed\n", argv[0], cmd);
-	exit(EXIT_FAILURE);
+        fprintf(stderr, "%s: popen('%s', 'r') failed\n", argv[0], cmd);
+        exit(EXIT_FAILURE);
     }
     /* Read one byte using getc: */
     n = getc(infile);
     if (n == EOF) {
-	pclose(infile);
-	exit(EXIT_SUCCESS);
+        pclose(infile);
+        exit(EXIT_SUCCESS);
     }
     putchar(n);
 
     /* Read the rest using fread: */
     for (;;) {
-	n = fread(buf, 1, BUFSIZ, infile);
-	if (n <= 0) break;
-	fwrite(buf, 1, n, stdout);
+        n = fread(buf, 1, BUFSIZ, infile);
+        if (n <= 0) break;
+        fwrite(buf, 1, n, stdout);
     }
     if (pclose(infile) != 0) {
-	fprintf(stderr, "%s: pclose failed\n", argv[0]);
-	exit(EXIT_FAILURE);
+        fprintf(stderr, "%s: pclose failed\n", argv[0]);
+        exit(EXIT_FAILURE);
     }
     exit(EXIT_SUCCESS);
     return 0; /* just to make compiler happy */

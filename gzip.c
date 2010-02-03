@@ -72,7 +72,7 @@ static char const *const license_msg[] = {
 #include "ignore-value.h"
 #include "stat-time.h"
 
-		/* configuration */
+                /* configuration */
 
 #include <fcntl.h>
 #include <limits.h>
@@ -152,7 +152,7 @@ static char const *const license_msg[] = {
 #  define PART_SEP "."
 #endif
 
-		/* global buffers */
+                /* global buffers */
 
 DECLARE(uch, inbuf,  INBUFSIZ +INBUF_EXTRA);
 DECLARE(uch, outbuf, OUTBUFSIZ+OUTBUF_EXTRA);
@@ -165,7 +165,7 @@ DECLARE(uch, window, 2L*WSIZE);
     DECLARE(ush, tab_prefix1, 1L<<(BITS-1));
 #endif
 
-		/* local variables */
+                /* local variables */
 
 int ascii = 0;        /* convert end-of-lines to local OS conventions */
 int to_stdout = 0;    /* output to stdout (-c) */
@@ -309,7 +309,7 @@ static void
 try_help ()
 {
   fprintf (stderr, "Try `%s --help' for more information.\n",
-	   program_name);
+           program_name);
   do_exit (ERROR);
 }
 
@@ -423,93 +423,93 @@ int main (int argc, char **argv)
      * Ignore an .exe extension for MSDOS, OS/2 and VMS.
      */
     if (strncmp (program_name, "un",  2) == 0     /* ungzip, uncompress */
-	|| strncmp (program_name, "gun", 3) == 0) /* gunzip */
-	decompress = 1;
+        || strncmp (program_name, "gun", 3) == 0) /* gunzip */
+        decompress = 1;
     else if (strequ (program_name + 1, "cat")     /* zcat, pcat, gcat */
-	     || strequ (program_name, "gzcat"))   /* gzcat */
-	decompress = to_stdout = 1;
+             || strequ (program_name, "gzcat"))   /* gzcat */
+        decompress = to_stdout = 1;
 #endif
 
     z_suffix = Z_SUFFIX;
     z_len = strlen(z_suffix);
 
     while ((optc = getopt_long (argc, argv, "ab:cdfhH?lLmMnNqrS:tvVZ123456789",
-				longopts, (int *)0)) != -1) {
-	switch (optc) {
+                                longopts, (int *)0)) != -1) {
+        switch (optc) {
         case 'a':
             ascii = 1; break;
-	case 'b':
-	    maxbits = atoi(optarg);
-	    for (; *optarg; optarg++)
-	      if (! ('0' <= *optarg && *optarg <= '9'))
-		{
-		  fprintf (stderr, "%s: -b operand is not an integer\n",
-			   program_name);
-		  try_help ();
-		}
-	    break;
-	case 'c':
-	    to_stdout = 1; break;
-	case 'd':
-	    decompress = 1; break;
-	case 'f':
-	    force++; break;
-	case 'h': case 'H':
-	    help(); do_exit(OK); break;
-	case 'l':
-	    list = decompress = to_stdout = 1; break;
-	case 'L':
-	    license(); do_exit(OK); break;
-	case 'm': /* undocumented, may change later */
-	    no_time = 1; break;
-	case 'M': /* undocumented, may change later */
-	    no_time = 0; break;
-	case 'n':
-	    no_name = no_time = 1; break;
-	case 'N':
-	    no_name = no_time = 0; break;
-	case 'q':
-	    quiet = 1; verbose = 0; break;
-	case 'r':
+        case 'b':
+            maxbits = atoi(optarg);
+            for (; *optarg; optarg++)
+              if (! ('0' <= *optarg && *optarg <= '9'))
+                {
+                  fprintf (stderr, "%s: -b operand is not an integer\n",
+                           program_name);
+                  try_help ();
+                }
+            break;
+        case 'c':
+            to_stdout = 1; break;
+        case 'd':
+            decompress = 1; break;
+        case 'f':
+            force++; break;
+        case 'h': case 'H':
+            help(); do_exit(OK); break;
+        case 'l':
+            list = decompress = to_stdout = 1; break;
+        case 'L':
+            license(); do_exit(OK); break;
+        case 'm': /* undocumented, may change later */
+            no_time = 1; break;
+        case 'M': /* undocumented, may change later */
+            no_time = 0; break;
+        case 'n':
+            no_name = no_time = 1; break;
+        case 'N':
+            no_name = no_time = 0; break;
+        case 'q':
+            quiet = 1; verbose = 0; break;
+        case 'r':
 #if NO_DIR
-	    fprintf (stderr, "%s: -r not supported on this system\n",
-		     program_name);
-	    try_help ();
+            fprintf (stderr, "%s: -r not supported on this system\n",
+                     program_name);
+            try_help ();
 #else
-	    recursive = 1;
+            recursive = 1;
 #endif
-	    break;
-	case 'S':
+            break;
+        case 'S':
 #ifdef NO_MULTIPLE_DOTS
             if (*optarg == '.') optarg++;
 #endif
             z_len = strlen(optarg);
-	    z_suffix = optarg;
+            z_suffix = optarg;
             break;
-	case 't':
-	    test = decompress = to_stdout = 1;
-	    break;
-	case 'v':
-	    verbose++; quiet = 0; break;
-	case 'V':
-	    version(); do_exit(OK); break;
-	case 'Z':
+        case 't':
+            test = decompress = to_stdout = 1;
+            break;
+        case 'v':
+            verbose++; quiet = 0; break;
+        case 'V':
+            version(); do_exit(OK); break;
+        case 'Z':
 #ifdef LZW
-	    do_lzw = 1; break;
+            do_lzw = 1; break;
 #else
-	    fprintf(stderr, "%s: -Z not supported in this version\n",
-		    program_name);
-	    try_help ();
-	    break;
+            fprintf(stderr, "%s: -Z not supported in this version\n",
+                    program_name);
+            try_help ();
+            break;
 #endif
-	case '1':  case '2':  case '3':  case '4':
-	case '5':  case '6':  case '7':  case '8':  case '9':
-	    level = optc - '0';
-	    break;
-	default:
-	    /* Error message already emitted by getopt_long. */
-	    try_help ();
-	}
+        case '1':  case '2':  case '3':  case '4':
+        case '5':  case '6':  case '7':  case '8':  case '9':
+            level = optc - '0';
+            break;
+        default:
+            /* Error message already emitted by getopt_long. */
+            try_help ();
+        }
     } /* loop on all arguments */
 
     /* By default, save name and timestamp on compression but do not
@@ -523,8 +523,8 @@ int main (int argc, char **argv)
 #if O_BINARY
 #else
     if (ascii && !quiet) {
-	fprintf(stderr, "%s: option --ascii ignored on this system\n",
-		program_name);
+        fprintf(stderr, "%s: option --ascii ignored on this system\n",
+                program_name);
     }
 #endif
     if ((z_len == 0 && !decompress) || z_len > MAX_SUFFIX) {
@@ -551,17 +551,17 @@ int main (int argc, char **argv)
 
     /* And get to work */
     if (file_count != 0) {
-	if (to_stdout && !test && !list && (!decompress || !ascii)) {
-	    SET_BINARY_MODE(fileno(stdout));
-	}
+        if (to_stdout && !test && !list && (!decompress || !ascii)) {
+            SET_BINARY_MODE(fileno(stdout));
+        }
         while (optind < argc) {
-	    treat_file(argv[optind++]);
-	}
+            treat_file(argv[optind++]);
+        }
     } else {  /* Standard input */
-	treat_stdin();
+        treat_stdin();
     }
     if (list && !quiet && file_count > 1) {
-	do_list(-1, -1); /* print totals */
+        do_list(-1, -1); /* print totals */
     }
     do_exit(exit_code);
     return exit_code; /* just to avoid lint warning */
@@ -577,7 +577,7 @@ input_eof ()
   if (inptr == insize)
     {
       if (insize != INBUFSIZ || fill_inbuf (1) == EOF)
-	return 1;
+        return 1;
 
       /* Unget the char that fill_inbuf got.  */
       inptr = 0;
@@ -592,32 +592,32 @@ input_eof ()
 local void treat_stdin()
 {
     if (!force && !list &&
-	isatty(fileno((FILE *)(decompress ? stdin : stdout)))) {
-	/* Do not send compressed data to the terminal or read it from
-	 * the terminal. We get here when user invoked the program
-	 * without parameters, so be helpful. According to the GNU standards:
-	 *
-	 *   If there is one behavior you think is most useful when the output
-	 *   is to a terminal, and another that you think is most useful when
-	 *   the output is a file or a pipe, then it is usually best to make
-	 *   the default behavior the one that is useful with output to a
-	 *   terminal, and have an option for the other behavior.
-	 *
-	 * Here we use the --force option to get the other behavior.
-	 */
-	fprintf(stderr,
+        isatty(fileno((FILE *)(decompress ? stdin : stdout)))) {
+        /* Do not send compressed data to the terminal or read it from
+         * the terminal. We get here when user invoked the program
+         * without parameters, so be helpful. According to the GNU standards:
+         *
+         *   If there is one behavior you think is most useful when the output
+         *   is to a terminal, and another that you think is most useful when
+         *   the output is a file or a pipe, then it is usually best to make
+         *   the default behavior the one that is useful with output to a
+         *   terminal, and have an option for the other behavior.
+         *
+         * Here we use the --force option to get the other behavior.
+         */
+        fprintf(stderr,
     "%s: compressed data not %s a terminal. Use -f to force %scompression.\n",
-		program_name, decompress ? "read from" : "written to",
-		decompress ? "de" : "");
-	fprintf (stderr, "For help, type: %s -h\n", program_name);
-	do_exit(ERROR);
+                program_name, decompress ? "read from" : "written to",
+                decompress ? "de" : "");
+        fprintf (stderr, "For help, type: %s -h\n", program_name);
+        do_exit(ERROR);
     }
 
     if (decompress || !ascii) {
-	SET_BINARY_MODE(fileno(stdin));
+        SET_BINARY_MODE(fileno(stdin));
     }
     if (!test && !list && (!decompress || !ascii)) {
-	SET_BINARY_MODE(fileno(stdout));
+        SET_BINARY_MODE(fileno(stdout));
     }
     strcpy(ifname, "stdin");
     strcpy(ofname, "stdout");
@@ -625,8 +625,8 @@ local void treat_stdin()
     /* Get the file's time stamp and size.  */
     if (fstat (fileno (stdin), &istat) != 0)
       {
-	progerror ("standard input");
-	do_exit (ERROR);
+        progerror ("standard input");
+        do_exit (ERROR);
       }
     ifile_size = S_ISREG (istat.st_mode) ? istat.st_size : -1;
     time_stamp.tv_nsec = -1;
@@ -639,10 +639,10 @@ local void treat_stdin()
     ifd = fileno(stdin);
 
     if (decompress) {
-	method = get_method(ifd);
-	if (method < 0) {
-	    do_exit(exit_code); /* error message already emitted */
-	}
+        method = get_method(ifd);
+        if (method < 0) {
+            do_exit(exit_code); /* error message already emitted */
+        }
     }
     if (list) {
         do_list(ifd, method);
@@ -652,29 +652,29 @@ local void treat_stdin()
     /* Actually do the compression/decompression. Loop over zipped members.
      */
     for (;;) {
-	if ((*work)(fileno(stdin), fileno(stdout)) != OK) return;
+        if ((*work)(fileno(stdin), fileno(stdout)) != OK) return;
 
-	if (input_eof ())
-	  break;
+        if (input_eof ())
+          break;
 
-	method = get_method(ifd);
-	if (method < 0) return; /* error message already emitted */
-	bytes_out = 0;            /* required for length check */
+        method = get_method(ifd);
+        if (method < 0) return; /* error message already emitted */
+        bytes_out = 0;            /* required for length check */
     }
 
     if (verbose) {
-	if (test) {
-	    fprintf(stderr, " OK\n");
+        if (test) {
+            fprintf(stderr, " OK\n");
 
-	} else if (!decompress) {
-	    display_ratio(bytes_in-(bytes_out-header_bytes), bytes_in, stderr);
-	    fprintf(stderr, "\n");
+        } else if (!decompress) {
+            display_ratio(bytes_in-(bytes_out-header_bytes), bytes_in, stderr);
+            fprintf(stderr, "\n");
 #ifdef DISPLAY_STDIN_RATIO
-	} else {
-	    display_ratio(bytes_out-(bytes_in-header_bytes), bytes_out,stderr);
-	    fprintf(stderr, "\n");
+        } else {
+            display_ratio(bytes_out-(bytes_in-header_bytes), bytes_out,stderr);
+            fprintf(stderr, "\n");
 #endif
-	}
+        }
     }
 }
 
@@ -686,10 +686,10 @@ local void treat_file(iname)
 {
     /* Accept "-" as synonym for stdin */
     if (strequ(iname, "-")) {
-	int cflag = to_stdout;
-	treat_stdin();
-	to_stdout = cflag;
-	return;
+        int cflag = to_stdout;
+        treat_stdin();
+        to_stdout = cflag;
+        return;
     }
 
     /* Check if the input file is present, set ifname and istat: */
@@ -700,63 +700,63 @@ local void treat_file(iname)
     /* If the input name is that of a directory, recurse or ignore: */
     if (S_ISDIR(istat.st_mode)) {
 #if ! NO_DIR
-	if (recursive) {
-	    treat_dir (ifd, iname);
-	    /* Warning: ifname is now garbage */
-	    return;
-	}
+        if (recursive) {
+            treat_dir (ifd, iname);
+            /* Warning: ifname is now garbage */
+            return;
+        }
 #endif
-	close (ifd);
-	WARN ((stderr, "%s: %s is a directory -- ignored\n",
-	       program_name, ifname));
-	return;
+        close (ifd);
+        WARN ((stderr, "%s: %s is a directory -- ignored\n",
+               program_name, ifname));
+        return;
     }
 
     if (! to_stdout)
       {
-	if (! S_ISREG (istat.st_mode))
-	  {
-	    WARN ((stderr,
-		   "%s: %s is not a directory or a regular file - ignored\n",
-		   program_name, ifname));
-	    close (ifd);
-	    return;
-	  }
-	if (istat.st_mode & S_ISUID)
-	  {
-	    WARN ((stderr, "%s: %s is set-user-ID on execution - ignored\n",
-		   program_name, ifname));
-	    close (ifd);
-	    return;
-	  }
-	if (istat.st_mode & S_ISGID)
-	  {
-	    WARN ((stderr, "%s: %s is set-group-ID on execution - ignored\n",
-		   program_name, ifname));
-	    close (ifd);
-	    return;
-	  }
+        if (! S_ISREG (istat.st_mode))
+          {
+            WARN ((stderr,
+                   "%s: %s is not a directory or a regular file - ignored\n",
+                   program_name, ifname));
+            close (ifd);
+            return;
+          }
+        if (istat.st_mode & S_ISUID)
+          {
+            WARN ((stderr, "%s: %s is set-user-ID on execution - ignored\n",
+                   program_name, ifname));
+            close (ifd);
+            return;
+          }
+        if (istat.st_mode & S_ISGID)
+          {
+            WARN ((stderr, "%s: %s is set-group-ID on execution - ignored\n",
+                   program_name, ifname));
+            close (ifd);
+            return;
+          }
 
-	if (! force)
-	  {
-	    if (istat.st_mode & S_ISVTX)
-	      {
-		WARN ((stderr,
-		       "%s: %s has the sticky bit set - file ignored\n",
-		       program_name, ifname));
-		close (ifd);
-		return;
-	      }
-	    if (2 <= istat.st_nlink)
-	      {
-		WARN ((stderr, "%s: %s has %lu other link%c -- unchanged\n",
-		       program_name, ifname,
-		       (unsigned long int) istat.st_nlink - 1,
-		       istat.st_nlink == 2 ? ' ' : 's'));
-		close (ifd);
-		return;
-	      }
-	  }
+        if (! force)
+          {
+            if (istat.st_mode & S_ISVTX)
+              {
+                WARN ((stderr,
+                       "%s: %s has the sticky bit set - file ignored\n",
+                       program_name, ifname));
+                close (ifd);
+                return;
+              }
+            if (2 <= istat.st_nlink)
+              {
+                WARN ((stderr, "%s: %s has %lu other link%c -- unchanged\n",
+                       program_name, ifname,
+                       (unsigned long int) istat.st_nlink - 1,
+                       istat.st_nlink == 2 ? ' ' : 's'));
+                close (ifd);
+                return;
+              }
+          }
       }
 
     ifile_size = S_ISREG (istat.st_mode) ? istat.st_size : -1;
@@ -768,27 +768,27 @@ local void treat_file(iname)
      * without a valid gzip suffix (check done in make_ofname).
      */
     if (to_stdout && !list && !test) {
-	strcpy(ofname, "stdout");
+        strcpy(ofname, "stdout");
 
     } else if (make_ofname() != OK) {
-	close (ifd);
-	return;
+        close (ifd);
+        return;
     }
 
     clear_bufs(); /* clear input and output buffers */
     part_nb = 0;
 
     if (decompress) {
-	method = get_method(ifd); /* updates ofname if original given */
-	if (method < 0) {
-	    close(ifd);
-	    return;               /* error message already emitted */
-	}
+        method = get_method(ifd); /* updates ofname if original given */
+        if (method < 0) {
+            close(ifd);
+            return;               /* error message already emitted */
+        }
     }
     if (list) {
         do_list(ifd, method);
         if (close (ifd) != 0)
-	  read_error ();
+          read_error ();
         return;
     }
 
@@ -797,37 +797,37 @@ local void treat_file(iname)
      * a new ofname and save the original name in the compressed file.
      */
     if (to_stdout) {
-	ofd = fileno(stdout);
-	/* Keep remove_ofname_fd negative.  */
+        ofd = fileno(stdout);
+        /* Keep remove_ofname_fd negative.  */
     } else {
-	if (create_outfile() != OK) return;
+        if (create_outfile() != OK) return;
 
-	if (!decompress && save_orig_name && !verbose && !quiet) {
-	    fprintf(stderr, "%s: %s compressed to %s\n",
-		    program_name, ifname, ofname);
-	}
+        if (!decompress && save_orig_name && !verbose && !quiet) {
+            fprintf(stderr, "%s: %s compressed to %s\n",
+                    program_name, ifname, ofname);
+        }
     }
     /* Keep the name even if not truncated except with --no-name: */
     if (!save_orig_name) save_orig_name = !no_name;
 
     if (verbose) {
-	fprintf(stderr, "%s:\t", ifname);
+        fprintf(stderr, "%s:\t", ifname);
     }
 
     /* Actually do the compression/decompression. Loop over zipped members.
      */
     for (;;) {
-	if ((*work)(ifd, ofd) != OK) {
-	    method = -1; /* force cleanup */
-	    break;
-	}
+        if ((*work)(ifd, ofd) != OK) {
+            method = -1; /* force cleanup */
+            break;
+        }
 
-	if (input_eof ())
-	  break;
+        if (input_eof ())
+          break;
 
-	method = get_method(ifd);
-	if (method < 0) break;    /* error message already emitted */
-	bytes_out = 0;            /* required for length check */
+        method = get_method(ifd);
+        if (method < 0) break;    /* error message already emitted */
+        bytes_out = 0;            /* required for length check */
     }
 
     if (close (ifd) != 0)
@@ -835,48 +835,48 @@ local void treat_file(iname)
 
     if (!to_stdout)
       {
-	sigset_t oldset;
-	int unlink_errno;
+        sigset_t oldset;
+        int unlink_errno;
 
-	copy_stat (&istat);
-	if (close (ofd) != 0)
-	  write_error ();
+        copy_stat (&istat);
+        if (close (ofd) != 0)
+          write_error ();
 
-	sigprocmask (SIG_BLOCK, &caught_signals, &oldset);
-	remove_ofname_fd = -1;
-	unlink_errno = xunlink (ifname) == 0 ? 0 : errno;
-	sigprocmask (SIG_SETMASK, &oldset, NULL);
+        sigprocmask (SIG_BLOCK, &caught_signals, &oldset);
+        remove_ofname_fd = -1;
+        unlink_errno = xunlink (ifname) == 0 ? 0 : errno;
+        sigprocmask (SIG_SETMASK, &oldset, NULL);
 
-	if (unlink_errno)
-	  {
-	    WARN ((stderr, "%s: ", program_name));
-	    if (!quiet)
-	      {
-		errno = unlink_errno;
-		perror (ifname);
-	      }
-	  }
+        if (unlink_errno)
+          {
+            WARN ((stderr, "%s: ", program_name));
+            if (!quiet)
+              {
+                errno = unlink_errno;
+                perror (ifname);
+              }
+          }
       }
 
     if (method == -1) {
-	if (!to_stdout)
-	  remove_output_file ();
-	return;
+        if (!to_stdout)
+          remove_output_file ();
+        return;
     }
 
     /* Display statistics */
     if(verbose) {
-	if (test) {
-	    fprintf(stderr, " OK");
-	} else if (decompress) {
-	    display_ratio(bytes_out-(bytes_in-header_bytes), bytes_out,stderr);
-	} else {
-	    display_ratio(bytes_in-(bytes_out-header_bytes), bytes_in, stderr);
-	}
-	if (!test && !to_stdout) {
-	    fprintf(stderr, " -- replaced with %s", ofname);
-	}
-	fprintf(stderr, "\n");
+        if (test) {
+            fprintf(stderr, " OK");
+        } else if (decompress) {
+            display_ratio(bytes_out-(bytes_in-header_bytes), bytes_out,stderr);
+        } else {
+            display_ratio(bytes_in-(bytes_out-header_bytes), bytes_in, stderr);
+        }
+        if (!test && !to_stdout) {
+            fprintf(stderr, " -- replaced with %s", ofname);
+        }
+        fprintf(stderr, "\n");
     }
 }
 
@@ -893,7 +893,7 @@ local int create_outfile()
 {
   int name_shortened = 0;
   int flags = (O_WRONLY | O_CREAT | O_EXCL
-	       | (ascii && decompress ? 0 : O_BINARY));
+               | (ascii && decompress ? 0 : O_BINARY));
 
   for (;;)
     {
@@ -906,37 +906,37 @@ local int create_outfile()
       sigprocmask (SIG_SETMASK, &oldset, NULL);
 
       if (0 <= ofd)
-	break;
+        break;
 
       switch (open_errno)
-	{
+        {
 #ifdef ENAMETOOLONG
-	case ENAMETOOLONG:
-	  shorten_name (ofname);
-	  name_shortened = 1;
-	  break;
+        case ENAMETOOLONG:
+          shorten_name (ofname);
+          name_shortened = 1;
+          break;
 #endif
 
-	case EEXIST:
-	  if (check_ofname () != OK)
-	    {
-	      close (ifd);
-	      return ERROR;
-	    }
-	  break;
+        case EEXIST:
+          if (check_ofname () != OK)
+            {
+              close (ifd);
+              return ERROR;
+            }
+          break;
 
-	default:
-	  progerror (ofname);
-	  close (ifd);
-	  return ERROR;
-	}
+        default:
+          progerror (ofname);
+          close (ifd);
+          return ERROR;
+        }
     }
 
   if (name_shortened && decompress)
     {
       /* name might be too long if an original name was saved */
       WARN ((stderr, "%s: %s: warning, name truncated\n",
-	     program_name, ofname));
+             program_name, ofname));
     }
 
   return OK;
@@ -973,8 +973,8 @@ local char *get_suffix(name)
 #ifdef SUFFIX_SEP
     /* strip a version number from the file name */
     {
-	char *v = strrchr(name, SUFFIX_SEP);
- 	if (v != NULL) *v = '\0';
+        char *v = strrchr(name, SUFFIX_SEP);
+        if (v != NULL) *v = '\0';
     }
 #endif
     nlen = strlen(name);
@@ -1009,19 +1009,19 @@ open_and_stat (char *name, int flags, mode_t mode, struct stat *st)
   if (!to_stdout && !force)
     {
       if (HAVE_WORKING_O_NOFOLLOW)
-	flags |= O_NOFOLLOW;
+        flags |= O_NOFOLLOW;
       else
-	{
+        {
 #if HAVE_LSTAT || defined lstat
-	  if (lstat (name, st) != 0)
-	    return -1;
-	  else if (S_ISLNK (st->st_mode))
-	    {
-	      errno = ELOOP;
-	      return -1;
-	    }
+          if (lstat (name, st) != 0)
+            return -1;
+          else if (S_ISLNK (st->st_mode))
+            {
+              errno = ELOOP;
+              return -1;
+            }
 #endif
-	}
+        }
     }
 
   fd = OPEN (name, flags, mode);
@@ -1058,12 +1058,12 @@ open_input_file (iname, sbuf)
 #endif
     int fd;
     int open_flags = (O_RDONLY | O_NONBLOCK | O_NOCTTY
-		      | (ascii && !decompress ? 0 : O_BINARY));
+                      | (ascii && !decompress ? 0 : O_BINARY));
 
     *suf = z_suffix;
 
     if (sizeof ifname - 1 <= strlen (iname))
-	goto name_too_long;
+        goto name_too_long;
 
     strcpy(ifname, iname);
 
@@ -1073,16 +1073,16 @@ open_input_file (iname, sbuf)
       return fd;
 
     if (!decompress || errno != ENOENT) {
-	progerror(ifname);
-	return -1;
+        progerror(ifname);
+        return -1;
     }
     /* file.ext doesn't exist, try adding a suffix (after removing any
      * version number for VMS).
      */
     s = get_suffix(ifname);
     if (s != NULL) {
-	progerror(ifname); /* ifname already has z suffix and does not exist */
-	return -1;
+        progerror(ifname); /* ifname already has z suffix and does not exist */
+        return -1;
     }
 #ifdef NO_MULTIPLE_DOTS
     dot = strrchr(ifname, '.');
@@ -1103,22 +1103,22 @@ open_input_file (iname, sbuf)
         if (*dot == '\0') strcpy (dot, ".");
 #endif
 #ifdef MAX_EXT_CHARS
-	if (MAX_EXT_CHARS < strlen (s) + strlen (dot + 1))
-	  dot[MAX_EXT_CHARS + 1 - strlen (s)] = '\0';
+        if (MAX_EXT_CHARS < strlen (s) + strlen (dot + 1))
+          dot[MAX_EXT_CHARS + 1 - strlen (s)] = '\0';
 #endif
-	if (sizeof ifname <= ilen + strlen (s))
-	  goto name_too_long;
+        if (sizeof ifname <= ilen + strlen (s))
+          goto name_too_long;
         strcat(ifname, s);
-	fd = open_and_stat (ifname, open_flags, RW_USER, sbuf);
-	if (0 <= fd)
-	  return fd;
-	if (errno != ENOENT)
-	  {
-	    progerror (ifname);
-	    return -1;
-	  }
-	if (strequ (s0, z_suffix))
-	  z_suffix_errno = errno;
+        fd = open_and_stat (ifname, open_flags, RW_USER, sbuf);
+        if (0 <= fd)
+          return fd;
+        if (errno != ENOENT)
+          {
+            progerror (ifname);
+            return -1;
+          }
+        if (strequ (s0, z_suffix))
+          z_suffix_errno = errno;
     } while (*++suf != NULL);
 
     /* No suffix found, complain using z_suffix: */
@@ -1154,52 +1154,52 @@ local int make_ofname()
     suff = get_suffix(ofname);
 
     if (decompress) {
-	if (suff == NULL) {
-	    /* With -t or -l, try all files (even without .gz suffix)
-	     * except with -r (behave as with just -dr).
+        if (suff == NULL) {
+            /* With -t or -l, try all files (even without .gz suffix)
+             * except with -r (behave as with just -dr).
              */
             if (!recursive && (list || test)) return OK;
 
-	    /* Avoid annoying messages with -r */
-	    if (verbose || (!recursive && !quiet)) {
-		WARN((stderr,"%s: %s: unknown suffix -- ignored\n",
-		      program_name, ifname));
-	    }
-	    return WARNING;
-	}
-	/* Make a special case for .tgz and .taz: */
-	strlwr(suff);
-	if (strequ(suff, ".tgz") || strequ(suff, ".taz")) {
-	    strcpy(suff, ".tar");
-	} else {
-	    *suff = '\0'; /* strip the z suffix */
-	}
+            /* Avoid annoying messages with -r */
+            if (verbose || (!recursive && !quiet)) {
+                WARN((stderr,"%s: %s: unknown suffix -- ignored\n",
+                      program_name, ifname));
+            }
+            return WARNING;
+        }
+        /* Make a special case for .tgz and .taz: */
+        strlwr(suff);
+        if (strequ(suff, ".tgz") || strequ(suff, ".taz")) {
+            strcpy(suff, ".tar");
+        } else {
+            *suff = '\0'; /* strip the z suffix */
+        }
         /* ofname might be changed later if infile contains an original name */
 
     } else if (suff && ! force) {
-	/* Avoid annoying messages with -r (see treat_dir()) */
-	if (verbose || (!recursive && !quiet)) {
-	    /* Don't use WARN, as it affects exit status.  */
-	    fprintf (stderr, "%s: %s already has %s suffix -- unchanged\n",
-		     program_name, ifname, suff);
-	}
-	return WARNING;
+        /* Avoid annoying messages with -r (see treat_dir()) */
+        if (verbose || (!recursive && !quiet)) {
+            /* Don't use WARN, as it affects exit status.  */
+            fprintf (stderr, "%s: %s already has %s suffix -- unchanged\n",
+                     program_name, ifname, suff);
+        }
+        return WARNING;
     } else {
         save_orig_name = 0;
 
 #ifdef NO_MULTIPLE_DOTS
-	suff = strrchr(ofname, '.');
-	if (suff == NULL) {
-	    if (sizeof ofname <= strlen (ofname) + 1)
-		goto name_too_long;
+        suff = strrchr(ofname, '.');
+        if (suff == NULL) {
+            if (sizeof ofname <= strlen (ofname) + 1)
+                goto name_too_long;
             strcat(ofname, ".");
 #  ifdef MAX_EXT_CHARS
-	    if (strequ(z_suffix, "z")) {
-		if (sizeof ofname <= strlen (ofname) + 2)
-		    goto name_too_long;
-		strcat(ofname, "gz"); /* enough room */
-		return OK;
-	    }
+            if (strequ(z_suffix, "z")) {
+                if (sizeof ofname <= strlen (ofname) + 2)
+                    goto name_too_long;
+                strcat(ofname, "gz"); /* enough room */
+                return OK;
+            }
         /* On the Atari and some versions of MSDOS,
          * ENAMETOOLONG does not work correctly.  So we
          * must truncate here.
@@ -1210,9 +1210,9 @@ local int make_ofname()
 #  endif
         }
 #endif /* NO_MULTIPLE_DOTS */
-	if (sizeof ofname <= strlen (ofname) + z_len)
-	    goto name_too_long;
-	strcat(ofname, z_suffix);
+        if (sizeof ofname <= strlen (ofname) + z_len)
+            goto name_too_long;
+        strcat(ofname, z_suffix);
 
     } /* decompress ? */
     return OK;
@@ -1246,19 +1246,19 @@ local int get_method(in)
      * premature end of file: use try_byte instead of get_byte.
      */
     if (force && to_stdout) {
-	magic[0] = (char)try_byte();
-	imagic1 = try_byte ();
-	magic[1] = (char) imagic1;
-	/* If try_byte returned EOF, magic[1] == (char) EOF.  */
+        magic[0] = (char)try_byte();
+        imagic1 = try_byte ();
+        magic[1] = (char) imagic1;
+        /* If try_byte returned EOF, magic[1] == (char) EOF.  */
     } else {
-	magic[0] = (char)get_byte();
-	if (magic[0]) {
-	    magic[1] = (char)get_byte();
-	    imagic1 = 0; /* avoid lint warning */
-	} else {
-	    imagic1 = try_byte ();
-	    magic[1] = (char) imagic1;
-	}
+        magic[0] = (char)get_byte();
+        if (magic[0]) {
+            magic[1] = (char)get_byte();
+            imagic1 = 0; /* avoid lint warning */
+        } else {
+            imagic1 = try_byte ();
+            magic[1] = (char) imagic1;
+        }
     }
     method = -1;                 /* unknown yet */
     part_nb++;                   /* number of parts in gzip file */
@@ -1269,160 +1269,160 @@ local int get_method(in)
     if (memcmp(magic, GZIP_MAGIC, 2) == 0
         || memcmp(magic, OLD_GZIP_MAGIC, 2) == 0) {
 
-	method = (int)get_byte();
-	if (method != DEFLATED) {
-	    fprintf(stderr,
-		    "%s: %s: unknown method %d -- not supported\n",
-		    program_name, ifname, method);
-	    exit_code = ERROR;
-	    return -1;
-	}
-	work = unzip;
-	flags  = (uch)get_byte();
+        method = (int)get_byte();
+        if (method != DEFLATED) {
+            fprintf(stderr,
+                    "%s: %s: unknown method %d -- not supported\n",
+                    program_name, ifname, method);
+            exit_code = ERROR;
+            return -1;
+        }
+        work = unzip;
+        flags  = (uch)get_byte();
 
-	if ((flags & ENCRYPTED) != 0) {
-	    fprintf(stderr,
-		    "%s: %s is encrypted -- not supported\n",
-		    program_name, ifname);
-	    exit_code = ERROR;
-	    return -1;
-	}
-	if ((flags & CONTINUATION) != 0) {
-	    fprintf(stderr,
-		    "%s: %s is a multi-part gzip file -- not supported\n",
-		    program_name, ifname);
-	    exit_code = ERROR;
-	    if (force <= 1) return -1;
-	}
-	if ((flags & RESERVED) != 0) {
-	    fprintf(stderr,
-		    "%s: %s has flags 0x%x -- not supported\n",
-		    program_name, ifname, flags);
-	    exit_code = ERROR;
-	    if (force <= 1) return -1;
-	}
-	stamp  = (ulg)get_byte();
-	stamp |= ((ulg)get_byte()) << 8;
-	stamp |= ((ulg)get_byte()) << 16;
-	stamp |= ((ulg)get_byte()) << 24;
-	if (stamp != 0 && !no_time)
-	  {
-	    time_stamp.tv_sec = stamp;
-	    time_stamp.tv_nsec = 0;
-	  }
+        if ((flags & ENCRYPTED) != 0) {
+            fprintf(stderr,
+                    "%s: %s is encrypted -- not supported\n",
+                    program_name, ifname);
+            exit_code = ERROR;
+            return -1;
+        }
+        if ((flags & CONTINUATION) != 0) {
+            fprintf(stderr,
+                    "%s: %s is a multi-part gzip file -- not supported\n",
+                    program_name, ifname);
+            exit_code = ERROR;
+            if (force <= 1) return -1;
+        }
+        if ((flags & RESERVED) != 0) {
+            fprintf(stderr,
+                    "%s: %s has flags 0x%x -- not supported\n",
+                    program_name, ifname, flags);
+            exit_code = ERROR;
+            if (force <= 1) return -1;
+        }
+        stamp  = (ulg)get_byte();
+        stamp |= ((ulg)get_byte()) << 8;
+        stamp |= ((ulg)get_byte()) << 16;
+        stamp |= ((ulg)get_byte()) << 24;
+        if (stamp != 0 && !no_time)
+          {
+            time_stamp.tv_sec = stamp;
+            time_stamp.tv_nsec = 0;
+          }
 
-	(void)get_byte();  /* Ignore extra flags for the moment */
-	(void)get_byte();  /* Ignore OS type for the moment */
+        (void)get_byte();  /* Ignore extra flags for the moment */
+        (void)get_byte();  /* Ignore OS type for the moment */
 
-	if ((flags & CONTINUATION) != 0) {
-	    unsigned part = (unsigned)get_byte();
-	    part |= ((unsigned)get_byte())<<8;
-	    if (verbose) {
-		fprintf(stderr,"%s: %s: part number %u\n",
-			program_name, ifname, part);
-	    }
-	}
-	if ((flags & EXTRA_FIELD) != 0) {
-	    unsigned len = (unsigned)get_byte();
-	    len |= ((unsigned)get_byte())<<8;
-	    if (verbose) {
-		fprintf(stderr,"%s: %s: extra field of %u bytes ignored\n",
-			program_name, ifname, len);
-	    }
-	    while (len--) (void)get_byte();
-	}
+        if ((flags & CONTINUATION) != 0) {
+            unsigned part = (unsigned)get_byte();
+            part |= ((unsigned)get_byte())<<8;
+            if (verbose) {
+                fprintf(stderr,"%s: %s: part number %u\n",
+                        program_name, ifname, part);
+            }
+        }
+        if ((flags & EXTRA_FIELD) != 0) {
+            unsigned len = (unsigned)get_byte();
+            len |= ((unsigned)get_byte())<<8;
+            if (verbose) {
+                fprintf(stderr,"%s: %s: extra field of %u bytes ignored\n",
+                        program_name, ifname, len);
+            }
+            while (len--) (void)get_byte();
+        }
 
-	/* Get original file name if it was truncated */
-	if ((flags & ORIG_NAME) != 0) {
-	    if (no_name || (to_stdout && !list) || part_nb > 1) {
-		/* Discard the old name */
-		char c; /* dummy used for NeXTstep 3.0 cc optimizer bug */
-		do {c=get_byte();} while (c != 0);
-	    } else {
-		/* Copy the base name. Keep a directory prefix intact. */
+        /* Get original file name if it was truncated */
+        if ((flags & ORIG_NAME) != 0) {
+            if (no_name || (to_stdout && !list) || part_nb > 1) {
+                /* Discard the old name */
+                char c; /* dummy used for NeXTstep 3.0 cc optimizer bug */
+                do {c=get_byte();} while (c != 0);
+            } else {
+                /* Copy the base name. Keep a directory prefix intact. */
                 char *p = gzip_base_name (ofname);
                 char *base = p;
-		for (;;) {
-		    *p = (char)get_char();
-		    if (*p++ == '\0') break;
-		    if (p >= ofname+sizeof(ofname)) {
-			gzip_error ("corrupted input -- file name too large");
-		    }
-		}
-		p = gzip_base_name (base);
-		memmove (base, p, strlen (p) + 1);
+                for (;;) {
+                    *p = (char)get_char();
+                    if (*p++ == '\0') break;
+                    if (p >= ofname+sizeof(ofname)) {
+                        gzip_error ("corrupted input -- file name too large");
+                    }
+                }
+                p = gzip_base_name (base);
+                memmove (base, p, strlen (p) + 1);
                 /* If necessary, adapt the name to local OS conventions: */
                 if (!list) {
                    MAKE_LEGAL_NAME(base);
-		   if (base) list=0; /* avoid warning about unused variable */
+                   if (base) list=0; /* avoid warning about unused variable */
                 }
-	    } /* no_name || to_stdout */
-	} /* ORIG_NAME */
+            } /* no_name || to_stdout */
+        } /* ORIG_NAME */
 
-	/* Discard file comment if any */
-	if ((flags & COMMENT) != 0) {
-	    while (get_char() != 0) /* null */ ;
-	}
-	if (part_nb == 1) {
-	    header_bytes = inptr + 2*sizeof(long); /* include crc and size */
-	}
+        /* Discard file comment if any */
+        if ((flags & COMMENT) != 0) {
+            while (get_char() != 0) /* null */ ;
+        }
+        if (part_nb == 1) {
+            header_bytes = inptr + 2*sizeof(long); /* include crc and size */
+        }
 
     } else if (memcmp(magic, PKZIP_MAGIC, 2) == 0 && inptr == 2
-	    && memcmp((char*)inbuf, PKZIP_MAGIC, 4) == 0) {
-	/* To simplify the code, we support a zip file when alone only.
+            && memcmp((char*)inbuf, PKZIP_MAGIC, 4) == 0) {
+        /* To simplify the code, we support a zip file when alone only.
          * We are thus guaranteed that the entire local header fits in inbuf.
          */
         inptr = 0;
-	work = unzip;
-	if (check_zipfile(in) != OK) return -1;
-	/* check_zipfile may get ofname from the local header */
-	last_member = 1;
+        work = unzip;
+        if (check_zipfile(in) != OK) return -1;
+        /* check_zipfile may get ofname from the local header */
+        last_member = 1;
 
     } else if (memcmp(magic, PACK_MAGIC, 2) == 0) {
-	work = unpack;
-	method = PACKED;
+        work = unpack;
+        method = PACKED;
 
     } else if (memcmp(magic, LZW_MAGIC, 2) == 0) {
-	work = unlzw;
-	method = COMPRESSED;
-	last_member = 1;
+        work = unlzw;
+        method = COMPRESSED;
+        last_member = 1;
 
     } else if (memcmp(magic, LZH_MAGIC, 2) == 0) {
-	work = unlzh;
-	method = LZHED;
-	last_member = 1;
+        work = unlzh;
+        method = LZHED;
+        last_member = 1;
 
     } else if (force && to_stdout && !list) { /* pass input unchanged */
-	method = STORED;
-	work = copy;
+        method = STORED;
+        work = copy;
         inptr = 0;
-	last_member = 1;
+        last_member = 1;
     }
     if (method >= 0) return method;
 
     if (part_nb == 1) {
-	fprintf (stderr, "\n%s: %s: not in gzip format\n",
-		 program_name, ifname);
-	exit_code = ERROR;
-	return -1;
+        fprintf (stderr, "\n%s: %s: not in gzip format\n",
+                 program_name, ifname);
+        exit_code = ERROR;
+        return -1;
     } else {
-	if (magic[0] == 0)
-	  {
-	    int inbyte;
-	    for (inbyte = imagic1;  inbyte == 0;  inbyte = try_byte ())
-	      continue;
-	    if (inbyte == EOF)
-	      {
-		if (verbose)
-		  WARN ((stderr, "\n%s: %s: decompression OK, trailing zero bytes ignored\n",
-			 program_name, ifname));
-		return -3;
-	      }
-	  }
+        if (magic[0] == 0)
+          {
+            int inbyte;
+            for (inbyte = imagic1;  inbyte == 0;  inbyte = try_byte ())
+              continue;
+            if (inbyte == EOF)
+              {
+                if (verbose)
+                  WARN ((stderr, "\n%s: %s: decompression OK, trailing zero bytes ignored\n",
+                         program_name, ifname));
+                return -3;
+              }
+          }
 
-	WARN((stderr, "\n%s: %s: decompression OK, trailing garbage ignored\n",
-	      program_name, ifname));
-	return -2;
+        WARN((stderr, "\n%s: %s: decompression OK, trailing garbage ignored\n",
+              program_name, ifname));
+        return -2;
     }
 }
 
@@ -1448,36 +1448,36 @@ local void do_list(ifd, method)
     off_t o;
 
     for (o = OFF_T_MAX;  9 < o;  o /= 10) {
-	positive_off_t_width++;
+        positive_off_t_width++;
     }
 
     if (first_time && method >= 0) {
-	first_time = 0;
-	if (verbose)  {
-	    printf("method  crc     date  time  ");
-	}
-	if (!quiet) {
-	    printf("%*.*s %*.*s  ratio uncompressed_name\n",
-		   positive_off_t_width, positive_off_t_width, "compressed",
-		   positive_off_t_width, positive_off_t_width, "uncompressed");
-	}
+        first_time = 0;
+        if (verbose)  {
+            printf("method  crc     date  time  ");
+        }
+        if (!quiet) {
+            printf("%*.*s %*.*s  ratio uncompressed_name\n",
+                   positive_off_t_width, positive_off_t_width, "compressed",
+                   positive_off_t_width, positive_off_t_width, "uncompressed");
+        }
     } else if (method < 0) {
-	if (total_in <= 0 || total_out <= 0) return;
-	if (verbose) {
-	    printf("                            ");
-	}
-	if (verbose || !quiet) {
-	    fprint_off(stdout, total_in, positive_off_t_width);
-	    printf(" ");
-	    fprint_off(stdout, total_out, positive_off_t_width);
-	    printf(" ");
-	}
-	display_ratio(total_out-(total_in-header_bytes), total_out, stdout);
-	/* header_bytes is not meaningful but used to ensure the same
-	 * ratio if there is a single file.
-	 */
-	printf(" (totals)\n");
-	return;
+        if (total_in <= 0 || total_out <= 0) return;
+        if (verbose) {
+            printf("                            ");
+        }
+        if (verbose || !quiet) {
+            fprint_off(stdout, total_in, positive_off_t_width);
+            printf(" ");
+            fprint_off(stdout, total_out, positive_off_t_width);
+            printf(" ");
+        }
+        display_ratio(total_out-(total_in-header_bytes), total_out, stdout);
+        /* header_bytes is not meaningful but used to ensure the same
+         * ratio if there is a single file.
+         */
+        printf(" (totals)\n");
+        return;
     }
     crc = (ulg)~0; /* unknown */
     bytes_out = -1L;
@@ -1499,37 +1499,37 @@ local void do_list(ifd, method)
                 read_error();
             }
             crc       = LG(buf);
-	    bytes_out = LG(buf+4);
-	}
+            bytes_out = LG(buf+4);
+        }
     }
 #endif /* RECORD_IO */
     if (verbose)
       {
-	struct tm *tm = localtime (&time_stamp.tv_sec);
-	printf ("%5s %08lx ", methods[method], crc);
-	if (tm)
-	  printf ("%s%3d %02d:%02d ",
-		  ("Jan\0Feb\0Mar\0Apr\0May\0Jun\0Jul\0Aug\0Sep\0Oct\0Nov\0Dec"
-		   + 4 * tm->tm_mon),
-		  tm->tm_mday, tm->tm_hour, tm->tm_min);
-	else
-	  printf ("??? ?? ??:?? ");
+        struct tm *tm = localtime (&time_stamp.tv_sec);
+        printf ("%5s %08lx ", methods[method], crc);
+        if (tm)
+          printf ("%s%3d %02d:%02d ",
+                  ("Jan\0Feb\0Mar\0Apr\0May\0Jun\0Jul\0Aug\0Sep\0Oct\0Nov\0Dec"
+                   + 4 * tm->tm_mon),
+                  tm->tm_mday, tm->tm_hour, tm->tm_min);
+        else
+          printf ("??? ?? ??:?? ");
       }
     fprint_off(stdout, bytes_in, positive_off_t_width);
     printf(" ");
     fprint_off(stdout, bytes_out, positive_off_t_width);
     printf(" ");
     if (bytes_in  == -1L) {
-	total_in = -1L;
-	bytes_in = bytes_out = header_bytes = 0;
+        total_in = -1L;
+        bytes_in = bytes_out = header_bytes = 0;
     } else if (total_in >= 0) {
-	total_in  += bytes_in;
+        total_in  += bytes_in;
     }
     if (bytes_out == -1L) {
-	total_out = -1L;
-	bytes_in = bytes_out = header_bytes = 0;
+        total_out = -1L;
+        bytes_in = bytes_out = header_bytes = 0;
     } else if (total_out >= 0) {
-	total_out += bytes_out;
+        total_out += bytes_out;
     }
     display_ratio(bytes_out-(bytes_in-header_bytes), bytes_out, stdout);
     printf(" %s\n", ofname);
@@ -1555,10 +1555,10 @@ local void shorten_name(name)
 
     len = strlen(name);
     if (decompress) {
-	if (len <= 1)
-	  gzip_error ("name too short");
-	name[len-1] = '\0';
-	return;
+        if (len <= 1)
+          gzip_error ("name too short");
+        name[len-1] = '\0';
+        return;
     }
     p = get_suffix(name);
     if (! p)
@@ -1568,33 +1568,33 @@ local void shorten_name(name)
 
     /* compress 1234567890.tar to 1234567890.tgz */
     if (len > 4 && strequ(p-4, ".tar")) {
-	strcpy(p-4, ".tgz");
-	return;
+        strcpy(p-4, ".tgz");
+        return;
     }
     /* Try keeping short extensions intact:
      * 1234.678.012.gz -> 123.678.012.gz
      */
     do {
-	p = strrchr(name, PATH_SEP);
-	p = p ? p+1 : name;
-	while (*p) {
-	    plen = strcspn(p, PART_SEP);
-	    p += plen;
-	    if (plen > min_part) trunc = p-1;
-	    if (*p) p++;
-	}
+        p = strrchr(name, PATH_SEP);
+        p = p ? p+1 : name;
+        while (*p) {
+            plen = strcspn(p, PART_SEP);
+            p += plen;
+            if (plen > min_part) trunc = p-1;
+            if (*p) p++;
+        }
     } while (trunc == NULL && --min_part != 0);
 
     if (trunc != NULL) {
-	do {
-	    trunc[0] = trunc[1];
-	} while (*trunc++);
-	trunc--;
+        do {
+            trunc[0] = trunc[1];
+        } while (*trunc++);
+        trunc--;
     } else {
-	trunc = strrchr(name, PART_SEP[0]);
-	if (!trunc)
-	  gzip_error ("internal error in shorten_name");
-	if (trunc[1] == '\0') trunc--; /* force truncation */
+        trunc = strrchr(name, PART_SEP[0]);
+        if (!trunc)
+          gzip_error ("internal error in shorten_name");
+        if (trunc[1] == '\0') trunc--; /* force truncation */
     }
     strcpy(trunc, z_suffix);
 }
@@ -1607,22 +1607,22 @@ local int check_ofname()
 {
     /* Ask permission to overwrite the existing file */
     if (!force) {
-	int ok = 0;
-	fprintf (stderr, "%s: %s already exists;", program_name, ofname);
-	if (foreground && isatty(fileno(stdin))) {
-	    fprintf(stderr, " do you wish to overwrite (y or n)? ");
-	    fflush(stderr);
-	    ok = yesno();
-	}
-	if (!ok) {
-	    fprintf(stderr, "\tnot overwritten\n");
-	    if (exit_code == OK) exit_code = WARNING;
-	    return ERROR;
-	}
+        int ok = 0;
+        fprintf (stderr, "%s: %s already exists;", program_name, ofname);
+        if (foreground && isatty(fileno(stdin))) {
+            fprintf(stderr, " do you wish to overwrite (y or n)? ");
+            fflush(stderr);
+            ok = yesno();
+        }
+        if (!ok) {
+            fprintf(stderr, "\tnot overwritten\n");
+            if (exit_code == OK) exit_code = WARNING;
+            return ERROR;
+        }
     }
     if (xunlink (ofname)) {
-	progerror(ofname);
-	return ERROR;
+        progerror(ofname);
+        return ERROR;
     }
     return OK;
 }
@@ -1644,24 +1644,24 @@ local void copy_stat(ifstat)
     timespec[1] = get_stat_mtime (ifstat);
 
     if (decompress && 0 <= time_stamp.tv_nsec
-	&& ! (timespec[1].tv_sec == time_stamp.tv_sec
-	      && timespec[1].tv_nsec == time_stamp.tv_nsec))
+        && ! (timespec[1].tv_sec == time_stamp.tv_sec
+              && timespec[1].tv_nsec == time_stamp.tv_nsec))
       {
-	timespec[1] = time_stamp;
-	if (verbose > 1) {
-	    fprintf(stderr, "%s: time stamp restored\n", ofname);
-	}
+        timespec[1] = time_stamp;
+        if (verbose > 1) {
+            fprintf(stderr, "%s: time stamp restored\n", ofname);
+        }
       }
 
     if (gl_futimens (ofd, ofname, timespec) != 0)
       {
-	int e = errno;
-	WARN ((stderr, "%s: ", program_name));
-	if (!quiet)
-	  {
-	    errno = e;
-	    perror (ofname);
-	  }
+        int e = errno;
+        WARN ((stderr, "%s: ", program_name));
+        if (!quiet)
+          {
+            errno = e;
+            perror (ofname);
+          }
       }
 #endif
 
@@ -1681,12 +1681,12 @@ local void copy_stat(ifstat)
     r = chmod (ofname, mode);
 #endif
     if (r != 0) {
-	int e = errno;
-	WARN ((stderr, "%s: ", program_name));
-	if (!quiet) {
-	    errno = e;
-	    perror(ofname);
-	}
+        int e = errno;
+        WARN ((stderr, "%s: ", program_name));
+        if (!quiet) {
+            errno = e;
+            perror(ofname);
+        }
     }
 }
 
@@ -1707,9 +1707,9 @@ local void treat_dir (fd, dir)
     dirp = fdopendir (fd);
 
     if (dirp == NULL) {
-	progerror(dir);
-	close (fd);
-	return ;
+        progerror(dir);
+        close (fd);
+        return ;
     }
     /*
      ** WARNING: the following algorithm could occasionally cause
@@ -1729,34 +1729,34 @@ local void treat_dir (fd, dir)
 
     while ((errno = 0, dp = readdir(dirp)) != NULL) {
 
-	if (strequ(dp->d_name,".") || strequ(dp->d_name,"..")) {
-	    continue;
-	}
-	len = strlen(dir);
-	if (len + _D_EXACT_NAMLEN (dp) + 1 < MAX_PATH_LEN - 1) {
-	    strcpy(nbuf,dir);
-	    if (len != 0 /* dir = "" means current dir on Amiga */
+        if (strequ(dp->d_name,".") || strequ(dp->d_name,"..")) {
+            continue;
+        }
+        len = strlen(dir);
+        if (len + _D_EXACT_NAMLEN (dp) + 1 < MAX_PATH_LEN - 1) {
+            strcpy(nbuf,dir);
+            if (len != 0 /* dir = "" means current dir on Amiga */
 #ifdef PATH_SEP2
-		&& dir[len-1] != PATH_SEP2
+                && dir[len-1] != PATH_SEP2
 #endif
 #ifdef PATH_SEP3
-		&& dir[len-1] != PATH_SEP3
+                && dir[len-1] != PATH_SEP3
 #endif
-	    ) {
-		nbuf[len++] = PATH_SEP;
-	    }
-	    strcpy(nbuf+len, dp->d_name);
-	    treat_file(nbuf);
-	} else {
-	    fprintf(stderr,"%s: %s/%s: pathname too long\n",
-		    program_name, dir, dp->d_name);
-	    exit_code = ERROR;
-	}
+            ) {
+                nbuf[len++] = PATH_SEP;
+            }
+            strcpy(nbuf+len, dp->d_name);
+            treat_file(nbuf);
+        } else {
+            fprintf(stderr,"%s: %s/%s: pathname too long\n",
+                    program_name, dir, dp->d_name);
+            exit_code = ERROR;
+        }
     }
     if (errno != 0)
-	progerror(dir);
+        progerror(dir);
     if (CLOSEDIR(dirp) != 0)
-	progerror(dir);
+        progerror(dir);
 }
 #endif /* ! NO_DIR */
 
@@ -1776,7 +1776,7 @@ install_signal_handlers ()
     {
       sigaction (handled_sig[i], NULL, &act);
       if (act.sa_handler != SIG_IGN)
-	sigaddset (&caught_signals, handled_sig[i]);
+        sigaddset (&caught_signals, handled_sig[i]);
     }
 
   act.sa_handler = abort_gzip_signal;
@@ -1786,18 +1786,18 @@ install_signal_handlers ()
   for (i = 0; i < nsigs; i++)
     if (sigismember (&caught_signals, handled_sig[i]))
       {
-	if (i == 0)
-	  foreground = 1;
-	sigaction (handled_sig[i], &act, NULL);
+        if (i == 0)
+          foreground = 1;
+        sigaction (handled_sig[i], &act, NULL);
       }
 #else
   for (i = 0; i < nsigs; i++)
     if (signal (handled_sig[i], SIG_IGN) != SIG_IGN)
       {
-	if (i == 0)
-	  foreground = 1;
-	signal (handled_sig[i], abort_gzip_signal);
-	siginterrupt (handled_sig[i], 1);
+        if (i == 0)
+          foreground = 1;
+        signal (handled_sig[i], abort_gzip_signal);
+        siginterrupt (handled_sig[i], 1);
       }
 #endif
 }

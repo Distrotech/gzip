@@ -133,7 +133,7 @@ SYNOPSIS
               uncompressed_name: name of the uncompressed file
 
           The uncompressed size is given as -1 on VMS because it
-	  it is not possible to seek reliably to the end of the
+          it is not possible to seek reliably to the end of the
           compressed file, where this size is stored.
 
           In combination with the --verbose option, the following
@@ -148,8 +148,8 @@ SYNOPSIS
           crc is given  as  ffffffff  on VMS for the reason given
           above about the uncompressed size.
 
-	  With --name, the uncompressed name,  date and time  are
-	  those stored within the compress file if present.
+          With --name, the uncompressed name,  date and time  are
+          those stored within the compress file if present.
 
           With --verbose, the size totals and  compression  ratio
           for  all files is also displayed, unless some sizes are

@@ -21,8 +21,8 @@
 
 AC_PREREQ([2.60])
 AC_INIT([gzip],
-	m4_esyscmd([build-aux/git-version-gen .tarball-version]),
-	[bug-gzip@gnu.org])
+        m4_esyscmd([build-aux/git-version-gen .tarball-version]),
+        [bug-gzip@gnu.org])
 
 AC_CONFIG_SRCDIR(gzip.c)
 AC_CONFIG_AUX_DIR(build-aux)
@@ -137,7 +137,7 @@ AC_CACHE_CHECK([for underline in external names], [gzip_cv_underline],
   [gzip_cv_underline=yes
    AC_TRY_COMPILE([int foo() {return 0;}], [],
      [$NM conftest.$OBJEXT | grep _foo >/dev/null 2>&1 ||
-	gzip_cv_underline=no])])
+        gzip_cv_underline=no])])
 ASCPPFLAGS=
 if test $gzip_cv_underline = no; then
   ASCPPFLAGS='-DNO_UNDERLINE'
@@ -154,21 +154,21 @@ AC_CACHE_CHECK([for an assembler syntax supported by this package],
    *' NO_ASM '*) ;;
    *)
      if cp $srcdir/lib/match.c _match.S &&
-	eval "$CPP $CPPFLAGS $ASCPPFLAGS _match.S > _match.i" 2>/dev/null &&
-	eval "$ASCPPPOST < _match.i > match_.s" 2>/dev/null; then
+        eval "$CPP $CPPFLAGS $ASCPPFLAGS _match.S > _match.i" 2>/dev/null &&
+        eval "$ASCPPPOST < _match.i > match_.s" 2>/dev/null; then
        if test ! -s match_.s || grep error < match_.s > /dev/null; then
-	 :
+         :
        elif eval "$CC $CPPFLAGS $CFLAGS -c match_.s >/dev/null 2>&1" &&
-	    test -f match_.$OBJEXT; then
-	 rm -f match_.$OBJEXT
-	 gzip_cv_assembler=yes
-	 if echo 'void foo (void) {}' > conftest.c &&
-	    eval "$CC $CPPFLAGS $CFLAGS -S conftest.c >/dev/null 2>&1" &&
-	    grep '\.note\.GNU-stack' conftest.s >/dev/null 2>&1 &&
-	    eval "$CC $CPPFLAGS $CFLAGS -c -Wa,--noexecstack match_.s >/dev/null 2>&1" &&
-	    test -f match_.$OBJEXT; then
-	   gzip_cv_assembler='yes, with -Wa,--noexecstack'
-	 fi
+            test -f match_.$OBJEXT; then
+         rm -f match_.$OBJEXT
+         gzip_cv_assembler=yes
+         if echo 'void foo (void) {}' > conftest.c &&
+            eval "$CC $CPPFLAGS $CFLAGS -S conftest.c >/dev/null 2>&1" &&
+            grep '\.note\.GNU-stack' conftest.s >/dev/null 2>&1 &&
+            eval "$CC $CPPFLAGS $CFLAGS -c -Wa,--noexecstack match_.s >/dev/null 2>&1" &&
+            test -f match_.$OBJEXT; then
+           gzip_cv_assembler='yes, with -Wa,--noexecstack'
+         fi
        fi
      fi
      rm -f conftest* _match.i _match.S match_.s match_.$OBJEXT;;

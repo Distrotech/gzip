@@ -24,8 +24,8 @@ gzip.c is), not from the [.vms]-directory. Otherwise the compiler
 won't find the source-files.
 
 Using gcc saves disk-space, but needs longer to compile
-	VAXC	 gzip.exe 95/96 Blocks
-	gcc2.3.3 gzip.exe 86/87 Blocks
+        VAXC	 gzip.exe 95/96 Blocks
+        gcc2.3.3 gzip.exe 86/87 Blocks
 
 To install gzip one has to perform the following steps:
   1. compile sources (*.c, [.vms]*.c)
@@ -42,9 +42,9 @@ To install gzip one has to perform the following steps:
   5. Setting up Symbols for the executables:
      Place the following lines in Your login.com
      Change "disk:[directory]" as appropriate.
-	$ gzip   == "$disk:[directory]gzip.exe"
-	$ gunzip == "$disk:[directory]gunzip.exe"
-	$ zcat   == "$disk:[directory]zcat.exe"
+        $ gzip   == "$disk:[directory]gzip.exe"
+        $ gunzip == "$disk:[directory]gunzip.exe"
+        $ zcat   == "$disk:[directory]zcat.exe"
   6. insert help-file gzip.hlp in any Help-library,
      for example in sys$help:helplib.
      this can be done by $lib sys$help:helplib/help gzip
@@ -59,9 +59,9 @@ VAXC-Compiler and does compiling, linking and making the entries.
 Usage:
 - change to the Source-Directory
 - copy vms.c
-	$copy [.vms]vms.c []
+        $copy [.vms]vms.c []
 - start compiling, linking, entries
-	$@[.vms]makegzip
+        $@[.vms]makegzip
 if everything is OK. then you get gzip.exe, gunzip.exe, zcat.exe
 continue at Step 4.
 
@@ -72,9 +72,9 @@ that make checks dependencies. This is helpfull if You have to
 recompile several times, for example after editing the sources.
 - change to the Source-Directory
 - copy vms.c
-	$copy [.vms]vms.c []
+        $copy [.vms]vms.c []
 - start compiling, linking, entries
-	$make /input=[.vms]makefile.vms
+        $make /input=[.vms]makefile.vms
 if everything is OK. then you get gzip.exe, gunzip.exe, zcat.exe
 Continue at Step 4.
 

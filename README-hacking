@@ -26,18 +26,18 @@ Obviously, if you are reading these notes, you did manage to check out
 this package from CVS.  The next step is to get other files needed to
 build, which are extracted from other source packages:
 
-	$ ./bootstrap
+        $ ./bootstrap
 
 And there you are!  Just
 
-	$ ./configure
-	$ make
-	$ make check
+        $ ./configure
+        $ make
+        $ make check
 
 At this point, there should be no difference between your local copy,
 and the CVS master copy:
 
-	$ cvs diff
+        $ cvs diff
 
 should output no difference.
 

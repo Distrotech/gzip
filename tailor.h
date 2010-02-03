@@ -251,7 +251,7 @@
 #endif
 
 
-	/* Common defaults */
+        /* Common defaults */
 
 #ifndef OS_CODE
 #  define OS_CODE  0x03  /* assume Unix */

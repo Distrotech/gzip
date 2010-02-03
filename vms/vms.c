@@ -32,46 +32,46 @@ vms_expand_args(old_argc, argv)
     vms_argv[new_argc++] = **argv;
 
     for (i=1; i < *old_argc; i++) {
-	if (*argv[0][i] == '-') {   /* switches */
-	    if (new_argc < max_files) {
-		vms_argv[new_argc++] = argv[0][i];
-	    }
-	} else {		    /* Files */
-	    context = 0;
-	    if (find_file_c(argv[0][i], buf, sizeof(buf), &context) & 1 != 1) {
-		/*
-	         * Wrong file ?
-		 * forward it to gzip
-		 */
-		if (new_argc < max_files) {
-		    vms_argv[new_argc++] = argv[0][i];
-		}
-	    } else {
-		p = xmalloc(strlen(buf)+1);
-		strcpy(p, buf);
-		if (new_argc < max_files) {
-		    vms_argv[new_argc++] = p;
-		}
-		while (find_file_c(argv[0][i], buf,
-		       sizeof(buf), &context) & 1 == 1) {
-		    p = xmalloc(strlen(buf)+1);
-		    strcpy(p, buf);
-		    if (new_argc < max_files) {
-			vms_argv[new_argc++] = p;
-		    }
-		}
-	    }
-	}
+        if (*argv[0][i] == '-') {   /* switches */
+            if (new_argc < max_files) {
+                vms_argv[new_argc++] = argv[0][i];
+            }
+        } else {		    /* Files */
+            context = 0;
+            if (find_file_c(argv[0][i], buf, sizeof(buf), &context) & 1 != 1) {
+                /*
+                 * Wrong file ?
+                 * forward it to gzip
+                 */
+                if (new_argc < max_files) {
+                    vms_argv[new_argc++] = argv[0][i];
+                }
+            } else {
+                p = xmalloc(strlen(buf)+1);
+                strcpy(p, buf);
+                if (new_argc < max_files) {
+                    vms_argv[new_argc++] = p;
+                }
+                while (find_file_c(argv[0][i], buf,
+                       sizeof(buf), &context) & 1 == 1) {
+                    p = xmalloc(strlen(buf)+1);
+                    strcpy(p, buf);
+                    if (new_argc < max_files) {
+                        vms_argv[new_argc++] = p;
+                    }
+                }
+            }
+        }
     }
     if (new_argc <= max_files) {
-	*old_argc = new_argc;
-	vms_argv[new_argc] = NULL;
-	*argv = vms_argv;
+        *old_argc = new_argc;
+        vms_argv[new_argc] = NULL;
+        *argv = vms_argv;
     } else {
-	free(vms_argv); /* the expanded file names should also be freed ... */
-	vms_argv = NULL;
-	max_files = new_argc + 1;
-	vms_expand_args(old_argc, argv);
+        free(vms_argv); /* the expanded file names should also be freed ... */
+        vms_argv = NULL;
+        max_files = new_argc + 1;
+        vms_expand_args(old_argc, argv);
     }
 }
 
@@ -95,7 +95,7 @@ int find_file_c(in,out,out_len,context)
 
     p   = out_desc.addr;
     while(*p != ' ') {
-	p++;
+        p++;
     }
     *p = 0;
 

@@ -57,36 +57,36 @@ fi
 
 if test $# = 0; then
     if test -t 0; then
-	echo >&2 "$0: invalid number of operands; try \`$0 --help' for help"
+        echo >&2 "$0: invalid number of operands; try \`$0 --help' for help"
     else
-	gzip -cdfq | eval ${PAGER-more}
+        gzip -cdfq | eval ${PAGER-more}
     fi
 else
     FIRST=1
     for FILE
     do
-	case $FILE in
-	--h*) exec echo "$usage";;
-	--v*) exec echo "$version";;
-	esac
+        case $FILE in
+        --h*) exec echo "$usage";;
+        --v*) exec echo "$version";;
+        esac
 
-	< "$FILE" || continue
-	if test $FIRST -eq 0; then
-		echo $n1 "--More--(Next file: $FILE)$n2"
-		stty $cb -echo 2>/dev/null
-		ANS=`dd bs=1 count=1 2>/dev/null`
-		stty $ncb echo 2>/dev/null
-		echo " "
-		case "$ANS" in
-		[eq]) exit;;
-		esac
-	fi
-	if test "$ANS" != 's'; then
-		echo "------> $FILE <------"
-		gzip -cdfq -- "$FILE" | eval ${PAGER-more}
-	fi
-	if test -t 1; then
-		FIRST=0
-	fi
+        < "$FILE" || continue
+        if test $FIRST -eq 0; then
+                echo $n1 "--More--(Next file: $FILE)$n2"
+                stty $cb -echo 2>/dev/null
+                ANS=`dd bs=1 count=1 2>/dev/null`
+                stty $ncb echo 2>/dev/null
+                echo " "
+                case "$ANS" in
+                [eq]) exit;;
+                esac
+        fi
+        if test "$ANS" != 's'; then
+                echo "------> $FILE <------"
+                gzip -cdfq -- "$FILE" | eval ${PAGER-more}
+        fi
+        if test -t 1; then
+                FIRST=0
+        fi
     done
 fi

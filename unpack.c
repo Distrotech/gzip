@@ -114,23 +114,23 @@ local void read_tree()
 
     max_len = (int)get_byte(); /* maximum bit length of Huffman codes */
     if (max_len > MAX_BITLEN) {
-	gzip_error ("invalid compressed data -- Huffman code > 32 bits");
+        gzip_error ("invalid compressed data -- Huffman code > 32 bits");
     }
 
     /* Get the number of leaves at each bit length */
     n = 0;
     for (len = 1; len <= max_len; len++) {
-	leaves[len] = (int)get_byte();
-	if (max_leaves - (len == max_len) < leaves[len])
-	  gzip_error ("too many leaves in Huffman tree");
-	max_leaves = (max_leaves - leaves[len] + 1) * 2 - 1;
-	n += leaves[len];
+        leaves[len] = (int)get_byte();
+        if (max_leaves - (len == max_len) < leaves[len])
+          gzip_error ("too many leaves in Huffman tree");
+        max_leaves = (max_leaves - leaves[len] + 1) * 2 - 1;
+        n += leaves[len];
     }
     if (LITERALS <= n) {
-	gzip_error ("too many leaves in Huffman tree");
+        gzip_error ("too many leaves in Huffman tree");
     }
     Trace((stderr, "orig_len %lu, max_len %d, leaves %d\n",
-	   orig_len, max_len, n));
+           orig_len, max_len, n));
     /* There are at least 2 and at most 256 leaves of length max_len.
      * (Pack arbitrarily rejects empty files and files consisting of
      * a single byte even repeated.) To fit the last leaf count in a
@@ -143,12 +143,12 @@ local void read_tree()
     /* Now read the leaves themselves */
     base = 0;
     for (len = 1; len <= max_len; len++) {
-	/* Remember where the literals of this length start in literal[] : */
-	lit_base[len] = base;
-	/* And read the literals: */
-	for (n = leaves[len]; n > 0; n--) {
-	    literal[base++] = (uch)get_byte();
-	}
+        /* Remember where the literals of this length start in literal[] : */
+        lit_base[len] = base;
+        /* And read the literals: */
+        for (n = leaves[len]; n > 0; n--) {
+            literal[base++] = (uch)get_byte();
+        }
     }
     leaves[max_len]++; /* Now include the EOB code in the Huffman tree */
 }
@@ -163,17 +163,17 @@ local void build_tree()
     uch *prefixp;  /* pointer in prefix_len */
 
     for (len = max_len; len >= 1; len--) {
-	/* The number of parent nodes at this level is half the total
-	 * number of nodes at parent level:
-	 */
-	nodes >>= 1;
-	parents[len] = nodes;
-	/* Update lit_base by the appropriate bias to skip the parent nodes
-	 * (which are not represented in the literal array):
-	 */
-	lit_base[len] -= nodes;
-	/* Restore nodes to be parents+leaves: */
-	nodes += leaves[len];
+        /* The number of parent nodes at this level is half the total
+         * number of nodes at parent level:
+         */
+        nodes >>= 1;
+        parents[len] = nodes;
+        /* Update lit_base by the appropriate bias to skip the parent nodes
+         * (which are not represented in the literal array):
+         */
+        lit_base[len] -= nodes;
+        /* Restore nodes to be parents+leaves: */
+        nodes += leaves[len];
     }
     /* Construct the prefix table, from shortest leaves to longest ones.
      * The shortest code is all ones, so we start at the end of the table.
@@ -181,8 +181,8 @@ local void build_tree()
     peek_bits = MIN(max_len, MAX_PEEK);
     prefixp = &prefix_len[1<<peek_bits];
     for (len = 1; len <= peek_bits; len++) {
-	int prefixes = leaves[len] << (peek_bits-len); /* may be 0 */
-	while (prefixes--) *--prefixp = (uch)len;
+        int prefixes = leaves[len] << (peek_bits-len); /* may be 0 */
+        while (prefixes--) *--prefixp = (uch)len;
     }
     /* The length of all other codes is unknown: */
     while (prefixp > prefix_len) *--prefixp = 0;
@@ -218,35 +218,35 @@ int unpack(in, out)
 
     /* Decode the input data: */
     for (;;) {
-	/* Since eob is the longest code and not shorter than max_len,
+        /* Since eob is the longest code and not shorter than max_len,
          * we can peek at max_len bits without having the risk of reading
          * beyond the end of file.
-	 */
-	look_bits(peek, peek_bits, peek_mask);
-	len = prefix_len[peek];
-	if (len > 0) {
-	    peek >>= peek_bits - len; /* discard the extra bits */
-	} else {
-	    /* Code of more than peek_bits bits, we must traverse the tree */
-	    ulg mask = peek_mask;
-	    len = peek_bits;
-	    do {
+         */
+        look_bits(peek, peek_bits, peek_mask);
+        len = prefix_len[peek];
+        if (len > 0) {
+            peek >>= peek_bits - len; /* discard the extra bits */
+        } else {
+            /* Code of more than peek_bits bits, we must traverse the tree */
+            ulg mask = peek_mask;
+            len = peek_bits;
+            do {
                 len++, mask = (mask<<1)+1;
-		look_bits(peek, len, mask);
-	    } while (peek < (unsigned)parents[len]);
-	    /* loop as long as peek is a parent node */
-	}
-	/* At this point, peek is the next complete code, of len bits */
-	if (peek == eob && len == max_len) break; /* end of file? */
-	put_ubyte(literal[peek+lit_base[len]]);
-	Tracev((stderr,"%02d %04x %c\n", len, peek,
-		literal[peek+lit_base[len]]));
-	skip_bits(len);
+                look_bits(peek, len, mask);
+            } while (peek < (unsigned)parents[len]);
+            /* loop as long as peek is a parent node */
+        }
+        /* At this point, peek is the next complete code, of len bits */
+        if (peek == eob && len == max_len) break; /* end of file? */
+        put_ubyte(literal[peek+lit_base[len]]);
+        Tracev((stderr,"%02d %04x %c\n", len, peek,
+                literal[peek+lit_base[len]]));
+        skip_bits(len);
     } /* for (;;) */
 
     flush_window();
     if (orig_len != (ulg)(bytes_out & 0xffffffff)) {
-	gzip_error ("invalid compressed data--length error");
+        gzip_error ("invalid compressed data--length error");
     }
     return OK;
 }

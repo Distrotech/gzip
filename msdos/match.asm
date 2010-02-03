@@ -40,11 +40,11 @@ ifdef DYN_ALLOC
         prev    equ 0         ; offset forced to zero
         window  equ 0
         window_seg equ _window[2]
-	window_off equ 0
+        window_off equ 0
 else
-	wseg    dw seg _window
+        wseg    dw seg _window
         window_seg equ wseg
-	window_off equ offset _window
+        window_off equ offset _window
 endif
 _DATA    ends
 
@@ -53,14 +53,14 @@ DGROUP  group _DATA
 _TEXT   segment word public 'CODE'
         assume  cs: _TEXT, ds: DGROUP
 
-	public _match_init
+        public _match_init
         public _longest_match
 
-	MIN_MATCH     equ 3
+        MIN_MATCH     equ 3
         MAX_MATCH     equ 258
-	WSIZE         equ 32768		; keep in sync with zip.h !
-	MIN_LOOKAHEAD equ (MAX_MATCH+MIN_MATCH+1)
-	MAX_DIST      equ (WSIZE-MIN_LOOKAHEAD)
+        WSIZE         equ 32768		; keep in sync with zip.h !
+        MIN_LOOKAHEAD equ (MAX_MATCH+MIN_MATCH+1)
+        MAX_DIST      equ (WSIZE-MIN_LOOKAHEAD)
 
 prev_ptr    dw  seg _prev		; pointer to the prev array
 ifdef SS_NEQ_DS
@@ -78,10 +78,10 @@ endif
 ifdef SS_NEQ_DS
         ma_start equ cs:match_start	; does not work on OS/2
         nice     equ cs:nice_match
-	mov	ax,_nice_match
-	mov     cs:nice_match,ax       	; ugly write to code, crash on OS/2
+        mov	ax,_nice_match
+        mov     cs:nice_match,ax       	; ugly write to code, crash on OS/2
 else
-	assume ss: DGROUP
+        assume ss: DGROUP
         ma_start equ ss:_match_start
         nice     equ ss:_nice_match
         mov     ax,ds
@@ -90,13 +90,13 @@ else
         jne     error
 endif
 ifdef DYN_ALLOC
-	cmp	_prev[0],0		; verify zero offset
-	jne	error
-	cmp	_window[0],0
-	jne	error
+        cmp	_prev[0],0		; verify zero offset
+        jne	error
+        cmp	_window[0],0
+        jne	error
   ifdef SS_NEQ_DS
-	mov	ax,_prev[2]		; segment value
-	mov     cs:prev_ptr,ax		; ugly write to code, crash on OS/2
+        mov	ax,_prev[2]		; segment value
+        mov     cs:prev_ptr,ax		; ugly write to code, crash on OS/2
         prev_seg  equ cs:prev_ptr
   else
         prev_seg  equ ss:_prev[2]	; works on OS/2 if SS == DS
@@ -104,11 +104,11 @@ ifdef DYN_ALLOC
 else
         prev_seg  equ cs:prev_ptr
 endif
-	ret
+        ret
 ifdef __LARGE__
-	extrn   _exit : far		; 'far' for large model
+        extrn   _exit : far		; 'far' for large model
 else
-	extrn   _exit : near		; 'near' for compact model
+        extrn   _exit : near		; 'near' for compact model
 endif
 error:  call    _exit
 
@@ -132,8 +132,8 @@ endif
         push    bp
         mov     bp,sp
         push    di
-	push	si
-	push	ds
+        push	si
+        push	ds
 
 ifdef __LARGE__
         cur_match    equ word ptr [bp+6] ; [bp+6] for large model
@@ -149,25 +149,25 @@ endif
 ;       best_len     equ bx
 ;       limit        equ dx
 
-	mov	si,cur_match            ; use bp before it is destroyed
+        mov	si,cur_match            ; use bp before it is destroyed
         mov     bp,_max_chain_length    ; chain_length = max_chain_length
-	mov	di,_strstart
-	mov	dx,di
-	sub	dx,MAX_DIST             ; limit = strstart-MAX_DIST
-	jae	limit_ok
-	sub	dx,dx			; limit = NIL
+        mov	di,_strstart
+        mov	dx,di
+        sub	dx,MAX_DIST             ; limit = strstart-MAX_DIST
+        jae	limit_ok
+        sub	dx,dx			; limit = NIL
 limit_ok:
         add     di,2+window_off         ; di = offset(window + strstart + 2)
         mov     bx,_prev_length         ; best_len = prev_length
-	mov     es,window_seg
+        mov     es,window_seg
         mov     ax,es:[bx+di-3]         ; ax = scan[best_len-1..best_len]
         mov     cx,es:[di-2]            ; cx = scan[0..1]
-	cmp	bx,_good_match		; do we have a good match already?
+        cmp	bx,_good_match		; do we have a good match already?
         mov     ds,prev_seg    		; (does not destroy the flags)
         assume  ds: nothing
         jb      do_scan			; good match?
-	shr	bp,1			; chain_length >>= 2
-	shr	bp,1
+        shr	bp,1			; chain_length >>= 2
+        shr	bp,1
         jmp     short do_scan
 
         even                            ; align destination of branch
@@ -206,8 +206,8 @@ mismatch:
         sub     cl,[si-2]               ; cl = 0 if first bytes equal
         xchg    ax,di                   ; di = scan+2, ax = end of scan
         sub     ax,di                   ; ax = len
-	sub	si,ax			; si = cur_match + 2 + offset(window)
-	sub	si,2+window_off         ; si = cur_match
+        sub	si,ax			; si = cur_match + 2 + offset(window)
+        sub	si,2+window_off         ; si = cur_match
         sub     cl,1                    ; set carry if cl == 0 (can't use DEC)
         adc     ax,0                    ; ax = carry ? len+1 : len
         cmp     ax,bx                   ; len > best_len ?
@@ -217,11 +217,11 @@ mismatch:
         cmp     ax,nice                 ; len >= nice_match ?
         jl      long_loop
 the_end:
-	pop	ds
+        pop	ds
         assume  ds: DGROUP
 ifdef SS_NEQ_DS
-	mov	ax,ma_start		; garbage if no match found
-	mov	ds:_match_start,ax
+        mov	ax,ma_start		; garbage if no match found
+        mov	ds:_match_start,ax
 endif
         pop     si
         pop     di

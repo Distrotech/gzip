@@ -268,23 +268,23 @@ extern int save_orig_name; /* set if original name must be saved */
 #endif
 
 #define WARN(msg) {if (!quiet) fprintf msg ; \
-		   if (exit_code == OK) exit_code = WARNING;}
+                   if (exit_code == OK) exit_code = WARNING;}
 
-	/* in zip.c: */
+        /* in zip.c: */
 extern int zip        OF((int in, int out));
 extern int file_read  OF((char *buf,  unsigned size));
 
-	/* in unzip.c */
+        /* in unzip.c */
 extern int unzip      OF((int in, int out));
 extern int check_zipfile OF((int in));
 
-	/* in unpack.c */
+        /* in unpack.c */
 extern int unpack     OF((int in, int out));
 
-	/* in unlzh.c */
+        /* in unlzh.c */
 extern int unlzh      OF((int in, int out));
 
-	/* in gzip.c */
+        /* in gzip.c */
 void abort_gzip OF((void)) ATTRIBUTE_NORETURN;
 
         /* in deflate.c */
@@ -304,7 +304,7 @@ void     bi_windup  OF((void));
 void     copy_block OF((char *buf, unsigned len, int header));
 extern   int (*read_buf) OF((char *buf, unsigned size));
 
-	/* in util.c: */
+        /* in util.c: */
 extern int copy           OF((int in, int out));
 extern ulg  updcrc        OF((uch *s, unsigned n));
 extern void clear_bufs    OF((void));
@@ -326,8 +326,8 @@ extern void write_error   OF((void)) ATTRIBUTE_NORETURN;
 extern void display_ratio OF((off_t num, off_t den, FILE *file));
 extern void fprint_off    OF((FILE *, off_t, int));
 
-	/* in inflate.c */
+        /* in inflate.c */
 extern int inflate OF((void));
 
-	/* in yesno.c */
+        /* in yesno.c */
 extern int yesno OF((void));

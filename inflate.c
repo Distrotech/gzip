@@ -323,7 +323,7 @@ int *m;                 /* maximum lookup bits, returns actual */
   p = b;  i = n;
   do {
     Tracecv(*p, (stderr, (n-i >= ' ' && n-i <= '~' ? "%c %d\n" : "0x%x %d\n"),
-	    n-i, *p));
+            n-i, *p));
     c[*p]++;                    /* assume all entries <= BMAX */
     p++;                      /* Can't combine with above line (Solaris bug) */
   } while (--i);
@@ -415,13 +415,13 @@ int *m;                 /* maximum lookup bits, returns actual */
         {                       /* too few codes for k-w bit table */
           f -= a + 1;           /* deduct codes from patterns left */
           xp = c + k;
-	  if (j < z)
-	    while (++j < z)       /* try smaller tables up to z bits */
-	    {
-	      if ((f <<= 1) <= *++xp)
-		break;            /* enough codes to use up j bits */
-	      f -= *xp;           /* else deduct codes from patterns */
-	    }
+          if (j < z)
+            while (++j < z)       /* try smaller tables up to z bits */
+            {
+              if ((f <<= 1) <= *++xp)
+                break;            /* enough codes to use up j bits */
+              f -= *xp;           /* else deduct codes from patterns */
+            }
         }
         z = 1 << j;             /* table entries for j-bit table */
 
@@ -458,7 +458,7 @@ int *m;                 /* maximum lookup bits, returns actual */
       {
         r.e = (uch)(*p < 256 ? 16 : 15);    /* 256 is end-of-block code */
         r.v.n = (ush)(*p);             /* simple code is just the value */
-	p++;                           /* one compiler does not like *p++ */
+        p++;                           /* one compiler does not like *p++ */
       }
       else
       {
@@ -600,7 +600,7 @@ int bl, bd;             /* number of bits decoded by tl[] and td[] */
 #endif /* !NOMEMCPY */
           do {
             slide[w++] = slide[d++];
-	    Tracevv((stderr, "%c", slide[w-1]));
+            Tracevv((stderr, "%c", slide[w-1]));
           } while (--e);
         if (w == WSIZE)
         {
@@ -797,7 +797,7 @@ int inflate_dynamic()
   }
 
   if (tl == NULL)		/* Grrrhhh */
-	return 2;
+        return 2;
 
   /* read in literal and distance code lengths */
   n = nl + nd;
