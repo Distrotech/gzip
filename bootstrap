@@ -806,7 +806,3 @@ fi
 bootstrap_epilogue
 
 echo "$0: done.  Now you can run './configure'."
-
-# Local Variables:
-# indent-tabs-mode: nil
-# End:
