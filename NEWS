@@ -2,6 +2,13 @@ GNU gzip NEWS                                    -*- outline -*-
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+  gzip -cdf now properly handles input consisting of gzip'd data followed
+  by uncompressed data.  Before it would output raw compressed input, too.
+  For example, now "(printf x|gzip; echo y)|gzip -dcf" prints "xy\n",
+  while before it would print "x<compressed data>y\n".
+
 
 * Noteworthy changes in release 1.4 (2010-01-20) [stable]
 
