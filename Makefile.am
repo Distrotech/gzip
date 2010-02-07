@@ -104,6 +104,7 @@ check-local: $(FILES_TO_CHECK) $(bin_PROGRAMS) gzip.doc.gz
 
 TESTS =						\
   tests/helin-segv				\
+  tests/help-version				\
   tests/hufts					\
   tests/memcpy-abuse				\
   tests/mixed					\
