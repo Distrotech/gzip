@@ -17,6 +17,8 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+ALL_RECURSIVE_TARGETS =
+
 SUBDIRS = lib doc
 ACLOCAL_AMFLAGS = -I m4
 AM_CPPFLAGS = -I$(top_srcdir)/lib
@@ -27,6 +29,7 @@ man_MANS = gunzip.1 gzexe.1 gzip.1 \
 
 EXTRA_DIST = $(ACINCLUDE_INPUTS) $(man_MANS) \
   ChangeLog-2007 \
+  dist-check.mk	\
   tests/hufts-segv.gz \
   algorithm.doc amiga/match.a amiga/Makefile.gcc amiga/Makefile.sasc \
   amiga/tailor.c amiga/utime.h atari/Makefile.st crypt.h \
@@ -141,6 +144,10 @@ install-exec-hook remove-installed-links:
 
 uninstall-local: remove-installed-links
 
+ALL_RECURSIVE_TARGETS += distcheck-hook
+distcheck-hook:
+	$(MAKE) my-distcheck
+
 MAINTAINERCLEANFILES = gzip.doc
 
 MOSTLYCLEANFILES = _match.i match_.s _match.S gzip.doc.gz \
@@ -173,6 +180,7 @@ TESTS_ENVIRONMENT =				\
   abs_top_builddir='$(abs_top_builddir)'	\
   abs_top_srcdir='$(abs_top_srcdir)'		\
   abs_srcdir='$(abs_srcdir)'			\
+  built_programs='$(PROGRAMS) $(SCRIPTS)'	\
   srcdir='$(srcdir)'				\
   top_srcdir='$(top_srcdir)'			\
   CC='$(CC)'					\

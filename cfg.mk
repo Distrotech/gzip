@@ -61,3 +61,5 @@ sc_prohibit_emacs__indent_tabs_mode__setting:
 	@re='^( *[*#] *)?indent-tabs-mode:'				\
 	msg='use of emacs indent-tabs-mode: setting'			\
 	  $(_prohibit_regexp)
+
+include $(srcdir)/dist-check.mk
