@@ -29,7 +29,7 @@
  */
 
 static char const *const license_msg[] = {
-"Copyright (C) 2007 Free Software Foundation, Inc.",
+"Copyright (C) 2007, 2010 Free Software Foundation, Inc.",
 "Copyright (C) 1993 Jean-loup Gailly.",
 "This is free software.  You may redistribute copies of it under the terms of",
 "the GNU General Public License <http://www.gnu.org/licenses/gpl.html>.",
@@ -58,6 +58,7 @@ static char const *const license_msg[] = {
 #include <ctype.h>
 #include <sys/types.h>
 #include <signal.h>
+#include <stdbool.h>
 #include <sys/stat.h>
 #include <errno.h>
 
@@ -167,6 +168,10 @@ DECLARE(uch, window, 2L*WSIZE);
 
                 /* local variables */
 
+/* If true, pretend that standard input is a tty.  This option
+   is deliberately not documented, and only for testing.  */
+static bool presume_input_tty;
+
 int ascii = 0;        /* convert end-of-lines to local OS conventions */
 int to_stdout = 0;    /* output to stdout (-c) */
 int decompress = 0;   /* decompress (-d) */
@@ -243,6 +248,13 @@ static int handled_sig[] =
 #endif
   };
 
+/* For long options that have no equivalent short option, use a
+   non-character as a pseudo short option, starting with CHAR_MAX + 1.  */
+enum
+{
+  PRESUME_INPUT_TTY_OPTION = CHAR_MAX + 1
+};
+
 struct option longopts[] =
 {
  /* { name  has_arg  *flag  val } */
@@ -259,6 +271,7 @@ struct option longopts[] =
     {"license",    0, 0, 'L'}, /* display software license */
     {"no-name",    0, 0, 'n'}, /* don't save or restore original name & time */
     {"name",       0, 0, 'N'}, /* save or restore original name & time */
+    {"-presume-input-tty", no_argument, NULL, PRESUME_INPUT_TTY_OPTION},
     {"quiet",      0, 0, 'q'}, /* quiet mode */
     {"silent",     0, 0, 'q'}, /* quiet mode */
     {"recursive",  0, 0, 'r'}, /* recurse through directories */
@@ -271,6 +284,7 @@ struct option longopts[] =
     {"best",       0, 0, '9'}, /* compress better */
     {"lzw",        0, 0, 'Z'}, /* make output compatible with old compress */
     {"bits",       1, 0, 'b'}, /* max number of bits per code (implies -Z) */
+
     { 0, 0, 0, 0 }
 };
 
@@ -468,6 +482,8 @@ int main (int argc, char **argv)
             no_name = no_time = 1; break;
         case 'N':
             no_name = no_time = 0; break;
+        case PRESUME_INPUT_TTY_OPTION:
+            presume_input_tty = true; break;
         case 'q':
             quiet = 1; verbose = 0; break;
         case 'r':
@@ -591,8 +607,9 @@ input_eof ()
  */
 local void treat_stdin()
 {
-    if (!force && !list &&
-        isatty(fileno((FILE *)(decompress ? stdin : stdout)))) {
+    if (!force && !list
+        && (presume_input_tty
+            || isatty(fileno((FILE *)(decompress ? stdin : stdout))))) {
         /* Do not send compressed data to the terminal or read it from
          * the terminal. We get here when user invoked the program
          * without parameters, so be helpful. According to the GNU standards:
@@ -1617,7 +1634,7 @@ local int check_ofname()
     if (!force) {
         int ok = 0;
         fprintf (stderr, "%s: %s already exists;", program_name, ofname);
-        if (foreground && isatty(fileno(stdin))) {
+        if (foreground && (presume_input_tty || isatty(fileno(stdin)))) {
             fprintf(stderr, " do you wish to overwrite (y or n)? ");
             fflush(stderr);
             ok = yesno();
