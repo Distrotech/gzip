@@ -108,6 +108,7 @@ TESTS =						\
   tests/hufts					\
   tests/memcpy-abuse				\
   tests/mixed					\
+  tests/null-suffix-clobber			\
   tests/stdin					\
   tests/trailing-nul				\
   tests/zdiff					\
