@@ -4,6 +4,12 @@ GNU gzip NEWS                                    -*- outline -*-
 
 ** Bug fixes
 
+  "gzip -d -S '' precious.gz" is now rejected immediately.  Before,
+  that command would emulate "rm -i precious.gz", but with an easily-
+  misunderstood prompt.  I.e., gzip would ask if it's ok to remove the
+  existing file, "precious.gz".  If you made the mistake of saying "yes",
+  it would remove that input file before attempting to uncompress it.
+
   gzip -cdf now properly handles input consisting of gzip'd data followed
   by uncompressed data.  Before it would output raw compressed input, too.
   For example, now "(printf x|gzip; echo y)|gzip -dcf" prints "xy\n",

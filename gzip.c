@@ -543,11 +543,11 @@ int main (int argc, char **argv)
                 program_name);
     }
 #endif
-    if ((z_len == 0 && !decompress) || z_len > MAX_SUFFIX) {
-        fprintf(stderr, "%s: incorrect suffix '%s'\n",
-                program_name, z_suffix);
+    if (z_len == 0 || z_len > MAX_SUFFIX) {
+        fprintf(stderr, "%s: invalid suffix '%s'\n", program_name, z_suffix);
         do_exit(ERROR);
     }
+
     if (do_lzw && !decompress) work = lzw;
 
     /* Allocate all global buffers (for DYN_ALLOC option) */
