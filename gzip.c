@@ -67,6 +67,7 @@ static char const *const license_msg[] = {
 #include "gzip.h"
 #include "lzw.h"
 #include "revision.h"
+#include "timespec.h"
 
 #include "fcntl-safer.h"
 #include "getopt.h"
@@ -648,7 +649,12 @@ local void treat_stdin()
     ifile_size = S_ISREG (istat.st_mode) ? istat.st_size : -1;
     time_stamp.tv_nsec = -1;
     if (!no_time || list)
-      time_stamp = get_stat_mtime (&istat);
+      {
+        if (S_ISREG (istat.st_mode))
+          time_stamp = get_stat_mtime (&istat);
+        else
+          gettime (&time_stamp);
+      }
 
     clear_bufs(); /* clear input and output buffers */
     to_stdout = 1;
