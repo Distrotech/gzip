@@ -130,7 +130,7 @@ if test "$gl_gcc_warnings" = yes; then
 fi
 
 # cc -E produces incorrect asm files on SVR4, so postprocess it.
-ASCPPPOST="sed '/^ *#/d; s,//.*,,; s/% /%/g; s/\\. /./g'"
+ASCPPPOST="sed '/^ *\\#/d; s,//.*,,; s/% /%/g; s/\\. /./g'"
 AC_SUBST([ASCPPPOST])
 
 AC_CACHE_CHECK([for underline in external names], [gzip_cv_underline],

@@ -24,11 +24,11 @@ libgzip_a_DEPENDENCIES += $(LIBOBJS)
 AM_CFLAGS += $(WARN_CFLAGS) $(WERROR_CFLAGS)
 
 match.$(OBJEXT): match.c
-	cp $(srcdir)/match.c _match.S
-	$(CPP) $(CPPFLAGS) $(ASCPPFLAGS) _match.S > _match.i
-	$(ASCPPPOST) < _match.i > match_.s
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(ASFLAGS_config) -c match_.s
-	mv match_.$(OBJEXT) $@
-	rm -f _match.S _match.i match_.s
+	$(AM_V_GEN)cp $(srcdir)/match.c _match.S
+	$(AM_V_at)$(CPP) $(CPPFLAGS) $(ASCPPFLAGS) _match.S > _match.i
+	$(AM_V_at)$(ASCPPPOST) < _match.i > match_.s
+	$(AM_V_at)$(CC) $(CPPFLAGS) $(CFLAGS) $(ASFLAGS_config) -c match_.s
+	$(AM_V_at)mv match_.$(OBJEXT) $@
+	$(AM_V_at)rm -f _match.S _match.i match_.s
 
 MOSTLYCLEANFILES += _match.S _match.i match_.s

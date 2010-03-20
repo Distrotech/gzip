@@ -28,8 +28,6 @@
  * David Mosberger-Tang <davidm@hpl.hp.com>.
  */
 
-#include <config.h>
-
 /* Preprocess with -DNO_UNDERLINE if your C compiler does not prefix
  * external symbols with an underline character '_'.
  */
