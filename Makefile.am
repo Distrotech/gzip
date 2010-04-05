@@ -24,6 +24,9 @@ ACLOCAL_AMFLAGS = -I m4
 AM_CPPFLAGS = -I$(top_srcdir)/lib
 AM_CFLAGS = $(WARN_CFLAGS) $(WERROR_CFLAGS)
 
+# Tell the linker to omit references to unused shared libraries.
+AM_LDFLAGS = $(IGNORE_UNUSED_LIBRARIES_CFLAGS)
+
 man_MANS = gunzip.1 gzexe.1 gzip.1 \
   zcat.1 zcmp.1 zdiff.1 zforce.1 zgrep.1 zless.1 zmore.1 znew.1
 

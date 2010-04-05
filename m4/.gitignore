@@ -66,6 +66,7 @@ isnanf.m4
 isnanl.m4
 lchown.m4
 ldexpl.m4
+lib-ignore.m4
 localcharset.m4
 locale-fr.m4
 locale-ja.m4
