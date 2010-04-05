@@ -11,6 +11,8 @@ charset.alias
 chdir-long.c
 chdir-long.h
 chown.c
+cloexec.c
+cloexec.h
 close-hook.c
 close-hook.h
 close-stream.c
@@ -73,6 +75,7 @@ fseterr.h
 fstatat.c
 ftello.c
 getcwd.c
+getdtablesize.c
 getopt.c
 getopt.h
 getopt.in.h

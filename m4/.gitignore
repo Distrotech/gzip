@@ -5,6 +5,7 @@ calloc.m4
 chdir-long.m4
 chown.m4
 clock_time.m4
+cloexec.m4
 close-stream.m4
 close.m4
 closein.m4
@@ -45,6 +46,7 @@ ftello.m4
 getcwd-abort-bug.m4
 getcwd-path-max.m4
 getcwd.m4
+getdtablesize.m4
 getopt.m4
 getpagesize.m4
 gettime.m4
@@ -124,8 +126,10 @@ vfprintf-posix.m4
 warn-on-use.m4
 warnings.m4
 wchar.m4
+wchar_h.m4
 wchar_t.m4
 wctype.m4
+wctype_h.m4
 wint_t.m4
 xalloc.m4
 xgetcwd.m4

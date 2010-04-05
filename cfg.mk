@@ -28,6 +28,7 @@ local-checks-to-skip =		\
   sc_prohibit_atoi_atof		\
   sc_prohibit_stat_st_blocks	\
   sc_space_tab			\
+  sc_texinfo_acronym		\
   sc_useless_cpp_parens
 
 
@@ -42,9 +43,9 @@ old_NEWS_hash = e35901d8427a032d2b88a3195ed24a8f
 sc_obs_header_regex = \
   \<(STDC_HEADERS|HAVE_(LIMITS|STRING|UNISTD|STDLIB)_H)\>
 sc_prohibit_obsolete_HAVE_HEADER_H:
-	@re='^[	 ]*#[	 ]*(el)?if.*$(sc_obs_header_regex)' \
-	msg='remove the above obsolete #if...HAVE_HEADER_H test(s)' \
-	  $(_prohibit_regexp)
+	@prohibit='^[	 ]*#[	 ]*(el)?if.*$(sc_obs_header_regex)' \
+	halt='remove the above obsolete #if...HAVE_HEADER_H test(s)' \
+	  $(_sc_search_regexp)
 
 update-copyright-env = \
   UPDATE_COPYRIGHT_USE_INTERVALS=1 \
@@ -52,14 +53,14 @@ update-copyright-env = \
 
 # Indent only with spaces.
 sc_prohibit_tab_based_indentation:
-	@re='^ *	'						\
-	msg='TAB in indentation; use only spaces'			\
-	  $(_prohibit_regexp)
+	@prohibit='^ *	'						\
+	halt='TAB in indentation; use only spaces'			\
+	  $(_sc_search_regexp)
 
 # Don't use "indent-tabs-mode: nil" anymore.  No longer needed.
 sc_prohibit_emacs__indent_tabs_mode__setting:
-	@re='^( *[*#] *)?indent-tabs-mode:'				\
-	msg='use of emacs indent-tabs-mode: setting'			\
-	  $(_prohibit_regexp)
+	@prohibit='^( *[*#] *)?indent-tabs-mode:'			\
+	halt='use of emacs indent-tabs-mode: setting'			\
+	  $(_sc_search_regexp)
 
 include $(srcdir)/dist-check.mk
