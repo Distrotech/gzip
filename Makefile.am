@@ -120,6 +120,7 @@ TESTS =						\
   tests/znew-k
 
 EXTRA_DIST += $(TESTS)
+EXTRA_DIST += tests/init.cfg
 
 install-exec-hook: remove-installed-links
 install-exec-hook remove-installed-links:
