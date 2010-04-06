@@ -25,9 +25,8 @@ echo a | gzip -c > f.gz || framework_failure_
 
 fail=0
 
-status=$(exec 3>&1; (zgrep a f.gz f.gz; echo $? >&3) | :) ||
-         framework_failure_
+st=$(exec 3>&1; (zgrep a f.gz f.gz; echo $? >&3) | :) || framework_failure_
 
-test "$status" = 141 || fail=1
+test "$st" = 141 || fail=1
 
 Exit $fail
