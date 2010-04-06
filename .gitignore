@@ -19,6 +19,9 @@ Makefile.in
 /gzexe
 /gzip
 /gzip-*
+/lib/arg-nonnull.h
+/lib/c++defs.h
+/lib/warn-on-use.h
 /zcat
 /zcmp
 /zdiff
