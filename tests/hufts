@@ -17,19 +17,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # limit so don't run it by default.
 
-if test "$VERBOSE" = yes; then
-  set -x
-  zgrep --version
-fi
-
 : ${srcdir=.}
-. "$srcdir/tests/init.sh"
+. "$srcdir/init.sh"; path_prepend_ ..
 
 printf '\n...: invalid compressed data--format violated\n' > exp \
   || framework_failure
 
 fail=0
-gzip -dc "$abs_srcdir/tests/hufts-segv.gz" > out 2> err
+gzip -dc "$abs_srcdir/hufts-segv.gz" > out 2> err
 test $? = 1 || fail=1
 
 compare /dev/null out || fail=1

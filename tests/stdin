@@ -17,13 +17,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # limit so don't run it by default.
 
-if test "$VERBOSE" = yes; then
-  set -x
-  zgrep --version
-fi
-
 : ${srcdir=.}
-. "$srcdir/tests/init.sh"
+. "$srcdir/init.sh"; path_prepend_ ..
 
 printf a | gzip > in || framework_failure
 printf aaa > exp || framework_failure

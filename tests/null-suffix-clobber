@@ -17,13 +17,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # limit so don't run it by default.
 
-if test "$VERBOSE" = yes; then
-  set -x
-  gzip --version
-fi
-
 : ${srcdir=.}
-. "$srcdir/tests/init.sh"
+. "$srcdir/init.sh"; path_prepend_ ..
 
 printf anything | gzip > F.gz || framework_failure
 echo y > yes || framework_failure

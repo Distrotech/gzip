@@ -17,13 +17,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # limit so don't run it by default.
 
-if test "$VERBOSE" = yes; then
-  set -x
-  gzip --version
-fi
-
 : ${srcdir=.}
-. "$srcdir/tests/init.sh"
+. "$srcdir/init.sh"; path_prepend_ ..
 
 # This test case was provided by Aki Helin.
 printf '\037\235\220\0\0\0\304' > helin.gz || framework_failure

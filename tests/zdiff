@@ -18,13 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # limit so don't run it by default.
 
-if test "$VERBOSE" = yes; then
-  set -x
-  zdiff --version
-fi
-
 : ${srcdir=.}
-. "$srcdir/tests/init.sh"
+. "$srcdir/init.sh"; path_prepend_ ..
 
 echo a > a || framework_failure
 echo b > b || framework_failure
