@@ -20,18 +20,18 @@
 : ${srcdir=.}
 . "$srcdir/init.sh"; path_prepend_ ..
 
-cat <<'EOF' >compress || framework_failure
+cat <<'EOF' >compress || framework_failure_
 #!/bin/sh
 echo >&2 'compress has been invoked'
 exit 1
 EOF
-chmod +x compress || framework_failure
+chmod +x compress || framework_failure_
 
 # Note that the basename must have a length of 6 or greater.
 # Otherwise, "test -f $name" below would fail.
 name=123456.Z
 
-printf '%1012977s' ' ' | gzip -c > $name || framework_failure
+printf '%1012977s' ' ' | gzip -c > $name || framework_failure_
 
 fail=0
 

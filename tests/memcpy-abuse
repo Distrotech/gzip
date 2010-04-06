@@ -23,7 +23,7 @@
 
 # The input must be larger than 32KiB and slightly
 # less uniform than e.g., all zeros.
-printf wxy%032767d 0 | tee in | gzip > in.gz || framework_failure
+printf wxy%032767d 0 | tee in | gzip > in.gz || framework_failure_
 
 fail=0
 

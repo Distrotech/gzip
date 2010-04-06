@@ -23,9 +23,9 @@
 
 require_POSIX_grep_
 
-echo needle > n || framework_failure
-echo needle > haystack || framework_failure
-gzip haystack || framework_failure
+echo needle > n || framework_failure_
+echo needle > haystack || framework_failure_
+gzip haystack || framework_failure_
 
 fail=0
 zgrep -f - haystack.gz < n > out 2>&1 || fail=1

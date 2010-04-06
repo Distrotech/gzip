@@ -21,9 +21,9 @@
 : ${srcdir=.}
 . "$srcdir/init.sh"; path_prepend_ ..
 
-echo a > a || framework_failure
-echo b > b || framework_failure
-gzip a b || framework_failure
+echo a > a || framework_failure_
+echo b > b || framework_failure_
+gzip a b || framework_failure_
 
 cat <<EOF > exp
 1c1

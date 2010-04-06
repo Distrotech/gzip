@@ -21,8 +21,8 @@
 . "$srcdir/init.sh"; path_prepend_ ..
 
 # This test case was provided by Aki Helin.
-printf '\037\235\220\0\0\0\304' > helin.gz || framework_failure
-printf '\0\0' > exp || framework_failure
+printf '\037\235\220\0\0\0\304' > helin.gz || framework_failure_
+printf '\0\0' > exp || framework_failure_
 
 fail=0
 

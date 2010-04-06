@@ -21,7 +21,7 @@
 . "$srcdir/init.sh"; path_prepend_ ..
 
 printf '\n...: invalid compressed data--format violated\n' > exp \
-  || framework_failure
+  || framework_failure_
 
 fail=0
 gzip -dc "$abs_srcdir/hufts-segv.gz" > out 2> err

@@ -21,12 +21,12 @@
 : ${srcdir=.}
 . "$srcdir/init.sh"; path_prepend_ ..
 
-echo a | gzip -c > f.gz || framework_failure
+echo a | gzip -c > f.gz || framework_failure_
 
 fail=0
 
 status=$(exec 3>&1; (zgrep a f.gz f.gz; echo $? >&3) | :) ||
-         framework_failure
+         framework_failure_
 
 test "$status" = 141 || fail=1
 

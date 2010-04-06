@@ -21,8 +21,8 @@
 : ${srcdir=.}
 . "$srcdir/init.sh"; path_prepend_ ..
 
-printf 'xxx\nyyy\n'      > exp2 || framework_failure
-printf 'aaa\nbbb\nccc\n' > exp3 || framework_failure
+printf 'xxx\nyyy\n'      > exp2 || framework_failure_
+printf 'aaa\nbbb\nccc\n' > exp3 || framework_failure_
 
 fail=0
 
