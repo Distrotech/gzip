@@ -73,6 +73,7 @@ static char const *const license_msg[] = {
 #include "getopt.h"
 #include "ignore-value.h"
 #include "stat-time.h"
+#include "version.h"
 
                 /* configuration */
 
@@ -383,7 +384,7 @@ local void license()
 {
     char const *const *p = license_msg;
 
-    printf ("%s %s\n", program_name, VERSION);
+    printf ("%s %s\n", program_name, Version);
     while (*p) printf ("%s\n", *p++);
 }
 
