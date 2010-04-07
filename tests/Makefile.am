@@ -70,6 +70,7 @@ TESTS_ENVIRONMENT =				\
   };						\
   export					\
   LC_ALL=C					\
+  VERSION=$(VERSION)				\
   abs_top_builddir='$(abs_top_builddir)'	\
   abs_top_srcdir='$(abs_top_srcdir)'		\
   abs_srcdir='$(abs_srcdir)'			\
