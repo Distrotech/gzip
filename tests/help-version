@@ -57,7 +57,7 @@ expected_failure_status_egrep=2
 expected_failure_status_fgrep=2
 
 test "$built_programs" \
-  || { echo "$this_test: no programs built!?!" 1>&2; Exit 1; }
+  || fail_ "built_programs not specified!?!"
 
 for lang in C fr da; do
   for i in $built_programs; do
