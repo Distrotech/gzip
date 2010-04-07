@@ -1,6 +1,7 @@
 *._bootmp*
 *.cache
 *.doc
+*.exe
 *.lineno
 *.log
 *.o
@@ -22,6 +23,8 @@ Makefile.in
 /lib/arg-nonnull.h
 /lib/c++defs.h
 /lib/warn-on-use.h
+/libver.a
+/version.[ch]
 /zcat
 /zcmp
 /zdiff
