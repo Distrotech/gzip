@@ -37,6 +37,7 @@ man_MANS = gunzip.1 gzexe.1 gzip.1 \
 
 EXTRA_DIST = $(ACINCLUDE_INPUTS) $(man_MANS) \
   ChangeLog-2007 \
+  cfg.mk	\
   dist-check.mk	\
   algorithm.doc amiga/match.a amiga/Makefile.gcc amiga/Makefile.sasc \
   amiga/tailor.c amiga/utime.h atari/Makefile.st crypt.h \
