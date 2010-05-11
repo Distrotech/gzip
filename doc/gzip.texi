@@ -228,7 +228,7 @@ stopping on the first failure:
 find . -name '*
 *' -prune -o -name '*.gz' -type f -print |
   sed "
-    s/'/'\\''/g
+    s/'/'\\\\''/g
     s/^\\(.*\\)\\.gz$/gunzip <'\\1.gz' >'\\1'/
   " |
   sh -e
