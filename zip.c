@@ -96,7 +96,7 @@ int zip(in, out)
     /* Write the crc and uncompressed size */
     put_long(crc);
     put_long((ulg)bytes_in);
-    header_bytes += 2*sizeof(long);
+    header_bytes += 2*4;
 
     flush_outbuf();
     return OK;

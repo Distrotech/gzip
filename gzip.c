@@ -1391,7 +1391,7 @@ local int get_method(in)
             while (get_char() != 0) /* null */ ;
         }
         if (part_nb == 1) {
-            header_bytes = inptr + 2*sizeof(long); /* include crc and size */
+            header_bytes = inptr + 2*4; /* include crc and size */
         }
 
     } else if (memcmp(magic, PKZIP_MAGIC, 2) == 0 && inptr == 2
