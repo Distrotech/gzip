@@ -119,15 +119,15 @@ error recovery features.)
 
 gzip and gunzip are distributed as a single program. zip and unzip
 are, for historical reasons, two separate programs, although the
-authors of these two programs work closely together in the info-zip
+authors of these two programs work closely together in the Info-ZIP
 team. zip and unzip are not associated with the GNU project.
-See http://www.cdrom.com/pub/infozip/ for more about zip and unzip.
+See http://info-zip.org/ for more about zip and unzip.
 
 
 ========================================================================
 
-Copyright (C) 1999, 2001-2002, 2006-2007, 2009-2010 Free Software Foundation,
-Inc.
+Copyright (C) 1999, 2001, 2002, 2006, 2007, 2009, 2010 Free Software
+Foundation, Inc.
 Copyright (C) 1992, 1993 Jean-loup Gailly
 
 Permission is granted to copy, distribute and/or modify this document
