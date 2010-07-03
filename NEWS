@@ -4,6 +4,9 @@ GNU gzip NEWS                                    -*- outline -*-
 
 ** Bug fixes
 
+  gzip -d now decodes and checks header CRC16 checksums as specified by
+  the FHCRC section of Internet RFC 1952.
+
   "gzip -d -S '' precious.gz" is now rejected immediately.  Before,
   that command would emulate "rm -i precious.gz", but with an easily-
   misunderstood prompt.  I.e., gzip would ask if it's ok to remove the
