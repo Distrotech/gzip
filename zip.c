@@ -76,7 +76,7 @@ int zip(in, out)
     if (save_orig_name) {
         char *p = gzip_base_name (ifname); /* Don't save the directory part. */
         do {
-            put_char(*p);
+            put_byte (*p);
         } while (*p++);
     }
     header_bytes = (off_t)outcnt;

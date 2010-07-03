@@ -227,21 +227,6 @@
 #  endif
 #endif
 
-#ifdef __50SERIES /* Prime/PRIMOS */
-#  define PATH_SEP '>'
-#  define STDC_HEADERS
-#  define NO_STDIN_FSTAT
-#  define NO_SIZE_CHECK
-#  define RECORD_IO  1
-#  define casemap(c)  tolow(c) /* Force file names to lower case */
-#  define put_char(c) put_byte((c) & 0x7F)
-#  define get_char(c) ascii2pascii(get_byte())
-#  define OS_CODE  0x0F    /* temporary, subject to change */
-#  ifdef SIGTERM
-#    undef SIGTERM         /* We don't want a signal handler for SIGTERM */
-#  endif
-#endif
-
 #if defined(pyr) && !defined(NOMEMCPY) /* Pyramid */
 #  define NOMEMCPY /* problem with overlapping copies */
 #endif
@@ -306,12 +291,4 @@
 
 #ifndef OPEN
 #  define OPEN(name, flags, mode) open_safer (name, flags, mode)
-#endif
-
-#ifndef get_char
-#  define get_char() get_byte()
-#endif
-
-#ifndef put_char
-#  define put_char(c) put_byte(c)
 #endif

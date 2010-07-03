@@ -302,6 +302,7 @@ local void treat_file   OF((char *iname));
 local int create_outfile OF((void));
 local char *get_suffix  OF((char *name));
 local int  open_input_file OF((char *iname, struct stat *sbuf));
+local void discard_input_bytes OF((size_t nbytes, unsigned int flags));
 local int  make_ofname  OF((void));
 local void shorten_name  OF((char *name));
 local int  get_method   OF((int in));
@@ -1246,6 +1247,25 @@ local int make_ofname()
     return WARNING;
 }
 
+/* Discard NBYTES input bytes from the input, or up through the next
+   zero byte if NBYTES == (size_t) -1.  If FLAGS say that the header
+   CRC should be computed, update the CRC accordingly.  */
+static void
+discard_input_bytes (nbytes, flags)
+    size_t nbytes;
+    unsigned int flags;
+{
+  while (nbytes != 0)
+    {
+      uch c = get_byte ();
+      if (flags & HEADER_CRC)
+        updcrc (&c, 1);
+      if (nbytes != (size_t) -1)
+        nbytes--;
+      else if (! c)
+        break;
+    }
+}
 
 /* ========================================================================
  * Check the magic number of the input file and update ofname if an
@@ -1262,7 +1282,7 @@ local int get_method(in)
     int in;        /* input file descriptor */
 {
     uch flags;     /* compression flags */
-    char magic[2]; /* magic header */
+    uch magic[10]; /* magic header */
     int imagic0;   /* first magic byte or EOF */
     int imagic1;   /* like magic[1], but can represent EOF */
     ulg stamp;     /* time stamp */
@@ -1272,19 +1292,19 @@ local int get_method(in)
      */
     if (force && to_stdout) {
         imagic0 = try_byte();
-        magic[0] = (char) imagic0;
+        magic[0] = imagic0;
         imagic1 = try_byte ();
-        magic[1] = (char) imagic1;
+        magic[1] = imagic1;
         /* If try_byte returned EOF, magic[1] == (char) EOF.  */
     } else {
-        magic[0] = (char)get_byte();
+        magic[0] = get_byte ();
         imagic0 = 0;
         if (magic[0]) {
-            magic[1] = (char)get_byte();
+            magic[1] = get_byte ();
             imagic1 = 0; /* avoid lint warning */
         } else {
             imagic1 = try_byte ();
-            magic[1] = (char) imagic1;
+            magic[1] = imagic1;
         }
     }
     method = -1;                 /* unknown yet */
@@ -1314,13 +1334,6 @@ local int get_method(in)
             exit_code = ERROR;
             return -1;
         }
-        if ((flags & CONTINUATION) != 0) {
-            fprintf(stderr,
-                    "%s: %s is a multi-part gzip file -- not supported\n",
-                    program_name, ifname);
-            exit_code = ERROR;
-            if (force <= 1) return -1;
-        }
         if ((flags & RESERVED) != 0) {
             fprintf(stderr,
                     "%s: %s has flags 0x%x -- not supported\n",
@@ -1338,44 +1351,52 @@ local int get_method(in)
             time_stamp.tv_nsec = 0;
           }
 
-        (void)get_byte();  /* Ignore extra flags for the moment */
-        (void)get_byte();  /* Ignore OS type for the moment */
+        magic[8] = get_byte ();  /* Ignore extra flags.  */
+        magic[9] = get_byte ();  /* Ignore OS type.  */
 
-        if ((flags & CONTINUATION) != 0) {
-            unsigned part = (unsigned)get_byte();
-            part |= ((unsigned)get_byte())<<8;
-            if (verbose) {
-                fprintf(stderr,"%s: %s: part number %u\n",
-                        program_name, ifname, part);
-            }
-        }
+        if (flags & HEADER_CRC)
+          {
+            magic[2] = DEFLATED;
+            magic[3] = flags;
+            magic[4] = stamp & 0xff;
+            magic[5] = (stamp >> 8) & 0xff;
+            magic[6] = (stamp >> 16) & 0xff;
+            magic[7] = stamp >> 24;
+            updcrc (NULL, 0);
+            updcrc (magic, 10);
+          }
+
         if ((flags & EXTRA_FIELD) != 0) {
-            unsigned len = (unsigned)get_byte();
-            len |= ((unsigned)get_byte())<<8;
+            uch lenbuf[2];
+            size_t len = lenbuf[0] = get_byte ();
+            len |= (lenbuf[1] = get_byte ()) << 8;
             if (verbose) {
                 fprintf(stderr,"%s: %s: extra field of %u bytes ignored\n",
                         program_name, ifname, len);
             }
-            while (len--) (void)get_byte();
+            if (flags & HEADER_CRC)
+              updcrc (lenbuf, 2);
+            discard_input_bytes (len, flags);
         }
 
         /* Get original file name if it was truncated */
         if ((flags & ORIG_NAME) != 0) {
             if (no_name || (to_stdout && !list) || part_nb > 1) {
                 /* Discard the old name */
-                char c; /* dummy used for NeXTstep 3.0 cc optimizer bug */
-                do {c=get_byte();} while (c != 0);
+                discard_input_bytes (-1, flags);
             } else {
                 /* Copy the base name. Keep a directory prefix intact. */
                 char *p = gzip_base_name (ofname);
                 char *base = p;
                 for (;;) {
-                    *p = (char)get_char();
+                    *p = (char) get_byte ();
                     if (*p++ == '\0') break;
                     if (p >= ofname+sizeof(ofname)) {
                         gzip_error ("corrupted input -- file name too large");
                     }
                 }
+                if (flags & HEADER_CRC)
+                  updcrc ((uch *) base, p - base);
                 p = gzip_base_name (base);
                 memmove (base, p, strlen (p) + 1);
                 /* If necessary, adapt the name to local OS conventions: */
@@ -1388,8 +1409,25 @@ local int get_method(in)
 
         /* Discard file comment if any */
         if ((flags & COMMENT) != 0) {
-            while (get_char() != 0) /* null */ ;
+            discard_input_bytes (-1, flags);
         }
+
+        if (flags & HEADER_CRC)
+          {
+            unsigned int crc16 = updcrc (magic, 0) & 0xffff;
+            unsigned int header16 = get_byte ();
+            header16 |= ((unsigned int) get_byte ()) << 8;
+            if (header16 != crc16)
+              {
+                fprintf (stderr,
+                         "%s: %s: header checksum %x != computed checksum %x\n",
+                         program_name, ifname, header16, crc16);
+                exit_code = ERROR;
+                if (force <= 1)
+                  return -1;
+              }
+          }
+
         if (part_nb == 1) {
             header_bytes = inptr + 2*4; /* include crc and size */
         }
