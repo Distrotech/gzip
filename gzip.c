@@ -1368,7 +1368,7 @@ local int get_method(in)
 
         if ((flags & EXTRA_FIELD) != 0) {
             uch lenbuf[2];
-            size_t len = lenbuf[0] = get_byte ();
+            unsigned int len = lenbuf[0] = get_byte ();
             len |= (lenbuf[1] = get_byte ()) << 8;
             if (verbose) {
                 fprintf(stderr,"%s: %s: extra field of %u bytes ignored\n",
