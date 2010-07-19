@@ -588,16 +588,15 @@ int bl, bd;             /* number of bits decoded by tl[] and td[] */
       /* do the copy */
       do {
         n -= (e = (e = WSIZE - ((d &= WSIZE-1) > w ? d : w)) > n ? n : e);
-#if !defined(NOMEMCPY) && !defined(DEBUG)
-        unsigned int delta = w > d ? w - d : d - w;
-        if (delta >= e)
+#ifndef DEBUG
+        if (e <= (d < w ? w - d : d - w))
         {
           memcpy(slide + w, slide + d, e);
           w += e;
           d += e;
         }
         else                      /* do it slow to avoid memcpy() overlap */
-#endif /* !NOMEMCPY */
+#endif
           do {
             slide[w++] = slide[d++];
             Tracevv((stderr, "%c", slide[w-1]));

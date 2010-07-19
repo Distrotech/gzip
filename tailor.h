@@ -227,10 +227,6 @@
 #  endif
 #endif
 
-#if defined(pyr) && !defined(NOMEMCPY) /* Pyramid */
-#  define NOMEMCPY /* problem with overlapping copies */
-#endif
-
 #ifdef TOPS20
 #  define OS_CODE  0x0a
 #endif
