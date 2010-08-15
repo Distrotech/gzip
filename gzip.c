@@ -1420,7 +1420,7 @@ local int get_method(in)
             if (header16 != crc16)
               {
                 fprintf (stderr,
-                         "%s: %s: header checksum %x != computed checksum %x\n",
+                         "%s: %s: header checksum 0x%04x != computed checksum 0x%04x\n",
                          program_name, ifname, header16, crc16);
                 exit_code = ERROR;
                 if (force <= 1)
