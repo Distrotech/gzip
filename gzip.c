@@ -1553,8 +1553,7 @@ local void do_list(ifd, method)
     bytes_out = -1L;
     bytes_in = ifile_size;
 
-#if RECORD_IO == 0
-    if (method == DEFLATED && !last_member) {
+    if (!RECORD_IO && method == DEFLATED && !last_member) {
         /* Get the crc and uncompressed size for gzip'ed (not zip'ed) files.
          * If the lseek fails, we could use read() to get to the end, but
          * --list is used to get quick results.
@@ -1572,7 +1571,7 @@ local void do_list(ifd, method)
             bytes_out = LG(buf+4);
         }
     }
-#endif /* RECORD_IO */
+
     if (verbose)
       {
         struct tm *tm = localtime (&time_stamp.tv_sec);

@@ -162,6 +162,7 @@
 #  define PATH_SEP2 ':'
 #  define SUFFIX_SEP ';'
 #  define NO_MULTIPLE_DOTS
+#  define NO_SIZE_CHECK
 #  define Z_SUFFIX "-gz"
 #  define RECORD_IO 1
 #  define casemap(c) tolow(c)

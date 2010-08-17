@@ -83,7 +83,7 @@ int zip(in, out)
 
     (void)deflate();
 
-#if !defined(NO_SIZE_CHECK) && !defined(RECORD_IO)
+#ifndef NO_SIZE_CHECK
   /* Check input size (but not in VMS -- variable record lengths mess it up)
    * and not on MSDOS -- diet in TSR mode reports an incorrect file size)
    */
