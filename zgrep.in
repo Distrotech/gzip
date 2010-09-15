@@ -64,13 +64,13 @@ while test $# -ne 0; do
   optarg=
 
   case $option in
-  (-[0123456789abcdhHiIKLlnoqrRsTuUvVwxyzZ]?*)
+  (-[0123456789EFGHIKLPRTUVZabchilnoqrsuvwxyz]?*)
     arg2=-\'$(expr "X${option}X" : 'X-.[0-9]*\(.*\)' | sed "$escape")
     eval "set -- $arg2 "'${1+"$@"}'
     option=$(expr "X$option" : 'X\(-.[0-9]*\)');;
   (--binary-*=* | --[lm]a*=* | --reg*=*)
     ;;
-  (-[ABCDefm] | --binary-* | --file | --[lm]a* | --reg*)
+  (-[ABCDXdefm] | binary-* | --file | --[lm]a* | --reg*)
     case ${1?"$option option requires an argument"} in
     (*\'*)
       optarg=" '"$(printf '%sX\n' "$1" | sed "$escape");;
@@ -138,7 +138,7 @@ while test $# -ne 0; do
     files_with_matches=1;;
   (-L | --files-witho*)
     files_without_matches=1;;
-  (--no-f*)
+  (-h | --no-f*)
     no_filename=1;;
   (-V | --v | --ve | --ver | --vers | --versi | --versio | --version)
     echo "$version" || exit 2
