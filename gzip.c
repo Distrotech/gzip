@@ -144,10 +144,6 @@ static char const *const license_msg[] = {
 # define HAVE_WORKING_O_NOFOLLOW 0
 #endif
 
-#ifndef ELOOP
-# define ELOOP EINVAL
-#endif
-
 /* Separator for file name parts (see shorten_name()) */
 #ifdef NO_MULTIPLE_DOTS
 #  define PART_SEP "-"
@@ -234,11 +230,7 @@ static int handled_sig[] =
 #ifdef SIGHUP
     , SIGHUP
 #endif
-#ifdef SIGPIPE
     , SIGPIPE
-#else
-# define SIGPIPE 0
-#endif
 #ifdef SIGTERM
     , SIGTERM
 #endif
