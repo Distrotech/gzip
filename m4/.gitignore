@@ -1,6 +1,7 @@
 00gnulib.m4
 absolute-header.m4
 alloca.m4
+asm-underscore.m4
 calloc.m4
 chdir-long.m4
 chown.m4
