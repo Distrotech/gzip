@@ -47,14 +47,13 @@ OPTIONs are the same as for 'grep'.
 Report bugs to <bug-gzip@gnu.org>."
 
 # sed script to escape all ' for the shell, and then (to handle trailing
-# newlines correctly) turn trailing X on last line into '.
+# newlines correctly) append ' to the last line.
 escape='
   s/'\''/'\''\\'\'''\''/g
-  $s/X$/'\''/
+  $s/$/'\''/
 '
 operands=
 have_pat=0
-pat_on_stdin=0
 files_with_matches=0
 files_without_matches=0
 no_filename=0
@@ -67,7 +66,7 @@ while test $# -ne 0; do
 
   case $option in
   (-[0123456789EFGHIKLPRTUVZabchilnoqrsuvwxyz]?*)
-    arg2=-\'$(expr "X${option}X" : 'X-.[0-9]*\(.*\)' | sed "$escape")
+    arg2=-\'$(expr "X$option" : 'X-.[0-9]*\(.*\)' | sed "$escape")
     eval "set -- $arg2 "'${1+"$@"}'
     option=$(expr "X$option" : 'X\(-.[0-9]*\)');;
   (--binary-*=* | --[lm]a*=* | --reg*=*)
@@ -75,11 +74,23 @@ while test $# -ne 0; do
   (-[ABCDXdefm] | binary-* | --file | --[lm]a* | --reg*)
     case ${1?"$option option requires an argument"} in
     (*\'*)
-      optarg=" '"$(printf '%sX\n' "$1" | sed "$escape");;
+      optarg=" '"$(printf '%s\n' "$1" | sed "$escape");;
     (*)
       optarg=" '$1'";;
     esac
     shift;;
+  (-f?*\'*)
+    optarg=" '"$(expr "X$option" : 'X-f\(.*\)' | sed "$escape")
+    option=-f;;
+  (-f?*)
+    optarg=" '"$(expr "X$option" : 'X-f\(.*\)')\'
+    option=-f;;
+  (--file=*\'*)
+    optarg=" '"$(expr "X$option" : 'X--file=\(.*\)' | sed "$escape")
+    option=--file;;
+  (--file=*)
+    optarg=" '"$(expr "X$option" : 'X--file=\(.*\)')\'
+    option=--file;;
   (--)
     break;;
   (-?*)
@@ -87,7 +98,7 @@ while test $# -ne 0; do
   (*)
     case $option in
     (*\'*)
-      operands="$operands '"$(printf '%sX\n' "$option" | sed "$escape");;
+      operands="$operands '"$(printf '%s\n' "$option" | sed "$escape");;
     (*)
       operands="$operands '$option'";;
     esac
@@ -99,33 +110,18 @@ while test $# -ne 0; do
   (-[drRzZ] | --di* | --exc* | --inc* | --rec* | --nu*)
     printf >&2 '%s: %s: option not supported\n' "$0" "$option"
     exit 2;;
-  (-[ef]* | --file | --file=* | --reg*)
+  (-e* | --reg*)
+    have_pat=1;;
+  (-f | --file)
     # The pattern is coming from a file rather than the command-line.
     # If the file is actually stdin then we need to do a little
-    # magic, (since we use stdin to pass the gzip output to grep).
-    # So find a free fd and change the argument to then use this
-    # file descriptor for the pattern.
+    # magic, since we use stdin to pass the gzip output to grep.
+    # Turn the -f option into an -e option by copying the file's
+    # contents into OPTARG.
     case $optarg in
     (" '-'" | " '/dev/stdin'" | " '/dev/fd/0'")
-      pat_on_stdin=1
-      eval 'test -e .' 2>/dev/null \
-        && eval 'exists(){ test -e "$@"; }' \
-        || eval 'exists(){ test -r "$@" || test -w "$@"; }'
-      # Start search from 6 since the script already uses 3 and 5
-      fd=6
-      pat_fd=
-      while : ; do
-        if ! exists /proc/$$/fd/$fd; then
-          pat_fd=$fd
-          break;
-        fi
-        fd=$(expr $fd + 1)
-        if test $fd = 255; then
-          printf >&2 '%s: no free file descriptor\n' "$0"
-          exit 2
-        fi
-      done
-      optarg=/dev/fd/$pat_fd;
+      option=-e
+      optarg=" '"$(sed "$escape") || exit 2;;
     esac
     have_pat=1;;
   (--h | --he | --hel | --help)
@@ -149,7 +145,7 @@ while test $# -ne 0; do
 
   case $option in
   (*\'?*)
-    option=\'$(expr "X${option}X" : 'X\(.*\)' | sed "$escape");;
+    option=\'$(printf '%s\n' "$option" | sed "$escape");;
   (*)
     option="'$option'";;
   esac
@@ -162,7 +158,7 @@ eval "set -- $operands "'${1+"$@"}'
 if test $have_pat -eq 0; then
   case ${1?"missing pattern; try \`$0 --help' for help"} in
   (*\'*)
-    grep="$grep -- '"$(printf '%sX\n' "$1" | sed "$escape");;
+    grep="$grep -- '"$(printf '%s\n' "$1" | sed "$escape");;
   (*)
     grep="$grep -- '$1'";;
   esac
@@ -181,9 +177,6 @@ do
   # Fail if gzip or grep (or sed) fails.
   gzip_status=$(
     exec 5>&1
-    if test $pat_on_stdin -eq 1; then
-      eval "exec $pat_fd<&0"
-    fi
     (gzip -cdfq -- "$i" 5>&-; echo $? >&5) 3>&- |
     if test $files_with_matches -eq 1; then
       eval "$grep" >/dev/null && { printf '%s\n' "$i" || exit 2; }

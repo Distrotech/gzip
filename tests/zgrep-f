@@ -31,4 +31,7 @@ zgrep -f - haystack.gz < n > out 2>&1 || fail=1
 
 compare out n || fail=1
 
+# This failed with gzip 1.4.
+echo a-b | zgrep -e - > /dev/null || fail=1
+
 Exit $fail
