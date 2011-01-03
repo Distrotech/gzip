@@ -12,6 +12,7 @@
 /closein.m4
 /closeout.m4
 /codeset.m4
+/configmake.m4
 /d-ino.m4
 /dirent_h.m4
 /dirfd.m4

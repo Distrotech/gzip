@@ -95,6 +95,7 @@
 /isnanf.c
 /isnanl-nolibm.h
 /isnanl.c
+/iswblank.c
 /lchown.c
 /libgzip.a
 /localcharset.c
