@@ -19,6 +19,7 @@ manual_title = gzip: the data compression program
 
 # Tests not to run as part of "make distcheck".
 local-checks-to-skip =		\
+  sc_bindtextdomain		\
   sc_error_message_period	\
   sc_error_message_uppercase	\
   sc_m4_quote_check		\
