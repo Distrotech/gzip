@@ -65,3 +65,12 @@ sc_prohibit_emacs__indent_tabs_mode__setting:
 	  $(_sc_search_regexp)
 
 include $(srcdir)/dist-check.mk
+
+exclude_file_name_regexp--sc_file_system = ^NEWS$$
+exclude_file_name_regexp--sc_prohibit_tab_based_indentation = \
+  (^|/)(GNU)?[Mm]akefile|(^|/)ChangeLog|\.(am|mk)$$
+exclude_file_name_regexp--sc_require_config_h = ^lib/match\.c$$
+exclude_file_name_regexp--sc_require_config_h_first = ^lib/match\.c$$
+exclude_file_name_regexp--sc_prohibit_empty_lines_at_EOF = \
+  ^tests/hufts-segv\.gz$$
+exclude_file_name_regexp--sc_prohibit_strcmp = ^gzip\.c$$
