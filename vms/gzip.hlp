@@ -132,7 +132,7 @@ SYNOPSIS
               ratio: compression ratio (0.0% if unknown)
               uncompressed_name: name of the uncompressed file
 
-          The uncompressed size is given as -1 on VMS because it
+          The uncompressed size is given as -1 on VMS because
           it is not possible to seek reliably to the end of the
           compressed file, where this size is stored.
 
