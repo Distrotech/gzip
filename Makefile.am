@@ -41,7 +41,7 @@ EXTRA_DIST = $(ACINCLUDE_INPUTS) $(man_MANS) \
   dist-check.mk	\
   algorithm.doc amiga/match.a amiga/Makefile.gcc amiga/Makefile.sasc \
   amiga/tailor.c amiga/utime.h atari/Makefile.st crypt.h \
-  gunzip.in gzexe.in gzip.doc gzip.h lzw.h msdos/match.asm msdos/tailor.c \
+  gunzip.in gzexe.in gzip.doc msdos/match.asm msdos/tailor.c \
   msdos/gzip.prj msdos/doturboc.bat msdos/Makefile.msc msdos/Makefile.bor \
   msdos/Makefile.djg nt/Makefile.nt os2/gzip.def os2/Makefile.os2 \
   os2/gzip16.def \
@@ -50,6 +50,7 @@ EXTRA_DIST = $(ACINCLUDE_INPUTS) $(man_MANS) \
   tailor.h vms/Makefile.mms vms/gzip.hlp vms/vms.c vms/Readme.vms \
   vms/Makefile.vms vms/Makefile.gcc vms/makegzip.com zcat.in zcmp.in zdiff.in \
   zegrep.in zfgrep.in zforce.in zgrep.in zless.in zmore.in znew.in
+noinst_HEADERS = gzip.h lzw.h
 
 bin_PROGRAMS = gzip
 bin_SCRIPTS = gunzip gzexe zcat zcmp zdiff \
