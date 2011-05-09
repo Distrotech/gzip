@@ -196,7 +196,6 @@ typedef int file_t;     /* Do not use stdio */
  * distances are limited to MAX_DIST instead of WSIZE.
  */
 
-extern int decrypt;        /* flag to turn on decryption */
 extern int exit_code;      /* program exit code */
 extern int verbose;        /* be verbose (-v) */
 extern int quiet;          /* be quiet (-q) */

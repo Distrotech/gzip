@@ -286,8 +286,8 @@ local off_t compressed_len; /* total bit length of compressed file */
 local off_t input_len;      /* total byte length of input file */
 /* input_len is for debugging only since we can get it by other means. */
 
-ush *file_type;        /* pointer to UNKNOWN, BINARY or ASCII */
-int *file_method;      /* pointer to DEFLATE or STORE */
+static ush *file_type;        /* pointer to UNKNOWN, BINARY or ASCII */
+static int *file_method;      /* pointer to DEFLATE or STORE */
 
 #ifdef DEBUG
 extern off_t bits_sent;  /* bit length of the compressed data */

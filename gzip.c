@@ -29,7 +29,7 @@
  */
 
 static char const *const license_msg[] = {
-"Copyright (C) 2007, 2010 Free Software Foundation, Inc.",
+"Copyright (C) 2007, 2010, 2011 Free Software Foundation, Inc.",
 "Copyright (C) 1993 Jean-loup Gailly.",
 "This is free software.  You may redistribute copies of it under the terms of",
 "the GNU General Public License <http://www.gnu.org/licenses/gpl.html>.",
@@ -170,33 +170,33 @@ DECLARE(uch, window, 2L*WSIZE);
    is deliberately not documented, and only for testing.  */
 static bool presume_input_tty;
 
-int ascii = 0;        /* convert end-of-lines to local OS conventions */
-int to_stdout = 0;    /* output to stdout (-c) */
-int decompress = 0;   /* decompress (-d) */
-int force = 0;        /* don't ask questions, compress links (-f) */
-int no_name = -1;     /* don't save or restore the original file name */
-int no_time = -1;     /* don't save or restore the original file time */
-int recursive = 0;    /* recurse through directories (-r) */
-int list = 0;         /* list the file contents (-l) */
-int verbose = 0;      /* be verbose (-v) */
-int quiet = 0;        /* be very quiet (-q) */
-int do_lzw = 0;       /* generate output compatible with old compress (-Z) */
-int test = 0;         /* test .gz file integrity */
-int foreground = 0;   /* set if program run in foreground */
-char *program_name;   /* program name */
-int maxbits = BITS;   /* max bits per code for LZW */
-int method = DEFLATED;/* compression method */
-int level = 6;        /* compression level */
-int exit_code = OK;   /* program exit code */
-int save_orig_name;   /* set if original name must be saved */
-int last_member;      /* set for .zip and .Z files */
-int part_nb;          /* number of parts in .gz file */
-struct timespec time_stamp; /* original time stamp (modification time) */
-off_t ifile_size;      /* input file size, -1 for devices (debug only) */
-char *env;            /* contents of GZIP env variable */
-char **args = NULL;   /* argv pointer if GZIP env variable defined */
-char const *z_suffix; /* default suffix (can be set with --suffix) */
-size_t z_len;         /* strlen(z_suffix) */
+static int ascii = 0;        /* convert end-of-lines to local OS conventions */
+       int to_stdout = 0;    /* output to stdout (-c) */
+static int decompress = 0;   /* decompress (-d) */
+static int force = 0;        /* don't ask questions, compress links (-f) */
+static int no_name = -1;     /* don't save or restore the original file name */
+static int no_time = -1;     /* don't save or restore the original file time */
+static int recursive = 0;    /* recurse through directories (-r) */
+static int list = 0;         /* list the file contents (-l) */
+       int verbose = 0;      /* be verbose (-v) */
+       int quiet = 0;        /* be very quiet (-q) */
+static int do_lzw = 0;       /* generate output compatible with old compress (-Z) */
+       int test = 0;         /* test .gz file integrity */
+static int foreground = 0;   /* set if program run in foreground */
+       char *program_name;   /* program name */
+       int maxbits = BITS;   /* max bits per code for LZW */
+       int method = DEFLATED;/* compression method */
+       int level = 6;        /* compression level */
+       int exit_code = OK;   /* program exit code */
+       int save_orig_name;   /* set if original name must be saved */
+static int last_member;      /* set for .zip and .Z files */
+static int part_nb;          /* number of parts in .gz file */
+       struct timespec time_stamp; /* original time stamp (modification time) */
+       off_t ifile_size;      /* input file size, -1 for devices (debug only) */
+static char *env;            /* contents of GZIP env variable */
+static char **args = NULL;   /* argv pointer if GZIP env variable defined */
+static char const *z_suffix; /* default suffix (can be set with --suffix) */
+static size_t z_len;         /* strlen(z_suffix) */
 
 /* The set of signals that are caught.  */
 static sigset_t caught_signals;
@@ -211,11 +211,11 @@ static int volatile remove_ofname_fd = -1;
 
 off_t bytes_in;             /* number of input bytes */
 off_t bytes_out;            /* number of output bytes */
-off_t total_in;		    /* input bytes for all files */
-off_t total_out;	    /* output bytes for all files */
+static off_t total_in;      /* input bytes for all files */
+static off_t total_out;	    /* output bytes for all files */
 char ifname[MAX_PATH_LEN]; /* input file name */
 char ofname[MAX_PATH_LEN]; /* output file name */
-struct stat istat;         /* status for input file */
+static struct stat istat;         /* status for input file */
 int  ifd;                  /* input file descriptor */
 int  ofd;                  /* output file descriptor */
 unsigned insize;           /* valid bytes in inbuf */
@@ -249,7 +249,7 @@ enum
   PRESUME_INPUT_TTY_OPTION = CHAR_MAX + 1
 };
 
-struct option longopts[] =
+static const struct option longopts[] =
 {
  /* { name  has_arg  *flag  val } */
     {"ascii",      0, 0, 'a'}, /* ascii text mode */
@@ -306,7 +306,7 @@ local void remove_output_file (void);
 local RETSIGTYPE abort_gzip_signal (int);
 local void do_exit      (int exitcode) ATTRIBUTE_NORETURN;
       int main          (int argc, char **argv);
-int (*work) (int infile, int outfile) = zip; /* function to call */
+static int (*work) (int infile, int outfile) = zip; /* function to call */
 
 #if ! NO_DIR
 local void treat_dir    (int fd, char *dir);

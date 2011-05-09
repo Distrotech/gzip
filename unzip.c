@@ -51,10 +51,9 @@
 
 /* Globals */
 
-int decrypt;        /* flag to turn on decryption */
-char *key;          /* not used--needed to link crypt.c */
-int pkzip = 0;      /* set for a pkzip file */
-int ext_header = 0; /* set if extended local header */
+static int decrypt;        /* flag to turn on decryption */
+static int pkzip = 0;      /* set for a pkzip file */
+static int ext_header = 0; /* set if extended local header */
 
 /* ===========================================================================
  * Check zip file and advance inptr to the start of the compressed data.

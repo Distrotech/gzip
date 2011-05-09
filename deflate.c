@@ -161,7 +161,7 @@ typedef unsigned IPos;
 /* DECLARE(Pos, head, 1<<HASH_BITS); */
 /* Heads of the hash chains or NIL. */
 
-ulg window_size = (ulg)2*WSIZE;
+static ulg window_size = (ulg)2*WSIZE;
 /* window size, 2*WSIZE except for MMAP or BIG_MEM, where it is the
  * input file length plus MIN_LOOKAHEAD.
  */
@@ -180,17 +180,17 @@ local unsigned ins_h;  /* hash index of string to be inserted */
  *   H_SHIFT * MIN_MATCH >= HASH_BITS
  */
 
-unsigned int near prev_length;
+static unsigned int near prev_length;
 /* Length of the best match at previous step. Matches not greater than this
  * are discarded. This is used in the lazy match evaluation.
  */
 
       unsigned near strstart;      /* start of string to insert */
-      unsigned near match_start;   /* start of matching string */
+local unsigned near match_start;   /* start of matching string */
 local int           eofile;        /* flag set at end of input file */
 local unsigned      lookahead;     /* number of valid bytes ahead in window */
 
-unsigned near max_chain_length;
+static unsigned max_chain_length;
 /* To speed up deflation, hash chains are never searched beyond this length.
  * A higher limit improves compression ratio but degrades the speed.
  */
@@ -209,7 +209,7 @@ local unsigned int max_lazy_match;
 local int compr_level;
 /* compression level (1..9) */
 
-unsigned near good_match;
+static unsigned good_match;
 /* Use a faster search when the previous match is longer than this */
 
 
@@ -229,7 +229,7 @@ typedef struct config {
 #ifdef  FULL_SEARCH
 # define nice_match MAX_MATCH
 #else
-  int near nice_match; /* Stop searching when current match exceeds this */
+  static int nice_match; /* Stop searching when current match exceeds this */
 #endif
 
 local config configuration_table[10] = {
