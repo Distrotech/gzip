@@ -257,8 +257,8 @@ local config configuration_table[10] = {
 local void fill_window   (void);
 local off_t deflate_fast (void);
 
-      int  longest_match (IPos cur_match);
 #ifdef ASMV
+      int  longest_match (IPos cur_match);
       void match_init (void); /* asm code initialization */
 #endif
 
@@ -361,8 +361,8 @@ void lm_init (pack_level, flags)
  * match.s. The code is functionally equivalent, so you can use the C version
  * if desired.
  */
-int longest_match(cur_match)
-    IPos cur_match;                             /* current match */
+static int
+longest_match(IPos cur_match)
 {
     unsigned chain_length = max_chain_length;   /* max hash chain length */
     register uch *scan = window + strstart;     /* current string */

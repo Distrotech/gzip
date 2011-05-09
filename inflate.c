@@ -141,15 +141,7 @@ struct huft {
 
 
 /* Function prototypes */
-int huft_build (unsigned *, unsigned, unsigned, ush *, ush *,
-                struct huft **, int *);
-int huft_free (struct huft *);
-int inflate_codes (struct huft *, struct huft *, int, int);
-int inflate_stored (void);
-int inflate_fixed (void);
-int inflate_dynamic (void);
-int inflate_block (int *);
-int inflate (void);
+static int huft_free (struct huft *);
 
 
 /* The inflate algorithm uses a sliding 32K byte window on the uncompressed
@@ -283,14 +275,16 @@ int dbits = 6;          /* bits in base distance lookup table */
 unsigned hufts;         /* track memory usage */
 
 
-int huft_build(b, n, s, d, e, t, m)
-unsigned *b;            /* code lengths in bits (all assumed <= BMAX) */
-unsigned n;             /* number of codes (assumed <= N_MAX) */
-unsigned s;             /* number of simple-valued codes (0..s-1) */
-ush *d;                 /* list of base values for non-simple codes */
-ush *e;                 /* list of extra bits for non-simple codes */
-struct huft **t;        /* result: starting table */
-int *m;                 /* maximum lookup bits, returns actual */
+static int
+huft_build(
+unsigned *b,            /* code lengths in bits (all assumed <= BMAX) */
+unsigned n,             /* number of codes (assumed <= N_MAX) */
+unsigned s,             /* number of simple-valued codes (0..s-1) */
+ush *d,                 /* list of base values for non-simple codes */
+ush *e,                 /* list of extra bits for non-simple codes */
+struct huft **t,        /* result: starting table */
+int *m                  /* maximum lookup bits, returns actual */
+           )
 /* Given a list of code lengths and a maximum table size, make a set of
    tables to decode that set of codes.  Return zero on success, one if
    the given code set is incomplete (the tables are still built in this
@@ -492,11 +486,11 @@ int *m;                 /* maximum lookup bits, returns actual */
 
 
 
-int huft_free(t)
-struct huft *t;         /* table to free */
-/* Free the malloc'ed tables built by huft_build(), which makes a linked
+/* Free the malloc'ed tables T built by huft_build(), which makes a linked
    list of the tables it made, with the links in a dummy first entry of
    each table. */
+static int
+huft_free(struct huft *t)
 {
   register struct huft *p, *q;
 
@@ -513,11 +507,12 @@ struct huft *t;         /* table to free */
 }
 
 
-int inflate_codes(tl, td, bl, bd)
-struct huft *tl, *td;   /* literal/length and distance decoder tables */
-int bl, bd;             /* number of bits decoded by tl[] and td[] */
+/* tl, td:   literal/length and distance decoder tables */
+/* bl, bd:   number of bits decoded by tl[] and td[] */
 /* inflate (decompress) the codes in a deflated (compressed) block.
    Return an error code or zero if it all goes ok. */
+static int
+inflate_codes(struct huft *tl, struct huft *td, int bl, int bd)
 {
   register unsigned e;  /* table entry flag/number of extra bits */
   unsigned n, d;        /* length and index for copy */
@@ -622,8 +617,9 @@ int bl, bd;             /* number of bits decoded by tl[] and td[] */
 
 
 
-int inflate_stored()
 /* "decompress" an inflated type 0 (stored) block. */
+static int
+inflate_stored(void)
 {
   unsigned n;           /* number of bytes in block */
   unsigned w;           /* current window position */
@@ -675,10 +671,11 @@ int inflate_stored()
 
 
 
-int inflate_fixed()
 /* decompress an inflated type 1 (fixed Huffman codes) block.  We should
    either replace this with a custom decoder, or at least precompute the
    Huffman tables. */
+static int
+inflate_fixed(void)
 {
   int i;                /* temporary variable */
   struct huft *tl;      /* literal/length code table */
@@ -726,8 +723,9 @@ int inflate_fixed()
 
 
 
-int inflate_dynamic()
 /* decompress an inflated type 2 (dynamic Huffman codes) block. */
+static int
+inflate_dynamic(void)
 {
   int i;                /* temporary variables */
   unsigned j;
@@ -895,9 +893,9 @@ int inflate_dynamic()
 
 
 
-int inflate_block(e)
-int *e;                 /* last block flag */
 /* decompress an inflated block */
+/* E is the last block flag */
+static int inflate_block(int *e)
 {
   unsigned t;           /* block type */
   unsigned w;           /* current window position */
@@ -943,7 +941,8 @@ int *e;                 /* last block flag */
 
 
 
-int inflate()
+int
+inflate(void)
 /* decompress an inflated entry */
 {
   int e;                /* last block flag */
