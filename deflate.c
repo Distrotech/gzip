@@ -254,16 +254,16 @@ local config configuration_table[10] = {
 /* ===========================================================================
  *  Prototypes for local functions.
  */
-local void fill_window   OF((void));
-local off_t deflate_fast OF((void));
+local void fill_window   (void);
+local off_t deflate_fast (void);
 
-      int  longest_match OF((IPos cur_match));
+      int  longest_match (IPos cur_match);
 #ifdef ASMV
-      void match_init OF((void)); /* asm code initialization */
+      void match_init (void); /* asm code initialization */
 #endif
 
 #ifdef DEBUG
-local  void check_match OF((IPos start, IPos match, int length));
+local  void check_match (IPos start, IPos match, int length);
 #endif
 
 /* ===========================================================================

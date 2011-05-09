@@ -38,7 +38,7 @@
 #  define CHAR_BIT 8
 #endif
 
-static int write_buffer OF((int, voidp, unsigned int));
+static int write_buffer (int, voidp, unsigned int);
 
 extern ulg crc_32_tab[];   /* crc table, defined below */
 

@@ -300,17 +300,17 @@ extern unsigned near strstart; /* window offset of current string */
  * Local (static) routines in this file.
  */
 
-local void init_block     OF((void));
-local void pqdownheap     OF((ct_data near *tree, int k));
-local void gen_bitlen     OF((tree_desc near *desc));
-local void gen_codes      OF((ct_data near *tree, int max_code));
-local void build_tree     OF((tree_desc near *desc));
-local void scan_tree      OF((ct_data near *tree, int max_code));
-local void send_tree      OF((ct_data near *tree, int max_code));
-local int  build_bl_tree  OF((void));
-local void send_all_trees OF((int lcodes, int dcodes, int blcodes));
-local void compress_block OF((ct_data near *ltree, ct_data near *dtree));
-local void set_file_type  OF((void));
+local void init_block     (void);
+local void pqdownheap     (ct_data near *tree, int k);
+local void gen_bitlen     (tree_desc near *desc);
+local void gen_codes      (ct_data near *tree, int max_code);
+local void build_tree     (tree_desc near *desc);
+local void scan_tree      (ct_data near *tree, int max_code);
+local void send_tree      (ct_data near *tree, int max_code);
+local int  build_bl_tree  (void);
+local void send_all_trees (int lcodes, int dcodes, int blcodes);
+local void compress_block (ct_data near *ltree, ct_data near *dtree);
+local void set_file_type  (void);
 
 
 #ifndef DEBUG

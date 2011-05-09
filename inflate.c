@@ -141,15 +141,15 @@ struct huft {
 
 
 /* Function prototypes */
-int huft_build OF((unsigned *, unsigned, unsigned, ush *, ush *,
-                   struct huft **, int *));
-int huft_free OF((struct huft *));
-int inflate_codes OF((struct huft *, struct huft *, int, int));
-int inflate_stored OF((void));
-int inflate_fixed OF((void));
-int inflate_dynamic OF((void));
-int inflate_block OF((int *));
-int inflate OF((void));
+int huft_build (unsigned *, unsigned, unsigned, ush *, ush *,
+                struct huft **, int *);
+int huft_free (struct huft *);
+int inflate_codes (struct huft *, struct huft *, int, int);
+int inflate_stored (void);
+int inflate_fixed (void);
+int inflate_dynamic (void);
+int inflate_block (int *);
+int inflate (void);
 
 
 /* The inflate algorithm uses a sliding 32K byte window on the uncompressed

@@ -16,10 +16,6 @@
    along with this program; if not, write to the Free Software Foundation,
    Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
 
-#if !defined(OF) && defined(lint)
-#  include "gzip.h"
-#endif
-
 #ifndef BITS
 #  define BITS 16
 #endif
@@ -50,5 +46,5 @@
 extern int maxbits;      /* max bits per code for LZW */
 extern int block_mode;   /* block compress mode -C compatible with 2.0 */
 
-extern int lzw    OF((int in, int out));
-extern int unlzw  OF((int in, int out));
+extern int lzw    (int in, int out);
+extern int unlzw  (int in, int out);

@@ -118,7 +118,7 @@ static char const *const license_msg[] = {
 #endif
 
 #ifdef off_t
-  off_t lseek OF((int fd, off_t offset, int whence));
+  off_t lseek (int fd, off_t offset, int whence);
 #endif
 
 #ifndef OFF_T_MIN
@@ -284,32 +284,32 @@ struct option longopts[] =
 
 /* local functions */
 
-local void try_help     OF((void)) ATTRIBUTE_NORETURN;
-local void help         OF((void));
-local void license      OF((void));
-local void version      OF((void));
-local int input_eof	OF((void));
-local void treat_stdin  OF((void));
-local void treat_file   OF((char *iname));
-local int create_outfile OF((void));
-local char *get_suffix  OF((char *name));
-local int  open_input_file OF((char *iname, struct stat *sbuf));
-local void discard_input_bytes OF((size_t nbytes, unsigned int flags));
-local int  make_ofname  OF((void));
-local void shorten_name  OF((char *name));
-local int  get_method   OF((int in));
-local void do_list      OF((int ifd, int method));
-local int  check_ofname OF((void));
-local void copy_stat    OF((struct stat *ifstat));
-local void install_signal_handlers OF((void));
-local void remove_output_file OF((void));
-local RETSIGTYPE abort_gzip_signal OF((int));
-local void do_exit      OF((int exitcode)) ATTRIBUTE_NORETURN;
-      int main          OF((int argc, char **argv));
-int (*work) OF((int infile, int outfile)) = zip; /* function to call */
+local void try_help     (void) ATTRIBUTE_NORETURN;
+local void help         (void);
+local void license      (void);
+local void version      (void);
+local int input_eof	(void);
+local void treat_stdin  (void);
+local void treat_file   (char *iname);
+local int create_outfile (void);
+local char *get_suffix  (char *name);
+local int  open_input_file (char *iname, struct stat *sbuf);
+local void discard_input_bytes (size_t nbytes, unsigned int flags);
+local int  make_ofname  (void);
+local void shorten_name  (char *name);
+local int  get_method   (int in);
+local void do_list      (int ifd, int method);
+local int  check_ofname (void);
+local void copy_stat    (struct stat *ifstat);
+local void install_signal_handlers (void);
+local void remove_output_file (void);
+local RETSIGTYPE abort_gzip_signal (int);
+local void do_exit      (int exitcode) ATTRIBUTE_NORETURN;
+      int main          (int argc, char **argv);
+int (*work) (int infile, int outfile) = zip; /* function to call */
 
 #if ! NO_DIR
-local void treat_dir    OF((int fd, char *dir));
+local void treat_dir    (int fd, char *dir);
 #endif
 
 #define strequ(s1, s2) (strcmp((s1),(s2)) == 0)

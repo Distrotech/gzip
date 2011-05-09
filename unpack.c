@@ -95,8 +95,8 @@ local int valid;                  /* number of valid bits in bitbuf */
 
 /* Local functions */
 
-local void read_tree  OF((void));
-local void build_tree OF((void));
+local void read_tree  (void);
+local void build_tree (void);
 
 /* ===========================================================================
  * Read the Huffman tree.

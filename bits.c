@@ -94,7 +94,7 @@ local int bi_valid;
  * are always zero.
  */
 
-int (*read_buf) OF((char *buf, unsigned size));
+int (*read_buf) (char *buf, unsigned size);
 /* Current input function. Set to mem_read for in-memory compression */
 
 #ifdef DEBUG

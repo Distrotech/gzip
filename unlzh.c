@@ -12,25 +12,25 @@
 
 /* decode.c */
 
-local unsigned  decode  OF((unsigned count, uch buffer[]));
-local void decode_start OF((void));
+local unsigned  decode  (unsigned count, uch buffer[]);
+local void decode_start (void);
 
 /* huf.c */
-local void huf_decode_start OF((void));
-local unsigned decode_c     OF((void));
-local unsigned decode_p     OF((void));
-local void read_pt_len      OF((int nn, int nbit, int i_special));
-local void read_c_len       OF((void));
+local void huf_decode_start (void);
+local unsigned decode_c     (void);
+local unsigned decode_p     (void);
+local void read_pt_len      (int nn, int nbit, int i_special);
+local void read_c_len       (void);
 
 /* io.c */
-local void fillbuf      OF((int n));
-local unsigned getbits  OF((int n));
-local void init_getbits OF((void));
+local void fillbuf      (int n);
+local unsigned getbits  (int n);
+local void init_getbits (void);
 
 /* maketbl.c */
 
-local void make_table OF((int nchar, uch bitlen[],
-                          int tablebits, ush table[]));
+local void make_table (int nchar, uch bitlen[],
+                       int tablebits, ush table[]);
 
 
 #define DICBIT    13    /* 12(-lh4-) or 13(-lh5-) */
