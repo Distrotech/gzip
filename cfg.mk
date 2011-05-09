@@ -74,3 +74,10 @@ exclude_file_name_regexp--sc_require_config_h_first = ^lib/match\.c$$
 exclude_file_name_regexp--sc_prohibit_empty_lines_at_EOF = \
   ^tests/hufts-segv\.gz$$
 exclude_file_name_regexp--sc_prohibit_strcmp = ^gzip\.c$$
+
+# Tell the tight_scope rule that sources are in ".".
+export _gl_TS_dir = .
+
+# Tell the tight_scope rule that these variables are deliberately "extern".
+export _gl_TS_unmarked_extern_vars = \
+  block_start d_buf inbuf outbuf prev read_buf strstart window
