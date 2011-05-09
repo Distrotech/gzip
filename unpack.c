@@ -20,7 +20,6 @@
 #include <config.h>
 #include "tailor.h"
 #include "gzip.h"
-#include "crypt.h"
 
 #define MIN(a,b) ((a) <= (b) ? (a) : (b))
 /* The arguments must not have side effects. */

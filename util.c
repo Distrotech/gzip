@@ -31,7 +31,6 @@
 #include <errno.h>
 
 #include "gzip.h"
-#include "crypt.h"
 #include <xalloc.h>
 
 #ifndef CHAR_BIT

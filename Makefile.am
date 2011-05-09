@@ -40,7 +40,7 @@ EXTRA_DIST = $(ACINCLUDE_INPUTS) $(man_MANS) \
   cfg.mk	\
   dist-check.mk	\
   algorithm.doc amiga/match.a amiga/Makefile.gcc amiga/Makefile.sasc \
-  amiga/tailor.c amiga/utime.h atari/Makefile.st crypt.h \
+  amiga/tailor.c amiga/utime.h atari/Makefile.st \
   gunzip.in gzexe.in gzip.doc msdos/match.asm msdos/tailor.c \
   msdos/gzip.prj msdos/doturboc.bat msdos/Makefile.msc msdos/Makefile.bor \
   msdos/Makefile.djg nt/Makefile.nt os2/gzip.def os2/Makefile.os2 \
@@ -56,7 +56,7 @@ bin_PROGRAMS = gzip
 bin_SCRIPTS = gunzip gzexe zcat zcmp zdiff \
   zegrep zfgrep zforce zgrep zless zmore znew
 gzip_SOURCES = \
-  bits.c crypt.c deflate.c gzip.c inflate.c lzw.c \
+  bits.c deflate.c gzip.c inflate.c lzw.c \
   trees.c unlzh.c unlzw.c unpack.c unzip.c util.c zip.c
 gzip_LDADD = libver.a lib/libgzip.a
 gzip_LDADD += $(LIB_CLOCK_GETTIME)

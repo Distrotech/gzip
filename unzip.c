@@ -31,7 +31,6 @@
 #include <config.h>
 #include "tailor.h"
 #include "gzip.h"
-#include "crypt.h"
 
 /* PKZIP header definitions */
 #define LOCSIG 0x04034b50L      /* four-byte lead-in (lsb first) */

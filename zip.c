@@ -22,7 +22,6 @@
 
 #include "tailor.h"
 #include "gzip.h"
-#include "crypt.h"
 
 #include <unistd.h>
 #include <fcntl.h>
