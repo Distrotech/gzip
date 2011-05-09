@@ -35,6 +35,7 @@
 /fcntl_h.m4
 /fdopendir.m4
 /fflush.m4
+/filenamecat.m4
 /float_h.m4
 /fpending.m4
 /fpieee.m4

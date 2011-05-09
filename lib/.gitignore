@@ -52,9 +52,13 @@
 /fcntl.h
 /fcntl.in.h
 /fcntl_.h
+/fd-hook.c
+/fd-hook.h
 /fd-safer.c
 /fdopendir.c
 /fflush.c
+/filenamecat-lgpl.c
+/filenamecat.h
 /float+.h
 /float.h
 /float.in.h
@@ -75,6 +79,7 @@
 /fseterr.h
 /fstatat.c
 /ftello.c
+/getcwd-lgpl.c
 /getcwd.c
 /getdtablesize.c
 /getopt.c
@@ -202,6 +207,7 @@
 /wctype.in.h
 /wctype_.h
 /xalloc-die.c
+/xalloc-oversized.h
 /xalloc.h
 /xgetcwd.c
 /xgetcwd.h
