@@ -8,10 +8,9 @@
 *~
 .deps
 /GNUmakefile
-/maint.mk
+/GNUmakefile
 /INSTALL
-Makefile
-Makefile.in
+/README-release
 /aclocal.m4
 /build-aux
 /config.status
@@ -24,6 +23,8 @@ Makefile.in
 /lib/c++defs.h
 /lib/warn-on-use.h
 /libver.a
+/maint.mk
+/maint.mk
 /version.[ch]
 /zcat
 /zcmp
@@ -35,7 +36,7 @@ Makefile.in
 /zless
 /zmore
 /znew
-/GNUmakefile
-/maint.mk
 ChangeLog
+Makefile
+Makefile.in
 gzip.doc.gz
