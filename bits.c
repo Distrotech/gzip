@@ -67,7 +67,6 @@
 #include <config.h>
 #include "tailor.h"
 #include "gzip.h"
-#include "crypt.h"
 
 #ifdef DEBUG
 #  include <stdio.h>
