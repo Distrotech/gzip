@@ -80,4 +80,5 @@ export _gl_TS_dir = .
 
 # Tell the tight_scope rule that these variables are deliberately "extern".
 export _gl_TS_unmarked_extern_vars = \
-  block_start d_buf inbuf outbuf prev read_buf strstart window
+  block_start d_buf inbuf outbuf prev read_buf strstart window \
+  match_start prev_length max_chain_length
