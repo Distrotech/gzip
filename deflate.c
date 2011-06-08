@@ -209,7 +209,7 @@ local unsigned int max_lazy_match;
 local int compr_level;
 /* compression level (1..9) */
 
-static unsigned good_match;
+unsigned good_match;
 /* Use a faster search when the previous match is longer than this */
 
 
