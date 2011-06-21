@@ -226,10 +226,17 @@ typedef struct config {
    ush max_chain;
 } config;
 
+#ifdef ASMV
+# define static_unless_ASMV
+#else
+# define static_unless_ASMV static
+#endif
+
 #ifdef  FULL_SEARCH
 # define nice_match MAX_MATCH
 #else
-  static int nice_match; /* Stop searching when current match exceeds this */
+  /* Stop searching when current match exceeds this */
+  static_unless_ASMV int nice_match;
 #endif
 
 local config configuration_table[10] = {
