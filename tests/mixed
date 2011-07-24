@@ -48,7 +48,7 @@ in_str=0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-+=%
 for i in 0 1 2 3 4 5 6 7 8 9 a; do in_str="$in_str$in_str" ;done
 
 # Start with some small sizes.  $(seq 64)
-sizes=$(i=0; while :; do echo $i; test $i = 64; i=$(expr $i + 1) && break; done)
+sizes=$(i=0; while :; do echo $i; test $i = 64 && break; i=$(expr $i + 1); done)
 
 # gzip's internal buffer size is 32KiB + 64 bytes:
 sizes="$sizes 32831 32832 32833"
