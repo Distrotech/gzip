@@ -60,6 +60,7 @@
 /filenamecat-lgpl.c
 /filenamecat.h
 /float+.h
+/float.c
 /float.h
 /float.in.h
 /fpending.c
@@ -74,10 +75,12 @@
 /freading.h
 /frexp.c
 /frexpl.c
+/fseek.c
 /fseeko.c
 /fseterr.c
 /fseterr.h
 /fstatat.c
+/ftell.c
 /ftello.c
 /getcwd-lgpl.c
 /getcwd.c
@@ -126,6 +129,7 @@
 /openat-proc.c
 /openat.c
 /openat.h
+/pathmax.h
 /perror.c
 /pipe-safer.c
 /printf-args.c
@@ -172,7 +176,10 @@
 /stdlib_.h
 /strdup.c
 /streq.h
+/strerror-override.c
+/strerror-override.h
 /strerror.c
+/strerror_r.c
 /string.h
 /string.in.h
 /stripslash.c
