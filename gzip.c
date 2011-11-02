@@ -617,15 +617,15 @@ local void treat_stdin()
          *
          * Here we use the --force option to get the other behavior.
          */
-	if (! quiet)
-	  fprintf (stderr,
-		   ("%s: compressed data not %s a terminal."
-		    " Use -f to force %scompression.\n"
-		    "For help, type: %s -h\n"),
-		   program_name,
-		   decompress ? "read from" : "written to",
-		   decompress ? "de" : "",
-		   program_name);
+        if (! quiet)
+          fprintf (stderr,
+                   ("%s: compressed data not %s a terminal."
+                    " Use -f to force %scompression.\n"
+                    "For help, type: %s -h\n"),
+                   program_name,
+                   decompress ? "read from" : "written to",
+                   decompress ? "de" : "",
+                   program_name);
         do_exit(ERROR);
     }
 
