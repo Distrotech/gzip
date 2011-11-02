@@ -18,6 +18,7 @@
 /close-stream.c
 /close-stream.h
 /close.c
+/closedir.c
 /closein.c
 /closein.h
 /closeout.c
@@ -27,6 +28,7 @@
 /config.hin
 /configmake.h
 /creat-safer.c
+/dirent-private.h
 /dirent.h
 /dirent.in.h
 /dirfd.c
@@ -34,6 +36,7 @@
 /dirname.h
 /dosname.h
 /dup-safer.c
+/dup.c
 /dup2.c
 /errno.h
 /errno.in.h
@@ -57,6 +60,7 @@
 /fd-safer.c
 /fdopendir.c
 /fflush.c
+/filename.h
 /filenamecat-lgpl.c
 /filenamecat.h
 /float+.h
@@ -79,6 +83,7 @@
 /fseeko.c
 /fseterr.c
 /fseterr.h
+/fstat.c
 /fstatat.c
 /ftell.c
 /ftello.c
@@ -105,6 +110,7 @@
 /isnanl-nolibm.h
 /isnanl.c
 /iswblank.c
+/itold.c
 /lchown.c
 /libgzip.a
 /localcharset.c
@@ -122,6 +128,10 @@
 /memrchr.c
 /mkdir.c
 /mkdirat.c
+/msvc-inval.c
+/msvc-inval.h
+/msvc-nothrow.c
+/msvc-nothrow.h
 /open-safer.c
 /open.c
 /openat-die.c
@@ -129,6 +139,7 @@
 /openat-proc.c
 /openat.c
 /openat.h
+/opendir.c
 /pathmax.h
 /perror.c
 /pipe-safer.c
