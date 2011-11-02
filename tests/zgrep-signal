@@ -22,17 +22,33 @@
 
 echo a | gzip -c > f.gz || framework_failure_
 
-if (trap - PIPE) >/dev/null 2>&1; then
-  trap - PIPE
-else
-  trap 13
-fi
-st=$(exec 3>&1; (cat f.gz f.gz; echo $? >&3) | :)
+test "x$PERL" = x && PERL=perl
+("$PERL" -e 'use warnings') >/dev/null 2>&1 || skip_ "no suitable perl found"
+
+exec_with_SIGPIPE_SIG_DFL () {
+  program=${1?}
+  shift
+  args=
+  for arg; do
+    args="$args, '$arg'"
+  done
+  "$PERL" -e "\$SIG{PIPE} = 'DEFAULT'; exec '$program'$args"
+}
+
+write_to_dangling_pipe () {
+  exec 3>&1
+  (
+    exec_with_SIGPIPE_SIG_DFL "$@"
+    echo $? >&3
+  ) | : || framework_failure_
+}
+
+st=$(write_to_dangling_pipe cat f.gz f.gz)
 test "$st" = 141 || framework_failure_ 'signal handling busted on this host'
 
 fail=0
 
-st=$(exec 3>&1; (zgrep a f.gz f.gz; echo $? >&3) | :) || framework_failure_
+st=$(write_to_dangling_pipe zgrep a f.gz f.gz)
 
 test "$st" = 141 || fail=1
 
