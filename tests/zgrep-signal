@@ -22,6 +22,14 @@
 
 echo a | gzip -c > f.gz || framework_failure_
 
+if (trap - PIPE) >/dev/null 2>&1; then
+  trap - PIPE
+else
+  trap 13
+fi
+st=$(exec 3>&1; (cat f.gz f.gz; echo $? >&3) | :)
+test "$st" = 141 || framework_failure_ 'signal handling busted on this host'
+
 fail=0
 
 st=$(exec 3>&1; (zgrep a f.gz f.gz; echo $? >&3) | :) || framework_failure_
