@@ -43,13 +43,14 @@ write_to_dangling_pipe () {
   ) | : || framework_failure_
 }
 
-st=$(write_to_dangling_pipe cat f.gz f.gz)
-test "$st" = 141 || framework_failure_ 'signal handling busted on this host'
+signal_status=$(write_to_dangling_pipe cat f.gz f.gz)
+test 128 -lt $signal_status ||
+  framework_failure_ 'signal handling busted on this host'
 
 fail=0
 
 st=$(write_to_dangling_pipe zgrep a f.gz f.gz)
 
-test "$st" = 141 || fail=1
+test $st = $signal_status || fail=1
 
 Exit $fail
