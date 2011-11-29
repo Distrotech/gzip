@@ -292,7 +292,7 @@ extern off_t flush_block (char *buf, ulg stored_len, int eof);
         /* in bits.c */
 extern void     bi_init    (file_t zipfile);
 extern void     send_bits  (int value, int length);
-extern unsigned bi_reverse (unsigned value, int length);
+extern unsigned bi_reverse (unsigned value, int length) _GL_ATTRIBUTE_CONST;
 extern void     bi_windup  (void);
 extern void     copy_block (char *buf, unsigned len, int header);
 extern int     (*read_buf) (char *buf, unsigned size);
@@ -307,7 +307,7 @@ extern void flush_window  (void);
 extern void write_buf     (int fd, voidp buf, unsigned cnt);
 extern int read_buffer    (int fd, voidp buf, unsigned int cnt);
 extern char *strlwr       (char *s);
-extern char *gzip_base_name (char *fname);
+extern char *gzip_base_name (char *fname) _GL_ATTRIBUTE_PURE;
 extern int xunlink        (char *fname);
 extern void make_simple_name (char *name);
 extern char *add_envopt   (int *argcp, char ***argvp, char const *env);
