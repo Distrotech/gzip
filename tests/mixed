@@ -27,22 +27,22 @@ fail=0
 
 (echo xxx; echo yyy) > in || fail=1
 gzip -cdf < in > out || fail=1
-compare out exp2 || fail=1
+compare exp2 out || fail=1
 
 # Uncompressed input, followed by compressed data.
 # Currently fails, so skip it.
 # (echo xxx; echo yyy|gzip) > in || fail=1
 # gzip -cdf < in > out || fail=1
-# compare out exp2 || fail=1
+# compare exp2 out || fail=1
 
 # Compressed input, followed by regular (not-compressed) data.
 (echo xxx|gzip; echo yyy) > in || fail=1
 gzip -cdf < in > out || fail=1
-compare out exp2 || fail=1
+compare exp2 out || fail=1
 
 (echo xxx|gzip; echo yyy|gzip) > in || fail=1
 gzip -cdf < in > out || fail=1
-compare out exp2 || fail=1
+compare exp2 out || fail=1
 
 in_str=0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-+=%
 for i in 0 1 2 3 4 5 6 7 8 9 a; do in_str="$in_str$in_str" ;done

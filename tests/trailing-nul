@@ -31,7 +31,7 @@ for i in 0 00 1; do
   test $ret -eq $i || fail=1
   test $ret = 1 && continue
   echo $i > exp || fail=1
-  compare $i exp || fail=1
+  compare exp $i || fail=1
 done
 
 Exit $fail

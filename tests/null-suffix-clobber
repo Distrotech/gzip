@@ -27,8 +27,8 @@ fail=0
 
 gzip ---presume-input-tty -d -S '' F.gz < yes > out 2>err && fail=1
 
-compare out /dev/null || fail=1
-compare err expected-err || fail=1
+compare /dev/null out || fail=1
+compare expected-err err || fail=1
 
 test -f F.gz || fail=1
 
