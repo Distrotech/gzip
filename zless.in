@@ -53,5 +53,15 @@ if test "${LESSMETACHARS+set}" != set; then
   export LESSMETACHARS
 fi
 
-LESSOPEN="|gzip -cdfq -- %s"; export LESSOPEN
+less_version=`less -V` || exit
+case $less_version in
+'less 429
+'* | 'less '4[3-9][0-9]* | 'less '[5-9][0-9][0-9]* | 'less '[1-9][0-9][0-9][0-9]*)
+   use_input_pipe_on_stdin='-';;
+*) use_input_pipe_on_stdin='';;
+esac
+
+LESSOPEN="|${use_input_pipe_on_stdin}gzip -cdfq -- %s"
+export LESSOPEN
+
 exec less "$@"
