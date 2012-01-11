@@ -52,7 +52,6 @@ built_programs = \
 TESTS_ENVIRONMENT =				\
   tmp__=$$TMPDIR; test -d "$$tmp__" || tmp__=.;	\
   TMPDIR=$$tmp__; export TMPDIR;		\
-  exec 9>&2;					\
   shell_or_perl_() {				\
     if grep '^\#!/usr/bin/perl' "$$1" > /dev/null; then			\
       if $(PERL) -e 'use warnings' > /dev/null 2>&1; then		\
@@ -85,6 +84,6 @@ TESTS_ENVIRONMENT =				\
   PERL='$(PERL)'				\
   SHELL='$(SHELL)'				\
   PATH='$(abs_top_builddir)$(PATH_SEPARATOR)'"$$PATH" \
-  ; shell_or_perl_
+  ; 9>&2
 
 VERBOSE = yes
