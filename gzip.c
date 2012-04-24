@@ -91,12 +91,6 @@ static char const *const license_msg[] = {
 # include <savedir.h>
 #endif
 
-#ifdef CLOSEDIR_VOID
-# define CLOSEDIR(d) (closedir(d), 0)
-#else
-# define CLOSEDIR(d) closedir(d)
-#endif
-
 #ifndef NO_UTIME
 #  include <utimens.h>
 #endif
