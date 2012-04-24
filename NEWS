@@ -18,6 +18,10 @@ GNU gzip NEWS                                    -*- outline -*-
   For example, now "(printf x|gzip; echo y)|gzip -dcf" prints "xy\n",
   while before it would print "x<compressed data>y\n".
 
+  gzip -rf no longer compresses files more than once (e.g., replacing
+  FOO with FOO.gz.gz) on file systems such as ZFS where a readdir
+  loop that unlinks and creates files can revisit output files.
+
 
 * Noteworthy changes in release 1.4 (2010-01-20) [stable]
 
