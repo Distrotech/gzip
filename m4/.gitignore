@@ -157,3 +157,6 @@
 /xgetcwd.m4
 /xsize.m4
 /yesno.m4
+/dirent-safer.m4
+/readdir.m4
+/savedir.m4

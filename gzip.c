@@ -88,9 +88,7 @@ static char const *const license_msg[] = {
 #endif
 #if !NO_DIR
 # include <dirent.h>
-# ifndef _D_EXACT_NAMLEN
-#  define _D_EXACT_NAMLEN(dp) strlen ((dp)->d_name)
-# endif
+# include <savedir.h>
 #endif
 
 #ifdef CLOSEDIR_VOID
@@ -1758,16 +1756,17 @@ local void copy_stat(ifstat)
 #if ! NO_DIR
 
 /* ========================================================================
- * Recurse through the given directory. This code is taken from ncompress.
+ * Recurse through the given directory.
  */
 local void treat_dir (fd, dir)
     int fd;
     char *dir;
 {
-    struct dirent *dp;
     DIR      *dirp;
     char     nbuf[MAX_PATH_LEN];
-    int      len;
+    char *entries;
+    char const *entry;
+    size_t entrylen;
 
     dirp = fdopendir (fd);
 
@@ -1776,29 +1775,21 @@ local void treat_dir (fd, dir)
         close (fd);
         return ;
     }
-    /*
-     ** WARNING: the following algorithm could occasionally cause
-     ** compress to produce error warnings of the form "<filename>.gz
-     ** already has .gz suffix - ignored". This occurs when the
-     ** .gz output file is inserted into the directory below
-     ** readdir's current pointer.
-     ** These warnings are harmless but annoying, so they are suppressed
-     ** with option -r (except when -v is on). An alternative
-     ** to allowing this would be to store the entire directory
-     ** list in memory, then compress the entries in the stored
-     ** list. Given the depth-first recursive algorithm used here,
-     ** this could use up a tremendous amount of memory. I don't
-     ** think it's worth it. -- Dave Mack
-     ** (An other alternative might be two passes to avoid depth-first.)
-     */
 
-    while ((errno = 0, dp = readdir(dirp)) != NULL) {
+    entries = streamsavedir (dirp);
+    if (! entries)
+      progerror (dir);
+    if (closedir (dirp) != 0)
+      progerror (dir);
+    if (! entries)
+      return;
 
-        if (strequ(dp->d_name,".") || strequ(dp->d_name,"..")) {
-            continue;
-        }
-        len = strlen(dir);
-        if (len + _D_EXACT_NAMLEN (dp) + 1 < MAX_PATH_LEN - 1) {
+    for (entry = entries; *entry; entry += entrylen + 1) {
+        size_t len = strlen (dir);
+        entrylen = strlen (entry);
+        if (strequ (entry, ".") || strequ (entry, ".."))
+          continue;
+        if (len + entrylen < MAX_PATH_LEN - 2) {
             strcpy(nbuf,dir);
             if (len != 0 /* dir = "" means current dir on Amiga */
 #ifdef PATH_SEP2
@@ -1810,18 +1801,15 @@ local void treat_dir (fd, dir)
             ) {
                 nbuf[len++] = PATH_SEP;
             }
-            strcpy(nbuf+len, dp->d_name);
+            strcpy (nbuf + len, entry);
             treat_file(nbuf);
         } else {
             fprintf(stderr,"%s: %s/%s: pathname too long\n",
-                    program_name, dir, dp->d_name);
+                    program_name, dir, entry);
             exit_code = ERROR;
         }
     }
-    if (errno != 0)
-        progerror(dir);
-    if (CLOSEDIR(dirp) != 0)
-        progerror(dir);
+    free (entries);
 }
 #endif /* ! NO_DIR */
 

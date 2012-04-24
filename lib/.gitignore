@@ -233,3 +233,9 @@
 /xsize.h
 /yesno.c
 /yesno.h
+/dirent--.h
+/dirent-safer.h
+/opendir-safer.c
+/readdir.c
+/savedir.c
+/savedir.h
