@@ -74,6 +74,7 @@ exclude_file_name_regexp--sc_require_config_h_first = ^lib/match\.c$$
 exclude_file_name_regexp--sc_prohibit_empty_lines_at_EOF = \
   ^tests/hufts-segv\.gz$$
 exclude_file_name_regexp--sc_prohibit_strcmp = ^gzip\.c$$
+exclude_file_name_regexp--sc_prohibit_always-defined_macros = ^tailor\.h$$
 
 # Tell the tight_scope rule that sources are in ".".
 export _gl_TS_dir = .

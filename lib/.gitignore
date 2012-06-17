@@ -239,3 +239,5 @@
 /readdir.c
 /savedir.c
 /savedir.h
+/quote.h
+/sys_types.in.h

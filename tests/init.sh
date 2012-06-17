@@ -207,6 +207,14 @@ else
   fi
 fi
 
+# If this is bash, turn off all aliases.
+test -n "$BASH_VERSION" && unalias -a
+
+# Note that when supporting $EXEEXT (transparently mapping from PROG_NAME to
+# PROG_NAME.exe), we want to support hyphen-containing names like test-acos.
+# That is part of the shell-selection test above.  Why use aliases rather
+# than functions?  Because support for hyphen-containing aliases is more
+# widespread than that for hyphen-containing function names.
 test -n "$EXEEXT" && shopt -s expand_aliases
 
 # Enable glibc's malloc-perturbing option.
@@ -255,7 +263,10 @@ compare_dev_null_ ()
   return 2
 }
 
-if diff_out_=`exec 2>/dev/null; diff -u "$0" "$0" < /dev/null`; then
+if diff_out_=`exec 2>/dev/null; diff -u "$0" "$0" < /dev/null` \
+   && diff -u Makefile "$0" 2>/dev/null | grep '^[+]#!' >/dev/null; then
+  # diff accepts the -u option and does not (like AIX 7 'diff') produce an
+  # extra space on column 1 of every content line.
   if test -z "$diff_out_"; then
     compare_ () { diff -u "$@"; }
   else
