@@ -58,8 +58,7 @@ same as ^D (control-D)
 .PP
 .IP \fIi\^\fPz
 same as typing a space except that \fIi\fP, if present, becomes the new
-window size.  Note that the window size reverts back to the default at the
-end of the current file.
+window size.
 .PP
 .IP \fIi\^\fPs
 skip \fIi\fP lines and print a screenful of lines
@@ -68,28 +67,13 @@ skip \fIi\fP lines and print a screenful of lines
 skip \fIi\fP screenfuls and print a screenful of lines
 .PP
 .IP "q or Q"
-quit reading the current file; go on to the next (if any)
-.PP
-.IP "e or q"
-When the prompt --More--(Next file:
-.IR file )
-is printed, this command causes zmore to exit.
-.PP
-.IP s
-When the prompt --More--(Next file:
-.IR file )
-is printed, this command causes zmore to skip the next file and continue.
+Quit.
 .PP
 .IP =
 Display the current line number.
 .PP
 .IP \fIi\fP/expr
 search for the \fIi\^\fP-th occurrence of the regular expression \fIexpr.\fP
-If the pattern is not found,
-.I zmore
-goes on to the next file (if any).
-Otherwise, a screenful is displayed, starting two lines before the place
-where the expression was found.
 The user's erase and kill characters may be used to edit the regular
 expression.
 Erasing back past the first column cancels the search command.
@@ -103,7 +87,7 @@ The character `!' in "command" is replaced with the
 previous shell command.  The sequence "\\!" is replaced by "!".
 .PP
 .IP ":q or :Q"
-quit reading the current file; go on to the next (if any)
+Quit
 (same as q or Q).
 .PP
 .IP .
@@ -137,7 +121,8 @@ If the standard output is not a teletype, then
 .I zmore
 acts just like
 .I zcat,
-except that a header is printed before each file.
+except that a header is printed before each file
+if there is more than one file.
 .SH FILES
 .TP
 /etc/termcap

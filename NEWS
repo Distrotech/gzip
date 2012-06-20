@@ -2,6 +2,10 @@ GNU gzip NEWS                                    -*- outline -*-
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+  zmore now acts more like 'more', and is more portable to POSIXish hosts.
+
 
 * Noteworthy changes in release 1.5 (2012-06-17) [stable]
 
