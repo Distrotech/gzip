@@ -240,7 +240,7 @@ Major changes from 1.1.2 to 1.2
 * With --force, let zcat pass non gzip'ed data unchanged (zcat == cat)
 * Added the zgrep shell script.
 * Made sub.c useful for 16 bit sound, 24 bit images, etc..
-* Supress warnings about suffix for gunzip -r, except with --verbose.
+* Suppress warnings about suffix for gunzip -r, except with --verbose.
 * On MSDOS, use .gz extension when possible (files without extension)
 * Moved the sample programs to a subdirectory sample.
 * Added a "Special targets" section in INSTALL.

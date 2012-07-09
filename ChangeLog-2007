@@ -1284,7 +1284,7 @@ Mon Jun 14 10:03:24 1993  Jean-loup Gailly  (jloup@chorus.fr)
 	 With --force, let zcat pass non gzip'ed data unchanged (zcat == cat)
 	 Added the zgrep shell script.
 	 Made sub.c useful for 16 bit sound, 24 bit images, etc..
-	 Supress warnings about suffix for gunzip -r, except with --verbose.
+	 Suppress warnings about suffix for gunzip -r, except with --verbose.
 	 Moved the sample programs to a subdirectory sample.
 	 On MSDOS, use .gz extension when possible (files without extension)
 	 Added a "Special targets" section in INSTALL.
