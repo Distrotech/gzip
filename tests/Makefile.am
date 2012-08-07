@@ -25,6 +25,7 @@ TESTS =					\
   trailing-nul				\
   zdiff					\
   zgrep-f				\
+  zgrep-context				\
   zgrep-signal				\
   znew-k
 
