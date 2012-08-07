@@ -4,6 +4,10 @@ GNU gzip NEWS                                    -*- outline -*-
 
 ** Bug fixes
 
+  zgrep no longer malfunctions with a multi-digit context option like -15.
+  Now, it passes that option to grep (equivalent to -C15) just as it does
+  for single-digit options. [bug introduced in gzip-1.3.12]
+
   zmore now acts more like 'more', and is more portable to POSIXish hosts.
 
 
