@@ -65,14 +65,10 @@ while test $# -ne 0; do
   optarg=
 
   case $option in
-  (-[0123456789EFGHIKLPRTUVZabchilnoqrsuvwxyz]?*)
-    if expr "X$option" : 'X-[0-9]\+$' > /dev/null; then
-      : # Let a multi-digit, digit-only option like -10 fall through.
-    else
-      arg2=-\'$(expr "X$option" : 'X-.[0-9]*\(.*\)' | sed "$escape")
-      eval "set -- $arg2 "'${1+"$@"}'
-      option=$(expr "X$option" : 'X\(-.[0-9]*\)')
-    fi;;
+  (-[0123456789EFGHIKLPRTUVZabchilnoqrsuvwxyz]*[!0123456789]*)
+    arg2=-\'$(expr "X$option" : 'X-.[0-9]*\(.*\)' | sed "$escape")
+    eval "set -- $arg2 "'${1+"$@"}'
+    option=$(expr "X$option" : 'X\(-.[0-9]*\)');;
   (--binary-*=* | --[lm]a*=* | --reg*=*)
     ;;
   (-[ABCDXdefm] | binary-* | --file | --[lm]a* | --reg*)
