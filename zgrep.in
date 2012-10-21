@@ -28,7 +28,7 @@ case $1 in
 esac
 PATH=$bindir:$PATH
 
-grep='${GREP-grep}'
+grep='${GREP-'\''@GREP@'\''}'
 
 version='zgrep (gzip) @VERSION@
 Copyright (C) 2010-2012 Free Software Foundation, Inc.

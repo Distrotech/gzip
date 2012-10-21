@@ -84,6 +84,7 @@ SUFFIXES = .in
 	$(AM_V_GEN)sed \
 		-e 's|/bin/sh|$(SHELL)|g' \
 		-e 's|[@]bindir@|'\''$(bindir)'\''|g' \
+		-e 's|[@]GREP@|$(GREP)|g' \
 		-e 's|[@]VERSION@|$(VERSION)|g' \
 		$(srcdir)/$@.in >$@-t \
 	  && chmod a+x $@-t \

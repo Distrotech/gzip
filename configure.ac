@@ -33,6 +33,7 @@ AM_SILENT_RULES([yes]) # make --enable-silent-rules the default.
 AC_PROG_CC_STDC
 AM_PROG_CC_C_O
 AC_PROG_CPP
+AC_PROG_GREP
 AC_CHECK_TOOL([NM], [nm], [nm])
 AC_PROG_LN_S
 AC_PROG_RANLIB
