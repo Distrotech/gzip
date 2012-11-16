@@ -23,14 +23,15 @@ All options specified are passed directly to
 .I cmp
 or
 .IR diff "."
-If only 1 file is specified, then the files compared are
+If only
 .I file1
-and an uncompressed
+is specified, it is compared to the uncompressed contents of
 .IR file1 ".gz."
-If two files are specified, then they are uncompressed if necessary and fed to
+If two files are specified, their contents (uncompressed if necessary) are fed to
 .I cmp
 or
 .IR diff "."
+The input files are not modified.
 The exit status from
 .I cmp
 or
@@ -43,4 +44,5 @@ Messages from the
 .I cmp
 or
 .I diff
-programs refer to temporary filenames instead of those specified.
+programs may refer to file names such as "\-" instead of to the file
+names specified.
