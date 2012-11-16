@@ -190,7 +190,7 @@ int unlzw(in, out)
                 goto resetbuf;
             }
             input(inbuf,posbits,code,n_bits,bitmask);
-            Tracev((stderr, "%d ", code));
+            Tracev((stderr, "%ld ", code));
 
             if (oldcode == -1) {
                 if (256 <= code)
