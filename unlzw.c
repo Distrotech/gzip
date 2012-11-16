@@ -24,90 +24,6 @@ typedef unsigned long 	cmp_code_int;
 
 #define MAXCODE(n)	(1L << (n))
 
-#ifndef	REGISTERS
-#	define	REGISTERS	2
-#endif
-#define	REG1
-#define	REG2
-#define	REG3
-#define	REG4
-#define	REG5
-#define	REG6
-#define	REG7
-#define	REG8
-#define	REG9
-#define	REG10
-#define	REG11
-#define	REG12
-#define	REG13
-#define	REG14
-#define	REG15
-#define	REG16
-#if REGISTERS >= 1
-#	undef	REG1
-#	define	REG1	register
-#endif
-#if REGISTERS >= 2
-#	undef	REG2
-#	define	REG2	register
-#endif
-#if REGISTERS >= 3
-#	undef	REG3
-#	define	REG3	register
-#endif
-#if REGISTERS >= 4
-#	undef	REG4
-#	define	REG4	register
-#endif
-#if REGISTERS >= 5
-#	undef	REG5
-#	define	REG5	register
-#endif
-#if REGISTERS >= 6
-#	undef	REG6
-#	define	REG6	register
-#endif
-#if REGISTERS >= 7
-#	undef	REG7
-#	define	REG7	register
-#endif
-#if REGISTERS >= 8
-#	undef	REG8
-#	define	REG8	register
-#endif
-#if REGISTERS >= 9
-#	undef	REG9
-#	define	REG9	register
-#endif
-#if REGISTERS >= 10
-#	undef	REG10
-#	define	REG10	register
-#endif
-#if REGISTERS >= 11
-#	undef	REG11
-#	define	REG11	register
-#endif
-#if REGISTERS >= 12
-#	undef	REG12
-#	define	REG12	register
-#endif
-#if REGISTERS >= 13
-#	undef	REG13
-#	define	REG13	register
-#endif
-#if REGISTERS >= 14
-#	undef	REG14
-#	define	REG14	register
-#endif
-#if REGISTERS >= 15
-#	undef	REG15
-#	define	REG15	register
-#endif
-#if REGISTERS >= 16
-#	undef	REG16
-#	define	REG16	register
-#endif
-
 #ifndef	BYTEORDER
 #	define	BYTEORDER	0000
 #endif
@@ -146,7 +62,7 @@ union	bytes {
    }
 #else
 #  define input(b,o,c,n,m){ \
-     REG1 char_type *p = &(b)[(o)>>3]; \
+     char_type *p = &(b)[(o)>>3]; \
      (c) = ((((long)(p[0]))|((long)(p[1])<<8)| \
      ((long)(p[2])<<16))>>((o)&0x7))&(m); \
      (o) += (n); \
@@ -183,21 +99,21 @@ int block_mode = BLOCK_MODE; /* block compress mode -C compatible with 2.0 */
 int unlzw(in, out)
     int in, out;    /* input and output file descriptors */
 {
-    REG2   char_type  *stackp;
-    REG3   code_int   code;
-    REG4   int        finchar;
-    REG5   code_int   oldcode;
-    REG6   code_int   incode;
-    REG7   long       inbits;
-    REG8   long       posbits;
-    REG9   int        outpos;
-/*  REG10  int        insize; (global) */
-    REG11  unsigned   bitmask;
-    REG12  code_int   free_ent;
-    REG13  code_int   maxcode;
-    REG14  code_int   maxmaxcode;
-    REG15  int        n_bits;
-    REG16  int        rsize;
+    char_type  *stackp;
+    code_int   code;
+    int        finchar;
+    code_int   oldcode;
+    code_int   incode;
+    long       inbits;
+    long       posbits;
+    int        outpos;
+/*  int        insize; (global) */
+    unsigned   bitmask;
+    code_int   free_ent;
+    code_int   maxcode;
+    code_int   maxmaxcode;
+    int        n_bits;
+    int        rsize;
 
 #ifdef MAXSEG_64K
     tab_prefix[0] = tab_prefix0;
@@ -235,7 +151,7 @@ int unlzw(in, out)
         tab_suffixof(code) = (char_type)code;
     }
     do {
-        REG1 int i;
+        int i;
         int  e;
         int  o;
 
@@ -329,7 +245,7 @@ int unlzw(in, out)
 
             /* And put them out in forward order */
             {
-                REG1 int	i;
+                int i;
 
                 if (outpos+(i = (de_stack-stackp)) >= OUTBUFSIZ) {
                     do {
