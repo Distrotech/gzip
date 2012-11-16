@@ -229,14 +229,19 @@ int unpack(in, out)
             /* Code of more than peek_bits bits, we must traverse the tree */
             ulg mask = peek_mask;
             len = peek_bits;
-            do {
+
+            /* Loop as long as peek is a parent node.  */
+            while (peek < parents[len])
+              {
                 len++, mask = (mask<<1)+1;
                 look_bits(peek, len, mask);
-            } while (peek < (unsigned)parents[len]);
-            /* loop as long as peek is a parent node */
+              }
         }
         /* At this point, peek is the next complete code, of len bits */
-        if (peek == eob && len == max_len) break; /* end of file? */
+        if (peek == eob)
+          break; /* End of file.  */
+        if (eob < peek)
+          gzip_error ("invalid compressed data--code out of range");
         put_ubyte(literal[peek+lit_base[len]]);
         Tracev((stderr,"%02d %04x %c\n", len, peek,
                 literal[peek+lit_base[len]]));
