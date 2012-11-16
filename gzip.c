@@ -121,6 +121,10 @@ static char const *const license_msg[] = {
 #define OFF_T_MAX (~ (off_t) 0 - OFF_T_MIN)
 #endif
 
+#ifndef SIGPIPE
+# define SIGPIPE 0
+#endif
+
 /* Use SA_NOCLDSTOP as a proxy for whether the sigaction machinery is
    present.  */
 #ifndef SA_NOCLDSTOP
@@ -222,7 +226,9 @@ static int handled_sig[] =
 #ifdef SIGHUP
     , SIGHUP
 #endif
+#if SIGPIPE
     , SIGPIPE
+#endif
 #ifdef SIGTERM
     , SIGTERM
 #endif
