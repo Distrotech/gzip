@@ -249,3 +249,4 @@
 /c-strncasecmp.c
 /stat-time.c
 /timespec.c
+/xsize.c
