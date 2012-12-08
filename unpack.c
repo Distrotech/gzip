@@ -76,6 +76,16 @@ local ulg bitbuf;
 local int valid;                  /* number of valid bits in bitbuf */
 /* all bits above the last valid bit are always zero */
 
+/* Read an input byte, reporting an error at EOF.  */
+static unsigned char
+read_byte (void)
+{
+  int b = get_byte ();
+  if (b < 0)
+    gzip_error ("invalid compressed data -- unexpected end of file");
+  return b;
+}
+
 /* Set code to the next 'bits' input bits without skipping them. code
  * must be the name of a simple variable and bits must not have side effects.
  * IN assertions: bits <= 25 (so that we still have room for an extra byte
@@ -83,7 +93,7 @@ local int valid;                  /* number of valid bits in bitbuf */
  */
 #define look_bits(code,bits,mask) \
 { \
-  while (valid < (bits)) bitbuf = (bitbuf<<8) | (ulg)get_byte(), valid += 8; \
+  while (valid < (bits)) bitbuf = (bitbuf<<8) | read_byte(), valid += 8; \
   code = (bitbuf >> (valid-(bits))) & (mask); \
 }
 
@@ -109,17 +119,19 @@ local void read_tree()
 
     /* Read the original input size, MSB first */
     orig_len = 0;
-    for (n = 1; n <= 4; n++) orig_len = (orig_len << 8) | (ulg)get_byte();
+    for (n = 1; n <= 4; n++)
+      orig_len = (orig_len << 8) | read_byte ();
 
-    max_len = (int)get_byte(); /* maximum bit length of Huffman codes */
-    if (max_len > MAX_BITLEN) {
-        gzip_error ("invalid compressed data -- Huffman code > 32 bits");
-    }
+    /* Read the maximum bit length of Huffman codes.  */
+    max_len = read_byte ();
+    if (! (0 < max_len && max_len <= MAX_BITLEN))
+      gzip_error ("invalid compressed data -- "
+                  "Huffman code bit length out of range");
 
     /* Get the number of leaves at each bit length */
     n = 0;
     for (len = 1; len <= max_len; len++) {
-        leaves[len] = (int)get_byte();
+        leaves[len] = read_byte ();
         if (max_leaves - (len == max_len) < leaves[len])
           gzip_error ("too many leaves in Huffman tree");
         max_leaves = (max_leaves - leaves[len] + 1) * 2 - 1;
@@ -146,7 +158,7 @@ local void read_tree()
         lit_base[len] = base;
         /* And read the literals: */
         for (n = leaves[len]; n > 0; n--) {
-            literal[base++] = (uch)get_byte();
+            literal[base++] = read_byte ();
         }
     }
     leaves[max_len]++; /* Now include the EOB code in the Huffman tree */

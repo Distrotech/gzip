@@ -23,6 +23,7 @@ TESTS =					\
   null-suffix-clobber			\
   stdin					\
   trailing-nul				\
+  unpack-invalid			\
   zdiff					\
   zgrep-f				\
   zgrep-context				\
