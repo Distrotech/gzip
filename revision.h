@@ -1,6 +1,6 @@
 /* revision.h -- define the version number
 
-   Copyright (C) 1998-1999, 2001-2002, 2006, 2009-2012 Free Software
+   Copyright (C) 1998-1999, 2001-2002, 2006, 2009-2013 Free Software
    Foundation, Inc.
    Copyright (C) 1992-1993 Jean-loup Gailly.
 

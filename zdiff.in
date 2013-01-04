@@ -31,7 +31,7 @@ case $1 in
 esac
 
 version="z$prog (gzip) @VERSION@
-Copyright (C) 2009, 2011-2012 Free Software Foundation, Inc.
+Copyright (C) 2009, 2011-2013 Free Software Foundation, Inc.
 This is free software.  You may redistribute copies of it under the terms of
 the GNU General Public License <http://www.gnu.org/licenses/gpl.html>.
 There is NO WARRANTY, to the extent permitted by law.

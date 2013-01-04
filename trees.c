@@ -1,6 +1,6 @@
 /* trees.c -- output deflated data using Huffman coding
 
-   Copyright (C) 1997-1999, 2009-2012 Free Software Foundation, Inc.
+   Copyright (C) 1997-1999, 2009-2013 Free Software Foundation, Inc.
    Copyright (C) 1992-1993 Jean-loup Gailly
 
    This program is free software; you can redistribute it and/or modify
