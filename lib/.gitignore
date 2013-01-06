@@ -99,6 +99,7 @@
 /gettext.h
 /gettime.c
 /gettimeofday.c
+/glthread
 /gnulib.mk
 /ignore-value.h
 /intprops.h
@@ -250,3 +251,6 @@
 /stat-time.c
 /timespec.c
 /xsize.c
+/math.c
+/unistd.c
+/wctype-h.c
