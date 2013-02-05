@@ -321,6 +321,3 @@ extern void fprint_off    (FILE *, off_t, int);
 
         /* in inflate.c */
 extern int inflate (void);
-
-        /* in yesno.c */
-extern int yesno (void);

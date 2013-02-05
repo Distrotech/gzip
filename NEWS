@@ -5,7 +5,11 @@ GNU gzip NEWS                                    -*- outline -*-
 ** Bug fixes
 
   gzip -d no longer malfunctions with certain invalid data in 'pack' format.
-  Problem reported by Aki Helin.  [bug introduced in gzip-0.8]
+  [bug introduced in gzip-0.8]
+
+  When overwriting, gzip no longer acts as if you typed "y" when you type "n",
+  on some platforms when compiled with optimization.
+  [bug introduced in gzip-1.3.6]
 
   zgrep no longer malfunctions with a multi-digit context option like -15.
   Now, it passes that option to grep (equivalent to -C15) just as it does
