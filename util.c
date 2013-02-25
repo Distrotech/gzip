@@ -132,16 +132,35 @@ int fill_inbuf(eof_ok)
 }
 
 /* Like the standard read function, except do not attempt to read more
-   than SSIZE_MAX bytes at a time.  */
+   than INT_MAX bytes at a time.  */
 int
 read_buffer (fd, buf, cnt)
      int fd;
      voidp buf;
      unsigned int cnt;
 {
+  int len;
   if (INT_MAX < cnt)
     cnt = INT_MAX;
-  return read (fd, buf, cnt);
+  len = read (fd, buf, cnt);
+
+#if defined F_SETFL && O_NONBLOCK && defined EAGAIN
+  /* Input files are opened O_NONBLOCK for security reasons.  On some
+     file systems this can cause read to fail with errno == EAGAIN.  */
+  if (len < 0 && errno == EAGAIN)
+    {
+      int flags = fcntl (fd, F_GETFL);
+      if (0 <= flags)
+        {
+          if (! (flags & O_NONBLOCK))
+            errno = EAGAIN;
+          else if (fcntl (fd, F_SETFL, flags & ~O_NONBLOCK) != -1)
+            len = read (fd, buf, cnt);
+        }
+    }
+#endif
+
+  return len;
 }
 
 /* Likewise for 'write'.  */
