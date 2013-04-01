@@ -4,7 +4,7 @@ gzip, gunzip, zcat \- compress or expand files
 .SH SYNOPSIS
 .ll +8
 .B gzip
-.RB [ " \-acdfhlLnNrtvV19 " ]
+.RB [ " \-acdfhklLnNrtvV19 " ]
 .RB [ \-S\ suffix ]
 [
 .I "name \&..."
@@ -12,7 +12,7 @@ gzip, gunzip, zcat \- compress or expand files
 .ll -8
 .br
 .B gunzip
-.RB [ " \-acfhlLnNrtvV " ]
+.RB [ " \-acfhklLnNrtvV " ]
 .RB [ \-S\ suffix ]
 [
 .I "name \&..."
@@ -218,6 +218,9 @@ prompts to verify whether an existing file should be overwritten.
 .B \-h --help
 Display a help screen and quit.
 .TP
+.B \-k --keep
+Keep (don't delete) input files during compression or decompression.
+.TP
 .B \-l --list
 For each compressed file, list the following fields:
 
@@ -392,7 +395,7 @@ Internet RFC 1951 (May 1996).
 Exit status is normally 0;
 if an error occurs, exit status is 1. If a warning occurs, exit status is 2.
 .TP
-Usage: gzip [-cdfhlLnNrtvV19] [-S suffix] [file ...]
+Usage: gzip [-cdfhklLnNrtvV19] [-S suffix] [file ...]
 Invalid options were specified on the command line.
 .TP
 \fIfile\fP\^: not in gzip format

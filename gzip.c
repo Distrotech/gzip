@@ -167,6 +167,7 @@ static int ascii = 0;        /* convert end-of-lines to local OS conventions */
        int to_stdout = 0;    /* output to stdout (-c) */
 static int decompress = 0;   /* decompress (-d) */
 static int force = 0;        /* don't ask questions, compress links (-f) */
+static int keep = 0;         /* keep (don't delete) input files */
 static int no_name = -1;     /* don't save or restore the original file name */
 static int no_time = -1;     /* don't save or restore the original file time */
 static int recursive = 0;    /* recurse through directories (-r) */
@@ -256,6 +257,7 @@ static const struct option longopts[] =
     {"force",      0, 0, 'f'}, /* force overwrite of output file */
     {"help",       0, 0, 'h'}, /* give help */
  /* {"pkzip",      0, 0, 'k'},    force output in pkzip format */
+    {"keep",       0, 0, 'k'}, /* keep (don't delete) input files */
     {"list",       0, 0, 'l'}, /* list .gz file contents */
     {"license",    0, 0, 'L'}, /* display software license */
     {"no-name",    0, 0, 'n'}, /* don't save or restore original name & time */
@@ -334,6 +336,7 @@ local void help()
  "  -f, --force       force overwrite of output file and compress links",
  "  -h, --help        give this help",
 /*  -k, --pkzip       force output in pkzip format */
+ "  -k, --keep        keep (don't delete) input files",
  "  -l, --list        list compressed file contents",
  "  -L, --license     display software license",
 #ifdef UNDOCUMENTED
@@ -437,7 +440,7 @@ int main (int argc, char **argv)
     z_suffix = Z_SUFFIX;
     z_len = strlen(z_suffix);
 
-    while ((optc = getopt_long (argc, argv, "ab:cdfhH?lLmMnNqrS:tvVZ123456789",
+    while ((optc = getopt_long (argc, argv, "ab:cdfhH?klLmMnNqrS:tvVZ123456789",
                                 longopts, (int *)0)) != -1) {
         switch (optc) {
         case 'a':
@@ -460,6 +463,8 @@ int main (int argc, char **argv)
             force++; break;
         case 'h': case 'H':
             help(); do_exit(OK); break;
+        case 'k':
+            keep = 1; break;
         case 'l':
             list = decompress = to_stdout = 1; break;
         case 'L':
@@ -851,25 +856,29 @@ local void treat_file(iname)
 
     if (!to_stdout)
       {
-        sigset_t oldset;
-        int unlink_errno;
 
         copy_stat (&istat);
         if (close (ofd) != 0)
           write_error ();
 
-        sigprocmask (SIG_BLOCK, &caught_signals, &oldset);
-        remove_ofname_fd = -1;
-        unlink_errno = xunlink (ifname) == 0 ? 0 : errno;
-        sigprocmask (SIG_SETMASK, &oldset, NULL);
-
-        if (unlink_errno)
+        if (!keep)
           {
-            WARN ((stderr, "%s: ", program_name));
-            if (!quiet)
+            sigset_t oldset;
+            int unlink_errno;
+
+            sigprocmask (SIG_BLOCK, &caught_signals, &oldset);
+            remove_ofname_fd = -1;
+            unlink_errno = xunlink (ifname) == 0 ? 0 : errno;
+            sigprocmask (SIG_SETMASK, &oldset, NULL);
+
+            if (unlink_errno)
               {
-                errno = unlink_errno;
-                perror (ifname);
+                WARN ((stderr, "%s: ", program_name));
+                if (!quiet)
+                  {
+                    errno = unlink_errno;
+                    perror (ifname);
+                  }
               }
           }
       }

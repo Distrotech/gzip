@@ -195,6 +195,7 @@ Mandatory arguments to long options are mandatory for short options too.
   -d, --decompress  decompress
   -f, --force       force overwrite of output file and compress links
   -h, --help        give this help
+  -k, --keep        keep (don't delete) input files
   -l, --list        list compressed file contents
   -L, --license     display software license
   -n, --no-name     do not save or restore the original name and time stamp
@@ -275,6 +276,10 @@ whether an existing file should be overwritten.
 @item --help
 @itemx -h
 Print an informative help message describing the options then quit.
+
+@item --keep
+@itemx -k
+Keep (don't delete) input files during compression or decompression.
 
 @item --list
 @itemx -l

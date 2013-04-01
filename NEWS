@@ -2,6 +2,12 @@ GNU gzip NEWS                                    -*- outline -*-
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** New features
+
+  gzip now accepts the --keep (-k) option, for consistency with tools
+  like xz, lzip and bzip2.  With this option, gzip no longer removes
+  named input files when compressing or decompressing.
+
 ** Bug fixes
 
   gzip -d no longer malfunctions with certain invalid data in 'pack' format.
