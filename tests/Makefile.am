@@ -69,23 +69,22 @@ TESTS_ENVIRONMENT =				\
       $(SHELL) "$$1";				\
     fi;						\
   };						\
-  export					\
-  LC_ALL=C					\
-  VERSION=$(VERSION)				\
-  abs_top_builddir='$(abs_top_builddir)'	\
-  abs_top_srcdir='$(abs_top_srcdir)'		\
-  abs_srcdir='$(abs_srcdir)'			\
-  built_programs='$(built_programs)'		\
-  srcdir='$(srcdir)'				\
-  top_srcdir='$(top_srcdir)'			\
-  CC='$(CC)'					\
-  GZIP_TEST_NAME=`echo $$tst|sed 's,^\./,,;s,/,-,g'` \
-  MAKE=$(MAKE)					\
-  PACKAGE_BUGREPORT='$(PACKAGE_BUGREPORT)'	\
-  PACKAGE_VERSION=$(PACKAGE_VERSION)		\
-  PERL='$(PERL)'				\
-  SHELL='$(SHELL)'				\
-  PATH='$(abs_top_builddir)$(PATH_SEPARATOR)'"$$PATH" \
-  ; 9>&2
+  LC_ALL=C; export LC_ALL;						\
+  VERSION=$(VERSION); export VERSION;          				\
+  abs_top_builddir='$(abs_top_builddir)'; export abs_top_builddir;	\
+  abs_top_srcdir='$(abs_top_srcdir)'; export abs_top_srcdir;		\
+  abs_srcdir='$(abs_srcdir)'; export abs_srcdir;			\
+  built_programs='$(built_programs)'; export built_programs;		\
+  srcdir='$(srcdir)'; export srcdir;					\
+  top_srcdir='$(top_srcdir)'; export top_srcdir;			\
+  CC='$(CC)'; export CC;						\
+  GZIP_TEST_NAME=`echo $$tst|sed 's,^\./,,;s,/,-,g'`; export GZIP_TEST_NAME; \
+  MAKE=$(MAKE); export MAKE;						\
+  PACKAGE_BUGREPORT='$(PACKAGE_BUGREPORT)'; export PACKAGE_BUGREPORT;	\
+  PACKAGE_VERSION=$(PACKAGE_VERSION); export PACKAGE_VERSION;		\
+  PERL='$(PERL)'; export PERL;						\
+  SHELL='$(SHELL)'; export SHELL;					\
+  PATH='$(abs_top_builddir)$(PATH_SEPARATOR)'"$$PATH"; export PATH;	\
+  9>&2
 
 VERBOSE = yes
