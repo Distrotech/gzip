@@ -48,4 +48,4 @@ case $1 in
 --version) echo "$version" || st=2; exit $st;;
 esac
 
-exec zdiff --__cmp "$@"
+exec zdiff --__bindir "$bindir" --__cmp "$@"
