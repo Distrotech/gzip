@@ -5,6 +5,7 @@
 *.lineno
 *.log
 *.o
+*.trs
 *~
 .deps
 /GNUmakefile
