@@ -55,6 +55,19 @@ expected_failure_status_grep=2
 expected_failure_status_egrep=2
 expected_failure_status_fgrep=2
 
+gunzip_setuphelp () { args="--__bindir '$abs_top_builddir'"; }
+gzexe_setuphelp () { gunzip_setuphelp; }
+zcat_setuphelp () { gunzip_setuphelp; }
+zcmp_setuphelp () { gunzip_setuphelp; }
+zdiff_setuphelp () { gunzip_setuphelp; }
+zegrep_setuphelp () { gunzip_setuphelp; }
+zfgrep_setuphelp () { gunzip_setuphelp; }
+zforce_setuphelp () { gunzip_setuphelp; }
+zgrep_setuphelp () { gunzip_setuphelp; }
+zless_setuphelp () { gunzip_setuphelp; }
+zmore_setuphelp () { gunzip_setuphelp; }
+znew_setuphelp () { gunzip_setuphelp; }
+
 test "$built_programs" \
   || fail_ "built_programs not specified!?!"
 
@@ -84,12 +97,18 @@ for lang in C fr da; do
       continue
     fi
 
+    if type ${i}_setuphelp > /dev/null 2>&1; then
+      ${i}_setuphelp
+    else
+      args=
+    fi
+
     # The just-built install executable is always named `ginstall'.
     test $i = install && i=ginstall
 
     # Make sure they exit successfully, under normal conditions.
-    env $i --help    > h-$i     || fail=1
-    env $i --version >/dev/null || fail=1
+    eval "env \$i $args --help    > h-\$i   " || fail=1
+    eval "env \$i $args --version >/dev/null" || fail=1
 
     # Make sure they mention the bug-reporting address in --help output.
     grep "$PACKAGE_BUGREPORT" h-$i > /dev/null || fail=1
@@ -97,8 +116,8 @@ for lang in C fr da; do
 
     # Make sure they fail upon `disk full' error.
     if test -w /dev/full && test -c /dev/full; then
-      env $i --help    >/dev/full 2>/dev/null && fail=1
-      env $i --version >/dev/full 2>/dev/null && fail=1
+      eval "env \$i $args --help    >/dev/full 2>/dev/null" && fail=1
+      eval "env \$i $args --version >/dev/full 2>/dev/null" && fail=1
       status=$?
       test $i = [ && prog=lbracket || prog=$i
       eval "expected=\$expected_failure_status_$prog"
@@ -151,18 +170,18 @@ cmp_setup () { args="$tmp_in $tmp_in2"; }
 # The transfer rate would vary between runs.
 dd_setup () { args=status=noxfer; }
 
-zdiff_setup () { args="--__bindir '$abs_top_builddir' $zin $zin2"; }
+zdiff_setup () { gunzip_setuphelp; args="$args $zin $zin2"; }
 zcmp_setup () { zdiff_setup; }
-zcat_setup () { args="--__bindir '$abs_top_builddir' $zin"; }
+zcat_setup () { gunzip_setuphelp; args="$args $zin"; }
 gunzip_setup () { zcat_setup; }
 zmore_setup () { zcat_setup; }
 zless_setup () { zcat_setup; }
-znew_setup () { args="--__bindir '$abs_top_builddir' $bigZ_in"; }
+znew_setup () { gunzip_setuphelp; args="$args $bigZ_in"; }
 zforce_setup () { zcat_setup; }
-zgrep_setup () { args="--__bindir '$abs_top_builddir' z $zin"; }
+zgrep_setup () { gunzip_setuphelp; args="$args z $zin"; }
 zegrep_setup () { zgrep_setup; }
 zfgrep_setup () { zgrep_setup; }
-gzexe_setup () { args="--__bindir '$abs_top_builddir' $tmp_in"; }
+gzexe_setup () { gunzip_setuphelp; args="$args $tmp_in"; }
 
 # We know that $tmp_in contains a "0"
 grep_setup () { args="0 $tmp_in"; }
