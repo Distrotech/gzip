@@ -18,6 +18,7 @@ TESTS =					\
   helin-segv				\
   help-version				\
   hufts					\
+  keep					\
   memcpy-abuse				\
   mixed					\
   null-suffix-clobber			\
