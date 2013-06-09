@@ -28,7 +28,7 @@ AC_CONFIG_SRCDIR([gzip.c])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS([lib/config.h:lib/config.hin])
-AM_INIT_AUTOMAKE([1.11 dist-xz color-tests parallel-tests])
+AM_INIT_AUTOMAKE([1.11 subdir-objects dist-xz color-tests parallel-tests])
 AM_SILENT_RULES([yes]) # make --enable-silent-rules the default.
 
 dnl POSIXCHECK is worthwhile for maintainers, but adds several seconds
