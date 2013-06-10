@@ -56,6 +56,12 @@ sc_prohibit_emacs__indent_tabs_mode__setting:
 	halt='use of emacs indent-tabs-mode: setting'			\
 	  $(_sc_search_regexp)
 
+sc_gzip_copyright_check:
+	@require='Copyright \(C\) '$$(date +%Y)' Free'			\
+	in_files=$(srcdir)/gzip.c					\
+	halt='out of date copyright in $(v_etc_file); update it'	\
+	  $(_sc_search_regexp)
+
 include $(srcdir)/dist-check.mk
 
 exclude_file_name_regexp--sc_file_system = ^NEWS$$
