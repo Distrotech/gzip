@@ -79,6 +79,7 @@ TESTS_ENVIRONMENT =				\
   srcdir='$(srcdir)'; export srcdir;					\
   top_srcdir='$(top_srcdir)'; export top_srcdir;			\
   CC='$(CC)'; export CC;						\
+  GREP='$(GREP)'; export GREP;						\
   GZIP_TEST_NAME=`echo $$tst|sed 's,^\./,,;s,/,-,g'`; export GZIP_TEST_NAME; \
   MAKE=$(MAKE); export MAKE;						\
   PACKAGE_BUGREPORT='$(PACKAGE_BUGREPORT)'; export PACKAGE_BUGREPORT;	\
