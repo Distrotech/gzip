@@ -219,6 +219,10 @@
 #  define OS_CODE  0x0a
 #endif
 
+#ifndef SIGPIPE
+# define SIGPIPE 0
+#endif
+
 
         /* Common defaults */
 
