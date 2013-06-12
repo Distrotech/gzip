@@ -23,6 +23,28 @@ If the GREP environment variable is set,
 uses it as the
 .I grep
 program to be invoked.
+.SH "EXIT STATUS"
+Exit status is 0 for a match, 1 for no matches, and 2 if trouble.
+.SH BUGS
+.PP
+The following
+.I grep
+options are not supported:
+.B --dereference-recursive
+.RB ( \-R ),
+.B --directories
+.RB ( \-d ),
+.BR --exclude ,
+.BR --exclude-from ,
+.BR --exclude-dir ,
+.BR --include ,
+.B --null
+.RB ( \-Z ),
+.B --null-data
+.RB ( \-z ),
+and
+.B --recursive
+.RB ( \-r ).
 .SH AUTHOR
 Charles Levert (charles@comm.polymtl.ca)
 .SH "SEE ALSO"
