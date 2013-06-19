@@ -28,7 +28,7 @@ test "x$PERL" = x && PERL=perl
 
 # Run the arguments as a command, in a process where stdout is a
 # dangling pipe and SIGPIPE has the default signal-handling action.
-# This can't be done portably in the shell, becausee if SIGPIPE is
+# This can't be done portably in the shell, because if SIGPIPE is
 # ignored when the shell is entered, the shell might refuse to trap
 # it.  Fall back on Perl+POSIX, if available.  Take care to close the
 # pipe's read end before running the program; the equivalent of the
