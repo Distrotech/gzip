@@ -32,9 +32,16 @@ Keep a .Z file when it is smaller than the .gz file; implies
 .SH "SEE ALSO"
 gzip(1), zmore(1), zdiff(1), zgrep(1), zforce(1), gzexe(1), compress(1)
 .SH BUGS
-.I Znew
-does not maintain the time stamp with the -P option if
-.I cpmod(1)
-is not available and
-.I touch(1)
-does not support the -r option.
+If the
+.B \-P
+option is used,
+.I znew
+does not maintain the time stamp if
+.IR touch (1)
+does not support the
+.B \-r
+option, and does not maintain permissions if
+.IR chmod (1)
+does not support the
+.B \-\-reference
+option.
