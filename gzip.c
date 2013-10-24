@@ -1696,6 +1696,21 @@ local int check_ofname()
     return OK;
 }
 
+/* Change the owner and group of a file.  FD is a file descriptor for
+   the file and NAME its name.  Change it to user UID and to group GID.
+   If UID or GID is -1, though, do not change the corresponding user
+   or group.  */
+static void
+do_chown (int fd, char const *name, uid_t uid, gid_t gid)
+{
+#ifndef NO_CHOWN
+# if HAVE_FCHOWN
+  ignore_value (fchown (fd, uid, gid));
+# else
+  ignore_value (chown (name, uid, gid));
+# endif
+#endif
+}
 
 /* ========================================================================
  * Copy modes, times, ownership from input file to output file.
@@ -1734,16 +1749,14 @@ local void copy_stat(ifstat)
       }
 #endif
 
-#ifndef NO_CHOWN
-    /* Copy ownership */
-# if HAVE_FCHOWN
-    ignore_value (fchown (ofd, ifstat->st_uid, ifstat->st_gid));
-# elif HAVE_CHOWN
-    ignore_value (chown (ofname, ifstat->st_uid, ifstat->st_gid));
-# endif
-#endif
+    /* Change the group first, then the permissions, then the owner.
+       That way, the permissions will be correct on systems that allow
+       users to give away files, without introducing a security hole.
+       Security depends on permissions not containing the setuid or
+       setgid bits.  */
 
-    /* Copy the protection modes */
+    do_chown (ofd, ofname, -1, ifstat->st_gid);
+
 #if HAVE_FCHMOD
     r = fchmod (ofd, mode);
 #else
@@ -1757,6 +1770,8 @@ local void copy_stat(ifstat)
             perror(ofname);
         }
     }
+
+    do_chown (ofd, ofname, ifstat->st_uid, -1);
 }
 
 #if ! NO_DIR
