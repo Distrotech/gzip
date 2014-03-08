@@ -2,7 +2,7 @@
 # gzip should report invalid 'unpack' input when uncompressing.
 # With gzip-1.5, it would output invalid data instead.
 
-# Copyright (C) 2012-2013 Free Software Foundation, Inc.
+# Copyright (C) 2012-2014 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
