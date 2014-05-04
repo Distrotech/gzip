@@ -1797,7 +1797,7 @@ local void treat_dir (fd, dir)
         return ;
     }
 
-    entries = streamsavedir (dirp);
+    entries = streamsavedir (dirp, SAVEDIR_SORT_NONE);
     if (! entries)
       progerror (dir);
     if (closedir (dirp) != 0)
