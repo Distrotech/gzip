@@ -989,11 +989,25 @@ local char *get_suffix(name)
 #ifdef MAX_EXT_CHARS
           "z",
 #endif
-          NULL};
-    char const **suf = known_suffixes;
+        NULL, NULL};
+    char const **suf;
+    bool suffix_of_builtin = false;
 
-    *suf = z_suffix;
-    if (strequ(z_suffix, "z")) suf++; /* check long suffixes first */
+    /* Normally put Z_SUFFIX at the start of KNOWN_SUFFIXES, but if it
+       is a suffix of one of them, put it at the end.  */
+    for (suf = known_suffixes + 1; *suf; suf++)
+      {
+        size_t suflen = strlen (*suf);
+        if (z_len < suflen && strequ (z_suffix, *suf + suflen - z_len))
+          {
+            suffix_of_builtin = true;
+            break;
+          }
+      }
+    known_suffixes[suffix_of_builtin
+                   ? sizeof known_suffixes / sizeof *known_suffixes - 2
+                   : 0] = z_suffix;
+    suf = known_suffixes + suffix_of_builtin;
 
 #ifdef SUFFIX_SEP
     /* strip a version number from the file name */

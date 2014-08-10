@@ -25,6 +25,7 @@ TESTS =					\
   stdin					\
   trailing-nul				\
   unpack-invalid			\
+  z-suffix				\
   zdiff					\
   zgrep-f				\
   zgrep-context				\
