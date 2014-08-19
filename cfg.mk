@@ -22,16 +22,8 @@ local-checks-to-skip =		\
   sc_bindtextdomain		\
   sc_error_message_period	\
   sc_error_message_uppercase	\
-  sc_m4_quote_check		\
-  sc_obsolete_symbols		\
   sc_program_name		\
-  sc_prohibit_S_IS_definition	\
-  sc_prohibit_atoi_atof		\
-  sc_prohibit_stat_st_blocks	\
-  sc_space_tab			\
-  sc_texinfo_acronym		\
-  sc_useless_cpp_parens
-
+  sc_texinfo_acronym
 
 # Tools used to bootstrap this package, used for "announcement".
 bootstrap-tools = autoconf,automake,gnulib
@@ -75,6 +67,9 @@ exclude_file_name_regexp--sc_prohibit_empty_lines_at_EOF = \
   ^tests/hufts-segv\.gz$$
 exclude_file_name_regexp--sc_prohibit_strcmp = ^gzip\.c$$
 exclude_file_name_regexp--sc_prohibit_always-defined_macros = ^tailor\.h$$
+exclude_file_name_regexp--sc_prohibit_atoi_atof = ^(gzip|sample/sub)\.c$$
+exclude_file_name_regexp--sc_space_tab = ^lib/match\.c$$
+exclude_file_name_regexp--sc_useless_cpp_parens = ^(lib/match\.c|tailor\.h)$$
 
 exclude_file_name_regexp--sc_prohibit_double_semicolon = ^lib/match\.c$$
 

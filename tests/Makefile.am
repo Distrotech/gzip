@@ -72,7 +72,7 @@ TESTS_ENVIRONMENT =				\
     fi;						\
   };						\
   LC_ALL=C; export LC_ALL;						\
-  VERSION=$(VERSION); export VERSION;          				\
+  VERSION=$(VERSION); export VERSION;					\
   abs_top_builddir='$(abs_top_builddir)'; export abs_top_builddir;	\
   abs_top_srcdir='$(abs_top_srcdir)'; export abs_top_srcdir;		\
   abs_srcdir='$(abs_srcdir)'; export abs_srcdir;			\

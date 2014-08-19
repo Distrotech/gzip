@@ -228,7 +228,7 @@ AC_CACHE_CHECK([for an assembler syntax supported by this package],
      rm -f conftest* _match.i _match.S match_.s match_.$OBJEXT;;
    esac])
 if test "$gzip_cv_assembler" != no; then
-  AC_DEFINE(ASMV, ,
+  AC_DEFINE([ASMV], ,
     [Define if an assembler version of longest_match is available.])
   AC_LIBOBJ(match)
 fi

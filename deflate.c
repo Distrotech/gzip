@@ -307,7 +307,7 @@ void lm_init (pack_level, flags)
     compr_level = pack_level;
 
     /* Initialize the hash table. */
-#if defined(MAXSEG_64K) && HASH_BITS == 15
+#if defined MAXSEG_64K && HASH_BITS == 15
     for (j = 0;  j < HASH_SIZE; j++) head[j] = NIL;
 #else
     memzero((char*)head, HASH_SIZE*sizeof(*head));
@@ -414,7 +414,7 @@ longest_match(IPos cur_match)
         /* Skip to next match if the match length cannot increase
          * or if the match length is less than 2:
          */
-#if (defined(UNALIGNED_OK) && MAX_MATCH == 258)
+#if defined UNALIGNED_OK && MAX_MATCH == 258
         /* This code assumes sizeof(unsigned short) == 2. Do not use
          * UNALIGNED_OK if your compiler uses a different size.
          */

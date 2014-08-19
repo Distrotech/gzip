@@ -16,11 +16,11 @@
 #include "gzip.h"
 #include "lzw.h"
 
-typedef	unsigned char	char_type;
-typedef          long   code_int;
-typedef unsigned long 	count_int;
-typedef unsigned short	count_short;
-typedef unsigned long 	cmp_code_int;
+typedef unsigned char char_type;
+typedef          long code_int;
+typedef unsigned long count_int;
+typedef unsigned short count_short;
+typedef unsigned long cmp_code_int;
 
 #define MAXCODE(n)	(1L << (n))
 
