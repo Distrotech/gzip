@@ -26,7 +26,7 @@ for input in \
 
   printf "$input" >in || framework_failure_
 
-  if gzip -d <in >/tmp/out 2>/tmp/err; then
+  if gzip -d <in >out 2>err; then
     fail=1
   else
     fail=0
