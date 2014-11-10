@@ -76,6 +76,8 @@ exclude_file_name_regexp--sc_prohibit_empty_lines_at_EOF = \
 exclude_file_name_regexp--sc_prohibit_strcmp = ^gzip\.c$$
 exclude_file_name_regexp--sc_prohibit_always-defined_macros = ^tailor\.h$$
 
+exclude_file_name_regexp--sc_prohibit_double_semicolon = ^lib/match\.c$$
+
 # Tell the tight_scope rule that sources are in ".".
 export _gl_TS_dir = .
 
