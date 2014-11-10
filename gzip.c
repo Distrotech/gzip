@@ -898,9 +898,9 @@ local void treat_file(iname)
         } else {
             display_ratio(bytes_in-(bytes_out-header_bytes), bytes_in, stderr);
         }
-        if (!test && !to_stdout) {
-            fprintf(stderr, " -- replaced with %s", ofname);
-        }
+        if (!test && !to_stdout)
+          fprintf(stderr, " -- %s %s", keep ? "created" : "replaced with",
+                  ofname);
         fprintf(stderr, "\n");
     }
 }
