@@ -1,6 +1,6 @@
 /* util.c -- utility functions for gzip support
 
-   Copyright (C) 1997-1999, 2001-2002, 2006, 2009-2014 Free Software
+   Copyright (C) 1997-1999, 2001-2002, 2006, 2009-2015 Free Software
    Foundation, Inc.
    Copyright (C) 1992-1993 Jean-loup Gailly
 
