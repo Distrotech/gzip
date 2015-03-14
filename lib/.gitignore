@@ -4,6 +4,7 @@
 /alloca.h
 /alloca.in.h
 /asnprintf.c
+/assure.h
 /basename-lgpl.c
 /c-ctype.c
 /c-ctype.h
