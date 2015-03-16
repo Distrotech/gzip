@@ -188,7 +188,6 @@ static int part_nb;          /* number of parts in .gz file */
        struct timespec time_stamp; /* original time stamp (modification time) */
        off_t ifile_size;      /* input file size, -1 for devices (debug only) */
 static char *env;            /* contents of GZIP env variable */
-static char **args = NULL;   /* argv pointer if GZIP env variable defined */
 static char const *z_suffix; /* default suffix (can be set with --suffix) */
 static size_t z_len;         /* strlen(z_suffix) */
 
@@ -242,8 +241,14 @@ static int handled_sig[] =
    non-character as a pseudo short option, starting with CHAR_MAX + 1.  */
 enum
 {
-  PRESUME_INPUT_TTY_OPTION = CHAR_MAX + 1
+  PRESUME_INPUT_TTY_OPTION = CHAR_MAX + 1,
+
+  /* A value greater than all valid long options, used as a flag to
+     distinguish options derived from the GZIP environment variable.  */
+  ENV_OPTION
 };
+
+static char const shortopts[] = "ab:cdfhH?klLmMnNqrS:tvVZ123456789";
 
 static const struct option longopts[] =
 {
@@ -401,7 +406,9 @@ int main (int argc, char **argv)
 {
     int file_count;     /* number of files to process */
     size_t proglen;     /* length of program_name */
-    int optc;           /* current option */
+    char **argv_copy;
+    int env_argc;
+    char **env_argv;
 
     EXPAND(argc, argv); /* wild card expansion if necessary */
 
@@ -415,8 +422,9 @@ int main (int argc, char **argv)
       program_name[proglen - 4] = '\0';
 
     /* Add options in GZIP environment variable if there is one */
-    env = add_envopt(&argc, &argv, OPTIONS_VAR);
-    if (env != NULL) args = argv;
+    argv_copy = argv;
+    env = add_envopt (&env_argc, &argv_copy, OPTIONS_VAR);
+    env_argv = env ? argv_copy : NULL;
 
 #ifndef GNU_STANDARD
 # define GNU_STANDARD 1
@@ -440,8 +448,53 @@ int main (int argc, char **argv)
     z_suffix = Z_SUFFIX;
     z_len = strlen(z_suffix);
 
-    while ((optc = getopt_long (argc, argv, "ab:cdfhH?klLmMnNqrS:tvVZ123456789",
-                                longopts, (int *)0)) != -1) {
+    while (true) {
+        int optc;
+        int longind = -1;
+
+        if (env_argv)
+          {
+            if (env_argv[optind] && strequ (env_argv[optind], "--"))
+              optc = ENV_OPTION + '-';
+            else
+              {
+                optc = getopt_long (env_argc, env_argv, shortopts, longopts,
+                                    &longind);
+                if (0 <= optc)
+                  optc += ENV_OPTION;
+                else
+                  {
+                    if (optind != env_argc)
+                      {
+                        fprintf (stderr,
+                                 ("%s: %s: non-option in "OPTIONS_VAR
+                                  " environment variable\n"),
+                                 program_name, env_argv[optind]);
+                        try_help ();
+                      }
+
+                    /* Wait until here before warning, so that GZIP='-q'
+                       doesn't warn.  */
+                    if (env_argc != 1 && !quiet)
+                      fprintf (stderr,
+                               ("%s: warning: "OPTIONS_VAR" environment variable"
+                                " is deprecated; use an alias or script\n"),
+                               program_name);
+
+                    /* Start processing ARGC and ARGV instead.  */
+                    free (env_argv);
+                    env_argv = NULL;
+                    optind = 1;
+                    longind = -1;
+                  }
+              }
+          }
+
+        if (!env_argv)
+          optc = getopt_long (argc, argv, shortopts, longopts, &longind);
+        if (optc < 0)
+          break;
+
         switch (optc) {
         case 'a':
             ascii = 1; break;
@@ -474,12 +527,15 @@ int main (int argc, char **argv)
         case 'M': /* undocumented, may change later */
             no_time = 0; break;
         case 'n':
+        case 'n' + ENV_OPTION:
             no_name = no_time = 1; break;
         case 'N':
+        case 'N' + ENV_OPTION:
             no_name = no_time = 0; break;
         case PRESUME_INPUT_TTY_OPTION:
             presume_input_tty = true; break;
         case 'q':
+        case 'q' + ENV_OPTION:
             quiet = 1; verbose = 0; break;
         case 'r':
 #if NO_DIR
@@ -501,6 +557,7 @@ int main (int argc, char **argv)
             test = decompress = to_stdout = 1;
             break;
         case 'v':
+        case 'v' + ENV_OPTION:
             verbose++; quiet = 0; break;
         case 'V':
             version(); do_exit(OK); break;
@@ -513,12 +570,28 @@ int main (int argc, char **argv)
             try_help ();
             break;
 #endif
+        case '1' + ENV_OPTION:  case '2' + ENV_OPTION:  case '3' + ENV_OPTION:
+        case '4' + ENV_OPTION:  case '5' + ENV_OPTION:  case '6' + ENV_OPTION:
+        case '7' + ENV_OPTION:  case '8' + ENV_OPTION:  case '9' + ENV_OPTION:
+            optc -= ENV_OPTION;
+            /* Fall through.  */
         case '1':  case '2':  case '3':  case '4':
         case '5':  case '6':  case '7':  case '8':  case '9':
             level = optc - '0';
             break;
+
         default:
-            /* Error message already emitted by getopt_long. */
+            if (ENV_OPTION <= optc && optc != ENV_OPTION + '?')
+              {
+                /* Output a diagnostic, since getopt_long didn't.  */
+                fprintf (stderr, "%s: ", program_name);
+                if (longind < 0)
+                  fprintf (stderr, "-%c: ", optc - ENV_OPTION);
+                else
+                  fprintf (stderr, "--%s: ", longopts[longind].name);
+                fprintf (stderr, ("option not valid in "OPTIONS_VAR
+                                  " environment variable\n"));
+              }
             try_help ();
         }
     } /* loop on all arguments */
@@ -1902,8 +1975,6 @@ local void do_exit(exitcode)
     in_exit = 1;
     free(env);
     env  = NULL;
-    free(args);
-    args = NULL;
     FREE(inbuf);
     FREE(outbuf);
     FREE(d_buf);

@@ -469,18 +469,28 @@ complement to @command{tar}, not as a replacement.
 @chapter Environment
 @cindex Environment
 
-The environment variable @env{GZIP} can hold a set of default options for
-@command{gzip}.  These options are interpreted first and can be overwritten by
-explicit command line parameters.  For example:
+The obsolescent environment variable @env{GZIP} can hold a set of
+default options for @command{gzip}.  These options are interpreted
+first and can be overwritten by explicit command line parameters.  As
+this can cause problems when using scripts, this feature is supported
+only for options that are reasonably likely to not cause too much
+harm, and @command{gzip} warns if it is used.  This feature will be
+removed in a future release of @command{gzip}.
+
+You can use an alias or script instead.  For example, if
+@command{gzip} is in the directory @samp{/usr/bin} you can prepend
+@file{$HOME/bin} to your @env{PATH} and create an executable script
+@file{$HOME/bin/gzip} containing the following:
 
 @example
-for sh:    GZIP="-8v --name"; export GZIP
-for csh:   setenv GZIP "-8v --name"
-for MSDOS: set GZIP=-8v --name
+#! /bin/sh
+export PATH=/usr/bin
+exec gzip -9 "$@@"
 @end example
 
-On @abbr{VMS}, the name of the environment variable is @env{GZIP_OPT}, to
-avoid a conflict with the symbol set for invocation of the program.
+On @abbr{VMS}, the name of the obsolescent environment variable is
+@env{GZIP_OPT}, to avoid a conflict with the symbol set for invocation
+of the program.
 
 @node Tapes
 @chapter Using @command{gzip} on tapes
@@ -491,21 +501,8 @@ the output with zeroes up to a block boundary.  When the data is read and
 the whole block is passed to @command{gunzip} for decompression,
 @command{gunzip} detects that there is extra trailing garbage after the
 compressed data and emits a warning by default if the garbage contains
-nonzero bytes.  You have to use the
-@option{--quiet} option to suppress the warning.  This option can be set in the
-@env{GZIP} environment variable, as in:
-
-@example
-for sh:    GZIP="-q"  tar -xfz --block-compress /dev/rst0
-for csh:   (setenv GZIP "-q"; tar -xfz --block-compress /dev/rst0)
-@end example
-
-In the above example, @command{gzip} is invoked implicitly by the @option{-z}
-option of @acronym{GNU} @command{tar}.  Make sure that the same block
-size (@option{-b}
-option of @command{tar}) is used for reading and writing compressed data on
-tapes.  (This example assumes you are using the @acronym{GNU} version of
-@command{tar}.)
+nonzero bytes.  You can use the @option{--quiet} option to suppress
+the warning.
 
 @node Problems
 @chapter Reporting Bugs

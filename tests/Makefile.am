@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 TESTS =					\
+  gzip-env				\
   helin-segv				\
   help-version				\
   hufts					\

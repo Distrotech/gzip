@@ -364,17 +364,36 @@ such as tar or zip. GNU tar supports the -z option to invoke gzip
 transparently. gzip is designed as a complement to tar, not as a
 replacement.
 .SH "ENVIRONMENT"
-The environment variable
+The obsolescent environment variable
 .B GZIP
 can hold a set of default options for
 .IR gzip .
-These options are interpreted first and can be overwritten by
-explicit command line parameters. For example:
-      for sh:    GZIP="-8v --name"; export GZIP
-      for csh:   setenv GZIP "-8v --name"
-      for MSDOS: set GZIP=-8v --name
+These options are interpreted first and can be overwritten by explicit
+command line parameters.  As this can cause problems when using
+scripts, this feature is supported only for options that are
+reasonably likely to not cause too much harm, and
+.I gzip
+warns if it is used.
+This feature will be removed in a future release of
+.IR gzip .
+.PP
+You can use an alias or script instead.  For example, if
+.I gzip
+is in the directory
+.B /usr/bin
+you can prepend
+.B $HOME/bin
+to your
+.B PATH
+and create an executable script
+.B $HOME/bin/gzip
+containing the following:
 
-On Vax/VMS, the name of the environment variable is GZIP_OPT, to
+      #! /bin/sh
+      export PATH=/usr/bin
+      exec gzip \-9 "$@"
+
+On VMS, the name of the obsolescent environment variable is GZIP_OPT, to
 avoid a conflict with the symbol set for invocation of the program.
 .SH "SEE ALSO"
 znew(1), zcmp(1), zmore(1), zforce(1), gzexe(1), zip(1), unzip(1), compress(1)
@@ -454,17 +473,8 @@ read and the whole block is passed to
 for decompression,
 .I gunzip
 detects that there is extra trailing garbage after the compressed data
-and emits a warning by default. You have to use the --quiet option to
-suppress the warning. This option can be set in the
-.B GZIP
-environment variable as in:
-  for sh:  GZIP="-q"  tar -xfz --block-compress /dev/rst0
-  for csh: (setenv GZIP -q; tar -xfz --block-compr /dev/rst0
-
-In the above example, gzip is invoked implicitly by the -z option of
-GNU tar. Make sure that the same block size (-b option of tar) is used
-for reading and writing compressed data on tapes.  (This example
-assumes you are using the GNU version of tar.)
+and emits a warning by default.  You can use the --quiet option to
+suppress the warning.
 .SH BUGS
 The gzip format represents the input size modulo 2^32, so the
 --list option reports incorrect uncompressed sizes and compression

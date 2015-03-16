@@ -2,6 +2,12 @@ GNU gzip NEWS                                    -*- outline -*-
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Changes in behavior
+
+  The GZIP environment variable is now obsolescent; gzip now warns if
+  it is used, and rejects attempts to use dangerous options or operands.
+  You can use an alias or script instead.
+
 ** Bug fixes
 
   gzip -k -v no longer reports that files are replaced.

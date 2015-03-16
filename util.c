@@ -361,11 +361,15 @@ void make_simple_name(name)
     } while (p != name);
 }
 
-/* ========================================================================
- * Add an environment variable (if any) before argv, and update argc.
- * Return the expanded environment variable to be freed later, or NULL
- * if no options were added to argv.
- */
+/* Convert the value of the environment variable ENVVAR_NAME
+   to a newly allocated argument vector, and set *ARGCP and *ARGVP
+   to the number of arguments and to the vector, respectively.
+   Make the new vector's zeroth element equal to the old **ARGVP.
+   Return a pointer to the newly allocated string storage.
+
+   If the vector would be empty, do not allocate storage,
+   do not set *ARGCP and *ARGVP, and return NULL.  */
+
 #define SEPARATOR	" \t"	/* separators in env variable */
 
 char *add_envopt(
@@ -376,7 +380,6 @@ char *add_envopt(
     char *p;             /* running pointer through env variable */
     char **oargv;        /* runs through old argv array */
     char **nargv;        /* runs through new argv array */
-    int	 oargc = *argcp; /* old argc */
     int  nargc = 0;      /* number of arguments in env variable */
     char *env_val;
 
@@ -396,7 +399,7 @@ char *add_envopt(
         free(env_val);
         return NULL;
     }
-    *argcp += nargc;
+    *argcp = nargc + 1;
     /* Allocate the new argv array, with an extra element just in case
      * the original arg list did not end with a NULL.
      */
@@ -405,9 +408,7 @@ char *add_envopt(
     *argvp = nargv;
 
     /* Copy the program name first */
-    if (oargc-- < 0)
-      gzip_error ("argc<=0");
-    *(nargv++) = *(oargv++);
+    *nargv++ = *oargv;
 
     /* Then copy the environment args */
     for (p = env_val; nargc > 0; nargc--) {
@@ -416,8 +417,6 @@ char *add_envopt(
         while (*p++) ;			     /* skip over word */
     }
 
-    /* Finally copy the old args and add a NULL (usual convention) */
-    while (oargc--) *(nargv++) = *(oargv++);
     *nargv = NULL;
     return env_val;
 }
